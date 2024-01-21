@@ -1,11 +1,16 @@
 import React from 'react';
+import {DashboardHeader} from "./components/DashboardHeader/DashboardHeader";
+import {DashboardBody} from "./components/DashboardBody/DashboardBody";
 
 function App() {
-  return (
-    <div className="App">
+    const projectName = "Проект 1";
 
-    </div>
-  );
+    return (
+        <>
+            <DashboardHeader projectName={projectName} />
+            <DashboardBody />
+        </>
+    );
 }
 
 export default App;
