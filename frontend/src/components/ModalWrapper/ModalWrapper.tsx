@@ -8,7 +8,7 @@ interface ModalWrapperProps {
 
 export const ModalWrapper: React.FC<ModalWrapperProps> = ({ children }) => {
     return (
-        <div>
+        <div className="h-full">
             {children}
             <ModalWindow>
                 <CreateTask />
