@@ -1,6 +1,14 @@
 import React from "react";
+import IWBS from "../../types/IWBS";
+import {useAppSelector} from "../../hooks/useAppSelector";
+import ITask from "../../types/ITask";
+import ITaskWBSLink from "../../types/ITaskWBSLink";
 
 export const DashboardWBS = () => {
+    const wbses: IWBS[] = useAppSelector(state => state.project.wbses);
+    const tasks: ITask[] = useAppSelector(state => state.project.tasks);
+    const links: ITaskWBSLink[] = useAppSelector(state => state.project.links);
+
     return (
         <div className="p-2">
             <div className="mt-5">

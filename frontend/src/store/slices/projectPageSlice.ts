@@ -14,14 +14,20 @@ export const projectPageSlice = createSlice({
     name: 'projectPage',
     initialState,
     reducers: {
-
+        changeViewState: (state, action) => {
+            state.view_state = action.payload;
+        },
+        changeViewID: (state, action) => {
+            state.view_id = action.payload;
+        }
     },
     extraReducers: (builder) =>
         builder
 });
 
 export const {
-
+    changeViewState,
+    changeViewID
 } = projectPageSlice.actions;
 
 export default projectPageSlice.reducer;

@@ -5,13 +5,8 @@ import ITaskWBSLink from "../../types/ITaskWBSLink";
 import IWBS from "../../types/IWBS";
 import {useAppSelector} from "../../hooks/useAppSelector";
 
-interface TreeViewProps {
-    view_id?: number
-}
-
-export const TreeView: React.FC<TreeViewProps> = ({
-                                                      view_id = 2
-}) => {
+export const TreeView = () => {
+    const view_id = useAppSelector(state => state.projectPage.view_id);
     const tasks: ITask[] = useAppSelector(state => state.project.tasks);
     const wbses: IWBS[] = useAppSelector(state => state.project.wbses);
     const wbs_filtered: IWBS[] = wbses.filter(value => view_id === -1 ? true : value.view_id === view_id);
