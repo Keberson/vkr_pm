@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(
 root.render(
     <Provider store={store}>
         <ModalWrapper>
-            <div className="ps-40 pe-40 pt-5 pb-5 h-full bg-gray-50">
+            <div className="ps-20 pe-20 pt-5 pb-5 h-full bg-gray-50">
                 <App />
             </div>
         </ModalWrapper>

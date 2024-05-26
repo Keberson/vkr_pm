@@ -15,13 +15,24 @@ export const DashboardTasks = () => {
                     <Plus height="20px" width="20px" />
                 </button>
             </div>
-            <div className="mt-5 grid xl:grid-cols-2 2xl:grid-cols-3 pt-5 pb-5 pe-5 gap-4 overflow-auto tasks-scroll xl:h-[inherit]">
-                {
-                    tasks.map(task => (
-                        <TaskView task={task} key={task.id} />
-                    ))
-                }
-            </div>
+            <table className="table-fixed w-full mt-5 pt-5 pb-5 pe-5 gap-4 overflow-auto tasks-scroll border-spacing-2 border">
+                <thead className="border-b-2">
+                    <tr>
+                        <th>ID</th>
+                        <th>Заголовок</th>
+                        <th>Исполнитель</th>
+                        <th>Статус</th>
+                        <th>Теги</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        tasks.map(task => (
+                            <TaskView task={task} key={task.id} />
+                        ))
+                    }
+                </tbody>
+            </table>
         </div>
     );
 };

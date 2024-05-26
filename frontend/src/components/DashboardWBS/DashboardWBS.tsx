@@ -8,6 +8,11 @@ export const DashboardWBS = () => {
     const wbses: IWBS[] = useAppSelector(state => state.project.wbses);
     const tasks: ITask[] = useAppSelector(state => state.project.tasks);
     const links: ITaskWBSLink[] = useAppSelector(state => state.project.links);
+    const nodes = new Map();
+
+    wbses.forEach(wbs => {
+        nodes.set(wbs.id, 1);
+    });
 
     return (
         <div className="p-2">

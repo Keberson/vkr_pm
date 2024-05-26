@@ -26,6 +26,10 @@ export const DashboardWBSTree = () => {
         dispatch(changeViewState(e.currentTarget.name));
     }
 
+    const changeViewIDHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+    };
+
     return (
         <div className="xl: h-[inherit]">
             <div>

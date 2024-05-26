@@ -6,7 +6,7 @@ import IWBS from "../../types/IWBS";
 import {useAppSelector} from "../../hooks/useAppSelector";
 
 export const TreeView = () => {
-    const view_id = useAppSelector(state => state.projectPage.view_id);
+    const view_id: number = 1;
     const tasks: ITask[] = useAppSelector(state => state.project.tasks);
     const wbses: IWBS[] = useAppSelector(state => state.project.wbses);
     const wbs_filtered: IWBS[] = wbses.filter(value => view_id === -1 ? true : value.view_id === view_id);
@@ -22,13 +22,16 @@ export const TreeView = () => {
         ...(wbs_filtered.map(wbs => ({
             id: `WBS ${wbs.id}`,
             label: wbs.title
-        })))
+        }))),
+        {id: `WBS 105`, label: "WBS Root"}
     ];
     const edges = [
         ...(link_filtered.map(link => ({
             from: `Task ${link.id_task}`,
             to: `WBS ${link.id_wbs}`
         }))),
+        {from: `WBS 101`, to: "WBS 105"},
+        {from: `WBS 102`, to: "WBS 105"},
     ];
     const graph = {
         nodes: nodes,
