@@ -10,7 +10,8 @@ function sql(file: string) {
 
 export const init = {
     create_storage: sql('sql/create_storage.sql'),
-    create_auth: sql('sql/create_auth.sql')
+    create_auth: sql('sql/create_auth.sql'),
+    create_project: sql('sql/create_project.sql'),
 }
 
 export const storage = {

@@ -7,6 +7,7 @@ export const connection = pg("postgres://postgres:244911Kyt@localhost:5432/vkr")
 
 export const create_storage = () => connection.none(init.create_storage);
 export const create_auth = () => connection.none(init.create_auth);
+export const create_project = () => connection.none(init.create_project);
 
 // export const get_all = (): Promise<IReportWithoutFile[]> => connection.manyOrNone(reports.get_all);
 // export const get_report = (identity: string): Promise<IReportWithoutFile | null> => connection.oneOrNone(reports.get_one, identity)
