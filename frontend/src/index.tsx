@@ -1,23 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {Provider} from "react-redux";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+
 import './scss/index.scss';
 import './scss/scroll.scss';
-import App from './App';
-import {ModalWrapper} from "./components/ModalWrapper/ModalWrapper";
 import {store} from './store/store'
-import {Provider} from "react-redux";
+import {Dashboard} from "./pages/Dashboard/Dashboard";
+import {Login} from "./pages/Login/Login";
+import {PageNotFound} from "./pages/PageNotFound/PageNotFound";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-
 root.render(
     <Provider store={store}>
-        <ModalWrapper>
-            <div className="ps-20 pe-20 pt-5 pb-5 h-full bg-gray-50">
-                <App />
-            </div>
-        </ModalWrapper>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="*" element={<PageNotFound />} />
+            </Routes>
+        </BrowserRouter>
     </Provider>
 );
