@@ -14,7 +14,9 @@ module.exports = {
       'block-background-secondary': '#434459',
       'text': '#FEFFFF',
       'text-muted': '#737488',
-      'text-secondary': '#656682'
+      'text-secondary': '#656682',
+      'text-third': '#DDDDDD',
+      'text-hover': '#C0C0C0'
     },
     extend: {},
   },

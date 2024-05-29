@@ -15,13 +15,15 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-    <Provider store={store}>
-        <BrowserRouter>
-            <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="*" element={<PageNotFound />} />
-            </Routes>
-        </BrowserRouter>
-    </Provider>
+    <div className="h-full bg-background flex flex-col">
+        <Provider store={store}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="*" element={<PageNotFound />} />
+                </Routes>
+            </BrowserRouter>
+        </Provider>
+    </div>
 );
