@@ -48,6 +48,8 @@ CREATE TABLE IF NOT EXISTS "storage".activity (
 	date_finish_actual date NOT NULL,
 	status "storage".activity_status NOT NULL DEFAULT 'Не начата'::storage.activity_status,
 	"others" json NOT NULL DEFAULT '{}'::json,
+	project_id int4 NOT NULL,
+	description text NOT NULL DEFAULT ''::text,
 	CONSTRAINT activity_pk PRIMARY KEY (id)
 );
 
