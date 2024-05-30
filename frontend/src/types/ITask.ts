@@ -1,3 +1,6 @@
+import {TStatus} from "./TStatus";
+
+
 export default interface IActivity {
     id: number,
     name: string,
@@ -7,6 +10,6 @@ export default interface IActivity {
     date_start_actual: Date,
     date_finish_actual: Date,
     others: JSON,
-    status: "Не начато" | "Выполняется" | "Завершена",
+    status: TStatus,
     project_id: number
 }

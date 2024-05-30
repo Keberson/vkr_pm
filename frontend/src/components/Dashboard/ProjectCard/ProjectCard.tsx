@@ -1,8 +1,8 @@
 import React from "react";
 
-import getFormatDate from "../../utils/getFormatDate";
+import getFormatDate from "../../../utils/getFormatDate";
 import {ProjectIcon} from "../ProjectIcon/ProjectIcon";
-import {IProject} from "../../types/IProject";
+import {IProject} from "../../../types/IProject";
 import {Link} from "react-router-dom";
 
 interface ProjectCardProps {

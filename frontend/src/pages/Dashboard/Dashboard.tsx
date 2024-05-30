@@ -1,8 +1,8 @@
 import React from "react";
 
 import {IProject} from "../../types/IProject";
-import {ProjectCard} from "../../components/ProjectCard/ProjectCard";
-import {DashboardHeader} from "../../components/DashboardHeader/DashboardHeader";
+import {ProjectCard} from "../../components/Dashboard/ProjectCard/ProjectCard";
+import {DashboardHeader} from "../../components/Dashboard/DashboardHeader/DashboardHeader";
 
 export const Dashboard = () => {
     const projects: IProject[] = [

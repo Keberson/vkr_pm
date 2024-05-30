@@ -1,13 +1,13 @@
 import React from "react";
 import {useParams} from "react-router-dom";
-import {DashboardHeader} from "../../components/DashboardHeader/DashboardHeader";
-import IActivity from "../../types/ITask";
+import {DashboardHeader} from "../../components/Dashboard/DashboardHeader/DashboardHeader";
+import {TableTasks} from "../../components/TasksTable/TableTasks/TableTasks";
+import {ProjectMenu} from "../../components/Dashboard/ProjectMenu/ProjectMenu";
 
 export const Project = () => {
     const params = useParams();
     const projectId = params.id;
     const projectName = `Проект ${projectId}`;
-    const activities: IActivity[] = [];
 
     return (
         <>
@@ -16,41 +16,11 @@ export const Project = () => {
             </DashboardHeader>
             <hr className="border-text-secondary"/>
             <div className="mt-5 ps-20 pe-20 grid grid-cols-3 text-text-third">
-                <span
-                    className="
-                    px-5 py-1 w-fit mx-auto
-                    rounded-full cursor-pointer
-                    bg-block-background-secondary hover:bg-block-background-secondary
-                    "
-                >
-                    Список задач
-                </span>
-                <span
-                    className="
-                    px-5 py-1 w-fit mx-auto
-                    rounded-full cursor-pointer
-                    bg-background-secondary hover:bg-block-background-secondary
-                    "
-                >
-                    Дерево задач
-                </span>
-                <span
-                    className="
-                    px-5 py-1 w-fit mx-auto
-                    rounded-full cursor-pointer
-                    bg-background-secondary hover:bg-block-background-secondary
-                    "
-                >
-                    Дерево срезов
-                </span>
+                <ProjectMenu />
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-            </table>
+            <div className="ps-10 pe-10 pt-2.5 pb-5 overflow-auto text-text">
+                <TableTasks />
+            </div>
         </>
     );
 };
