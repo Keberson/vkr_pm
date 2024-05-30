@@ -116,6 +116,9 @@ CREATE TABLE IF NOT EXISTS "storage".link_view_wbs (
 );
 
 --- Внешние ключи ---
+ALTER TABLE "storage".activity DROP CONSTRAINT IF EXISTS activity_fk;
+ALTER TABLE "storage".activity ADD CONSTRAINT activity_fk FOREIGN KEY (project_id) REFERENCES project.project(id);
+
 ALTER TABLE "storage".activity_dependency DROP CONSTRAINT IF EXISTS activity_dependency_fk_predecessor;
 ALTER TABLE "storage".activity_dependency DROP CONSTRAINT IF EXISTS activity_dependency_fk_successor;
 ALTER TABLE "storage".activity_dependency ADD CONSTRAINT activity_dependency_fk_predecessor FOREIGN KEY (id_predecessor) REFERENCES "storage".activity(id);
