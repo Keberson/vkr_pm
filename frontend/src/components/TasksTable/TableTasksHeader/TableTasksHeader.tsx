@@ -6,6 +6,7 @@ export const TableTasksHeader = () => {
         <thead className="border-b border-text-secondary">
             <tr>
                 <th scope="col" className="w-20">ID</th>
+                <th scope="col" className="w-10"></th>
                 <th scope="col" className="">Заголовок</th>
                 <th scope="col" className="w-40">
                     <div className="flex flex-col">

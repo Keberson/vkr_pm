@@ -1,7 +1,8 @@
 import React from "react";
-import IActivity from "../../../types/ITask";
+import { IActivity } from "../../../types/ITask";
 import {TableTaskRow} from "../TableTaskRow/TableTaskRow";
 import {TableTasksHeader} from "../TableTasksHeader/TableTasksHeader";
+import {IWBS} from "../../../types/IWBS";
 
 export const TableTasks = () => {
     const activities: IActivity[] = [
@@ -390,6 +391,16 @@ export const TableTasks = () => {
             project_id: 1
         },
     ];
+    const wbses: IWBS[] = [{
+        id: 1,
+        name: 'WBS #1',
+        date_start_plan: new Date(2024, 10, 20),
+        date_finish_plan: new Date(2024, 10, 20),
+        date_start_actual: new Date(2024, 10, 20),
+        date_finish_actual: new Date(2024, 10, 20),
+        status: 'Завершено',
+        project_id: 1,
+    }];
 
     return (
         <table className="w-full table-fixed border-spacing-x-1 border-spacing-y-2">
@@ -397,7 +408,12 @@ export const TableTasks = () => {
             <tbody>
             {
                 activities.map(activity => (
-                    <TableTaskRow activity={activity} />
+                    <TableTaskRow item={activity} itemType="IActivity" />
+                ))
+            }
+            {
+                wbses.map(wbs => (
+                    <TableTaskRow item={wbs} itemType="IWBS" />
                 ))
             }
             </tbody>
