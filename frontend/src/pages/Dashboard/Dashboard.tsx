@@ -1,9 +1,8 @@
 import React from "react";
 
-import {Logo} from "../../components/Logo/Logo";
-import {ProfileIcon} from "../../components/ProfileIcon/ProfileIcon";
 import {IProject} from "../../types/IProject";
 import {ProjectCard} from "../../components/ProjectCard/ProjectCard";
+import {DashboardHeader} from "../../components/DashboardHeader/DashboardHeader";
 
 export const Dashboard = () => {
     const projects: IProject[] = [
@@ -71,22 +70,9 @@ export const Dashboard = () => {
 
     return (
         <>
-            <header className="grid grid-cols-3 items-center ps-20 pe-20 pt-2.5 pb-2.5">
-                <div className="flex flex-col justify-center items-start">
-                    <div className="flex flex-col items-center">
-                        <Logo />
-                        <h1 className="text-text text-lg comfortaa-700">WBS Studio</h1>
-                    </div>
-                </div>
-                <div className="flex justify-center">
-                    <h2 className="text-text text-2xl comfortaa-700">Доступные проекты</h2>
-                </div>
-                <div className="flex flex-col items-end">
-                    <div className="flex flex-col items-center cursor-pointer">
-                        <ProfileIcon />
-                    </div>
-                </div>
-            </header>
+            <DashboardHeader>
+                <h2 className="text-text text-2xl comfortaa-700">Доступные проекты</h2>
+            </DashboardHeader>
             <div className="grid grid-cols-5 gap-10 ps-10 pe-10 pt-2.5 pb-5 overflow-auto">
                 {
                     projects.map(project => (

@@ -1,11 +1,12 @@
-export default interface ITask {
+export default interface IActivity {
     id: number,
-    title: string,
-    description?: string,
-    date_start_plan: string,
-    date_finish_plan: string,
-    date_start_actual?: string,
-    date_finish_actual?: string,
-    others?: string,
-    status: "Не начато" | "Выполняется" | "Выполнено"
+    name: string,
+    description: string,
+    date_start_plan: Date,
+    date_finish_plan: Date,
+    date_start_actual: Date,
+    date_finish_actual: Date,
+    others: JSON,
+    status: "Не начато" | "Выполняется" | "Завершена",
+    project_id: number
 }

@@ -1,17 +1,56 @@
 import React from "react";
+import {useParams} from "react-router-dom";
 import {DashboardHeader} from "../../components/DashboardHeader/DashboardHeader";
-import {DashboardBody} from "../../components/DashboardBody/DashboardBody";
-import {ModalWrapper} from "../../components/ModalWrapper/ModalWrapper";
+import IActivity from "../../types/ITask";
 
 export const Project = () => {
-    const projectName = "Проект 1";
+    const params = useParams();
+    const projectId = params.id;
+    const projectName = `Проект ${projectId}`;
+    const activities: IActivity[] = [];
 
     return (
-        <ModalWrapper>
-            <div className="ps-20 pe-20 pt-5 pb-5 h-full bg-gray-50">
-                <DashboardHeader projectName={projectName} />
-                <DashboardBody />
+        <>
+            <DashboardHeader>
+                <h2 className="text-text text-2xl comfortaa-700">{projectName}</h2>
+            </DashboardHeader>
+            <hr className="border-text-secondary"/>
+            <div className="mt-5 ps-20 pe-20 grid grid-cols-3 text-text-third">
+                <span
+                    className="
+                    px-5 py-1 w-fit mx-auto
+                    rounded-full cursor-pointer
+                    bg-block-background-secondary hover:bg-block-background-secondary
+                    "
+                >
+                    Список задач
+                </span>
+                <span
+                    className="
+                    px-5 py-1 w-fit mx-auto
+                    rounded-full cursor-pointer
+                    bg-background-secondary hover:bg-block-background-secondary
+                    "
+                >
+                    Дерево задач
+                </span>
+                <span
+                    className="
+                    px-5 py-1 w-fit mx-auto
+                    rounded-full cursor-pointer
+                    bg-background-secondary hover:bg-block-background-secondary
+                    "
+                >
+                    Дерево срезов
+                </span>
             </div>
-        </ModalWrapper>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+            </table>
+        </>
     );
 };

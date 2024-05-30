@@ -9,6 +9,7 @@ import {store} from './store/store'
 import {Dashboard} from "./pages/Dashboard/Dashboard";
 import {Login} from "./pages/Login/Login";
 import {PageNotFound} from "./pages/PageNotFound/PageNotFound";
+import {Project} from "./pages/Project/Project";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -20,7 +21,10 @@ root.render(
             <BrowserRouter>
                 <Routes>
                     <Route path="/login" element={<Login />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/dashboard" >
+                        <Route index element={<Dashboard />} />
+                        <Route path=":id" element={<Project />} />
+                    </Route>
                     <Route path="*" element={<PageNotFound />} />
                 </Routes>
             </BrowserRouter>

@@ -1,11 +1,7 @@
 import {configureStore} from "@reduxjs/toolkit";
-import projectSlice from "./slices/projectSlice";
-import projectPageSlice from "./slices/projectPageSlice";
 
 export const store = configureStore({
     reducer: {
-        project: projectSlice,
-        projectPage: projectPageSlice
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
