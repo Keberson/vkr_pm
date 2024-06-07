@@ -1,9 +1,9 @@
 import React from "react";
-import { IActivity } from "../../../types/ITask";
-import getFormatDate from "../../../utils/getFormatDate";
-import {IWBS} from "../../../types/IWBS";
-import {ActivityIcon} from "../../Dashboard/ActivityIcon/ActivityIcon";
-import {WBSIcon} from "../../Dashboard/WBSIcon/WBSIcon";
+import { IActivity } from "../../../../types/ITask";
+import getFormatDate from "../../../../utils/getFormatDate";
+import {IWBS} from "../../../../types/IWBS";
+import {ActivityIcon} from "../../../../assets/ActivityIcon";
+import {WBSIcon} from "../../WBSIcon/WBSIcon";
 
 interface TableTaskRowProps {
     item: IActivity | IWBS,

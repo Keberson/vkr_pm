@@ -1,7 +1,7 @@
 import React from "react";
 
 import getFormatDate from "../../../utils/getFormatDate";
-import {ProjectIcon} from "../ProjectIcon/ProjectIcon";
+import {ProjectIcon} from "../../../assets/ProjectIcon";
 import {IProject} from "../../../types/IProject";
 import {Link} from "react-router-dom";
 
@@ -24,7 +24,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             >
                 <div className="flex items-center justify-between">
                     <span className="text-inherit hover:text- text-sm">{project.name}</span>
-                    <ProjectIcon />
+                    <ProjectIcon size={20} />
                 </div>
                 <span className="text-inherit text-sm">{project.description}</span>
                 <div className="flex flex-col text-inherit text-sm">

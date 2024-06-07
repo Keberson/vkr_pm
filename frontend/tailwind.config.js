@@ -14,7 +14,8 @@ module.exports = {
       'block-background-secondary': '#434459',
       'red': '#FF6F78',
       'blue': '#68BEF7',
-      'green': '#1BBF2C'
+      'green': '#1BBF2C',
+      'light': '#DDDDDD'
     },
     colors: {
       'text': '#FEFFFF',
@@ -22,6 +23,14 @@ module.exports = {
       'text-secondary': '#656682',
       'text-third': '#DDDDDD',
       'text-hover': '#C0C0C0',
+    },
+    borderColor: {
+      'gray': '#737488',
+      'light': '#C0C0C0',
+    },
+    height: {
+      'icon': '30px',
+      'full': '100%'
     },
     extend: {},
   },

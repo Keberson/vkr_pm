@@ -1,8 +1,9 @@
 import React from "react";
 import {useParams} from "react-router-dom";
 import {DashboardHeader} from "../../components/Dashboard/DashboardHeader/DashboardHeader";
-import {TableTasks} from "../../components/TasksTable/TableTasks/TableTasks";
+import {TableTasks} from "../../components/Dashboard/TasksTable/TableTasks/TableTasks";
 import {ProjectMenu} from "../../components/Dashboard/ProjectMenu/ProjectMenu";
+import {TreeTasks} from "../../components/Dashboard/TasksTree/TreeTasks/TreeTasks";
 
 export const Project = () => {
     const params = useParams();
@@ -20,6 +21,7 @@ export const Project = () => {
             </div>
             <div className="ps-10 pe-10 pt-2.5 pb-5 overflow-auto text-text">
                 <TableTasks />
+                {/*<TreeTasks />*/}
             </div>
         </>
     );

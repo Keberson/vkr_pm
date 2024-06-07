@@ -1,8 +1,8 @@
 import React from "react";
-import { IActivity } from "../../../types/ITask";
+import { IActivity } from "../../../../types/ITask";
 import {TableTaskRow} from "../TableTaskRow/TableTaskRow";
 import {TableTasksHeader} from "../TableTasksHeader/TableTasksHeader";
-import {IWBS} from "../../../types/IWBS";
+import {IWBS} from "../../../../types/IWBS";
 
 export const TableTasks = () => {
     const activities: IActivity[] = [
