@@ -1,5 +1,5 @@
 import React from "react";
-import { IActivity } from "../../../../types/ITask";
+import { IActivity } from "../../../../types/IActivity";
 import {TableTaskRow} from "../TableTaskRow/TableTaskRow";
 import {TableTasksHeader} from "../TableTasksHeader/TableTasksHeader";
 import {IWBS} from "../../../../types/IWBS";
@@ -403,17 +403,17 @@ export const TableTasks = () => {
     }];
 
     return (
-        <table className="w-full table-fixed border-spacing-x-1 border-spacing-y-2">
+        <table className="w-full table-fixed border-spacing-x-1">
             <TableTasksHeader />
             <tbody>
             {
-                activities.map(activity => (
-                    <TableTaskRow item={activity} itemType="IActivity" />
+                wbses.map(wbs => (
+                    <TableTaskRow item={wbs} itemType="IWBS" />
                 ))
             }
             {
-                wbses.map(wbs => (
-                    <TableTaskRow item={wbs} itemType="IWBS" />
+                activities.map(activity => (
+                    <TableTaskRow item={activity} itemType="IActivity" />
                 ))
             }
             </tbody>

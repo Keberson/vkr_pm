@@ -12,10 +12,9 @@ export const Project = () => {
 
     return (
         <>
-            <DashboardHeader>
+            <DashboardHeader searchVisible={false}>
                 <h2 className="text-text text-2xl comfortaa-700">{projectName}</h2>
             </DashboardHeader>
-            <hr className="border-text-secondary"/>
             <div className="mt-5 ps-20 pe-20 grid grid-cols-3 text-text-third">
                 <ProjectMenu />
             </div>

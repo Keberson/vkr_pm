@@ -1,9 +1,9 @@
 import React from "react";
-import { IActivity } from "../../../../types/ITask";
+import { IActivity } from "../../../../types/IActivity";
 import getFormatDate from "../../../../utils/getFormatDate";
 import {IWBS} from "../../../../types/IWBS";
 import {ActivityIcon} from "../../../../assets/ActivityIcon";
-import {WBSIcon} from "../../WBSIcon/WBSIcon";
+import {WBSIcon} from "../../../../assets/WBSIcon";
 
 interface TableTaskRowProps {
     item: IActivity | IWBS,
@@ -32,7 +32,7 @@ export const TableTaskRow: React.FC<TableTaskRowProps> = ({ item, itemType }) =>
             <td className="text-center">{getFormatDate(item.date_finish_actual)}</td>
             <td className="">
                 <div className="flex items-center justify-center gap-2">
-                    <div className={`w-4 h-4 rounded-full ${statusColor}`}/>
+                    <div className={`p-2 rounded-full ${statusColor}`}/>
                     <span>{item.status}</span>
                 </div>
             </td>

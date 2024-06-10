@@ -1,5 +1,5 @@
 import React from "react";
-import { IActivity } from "../../../../types/ITask";
+import { IActivity } from "../../../../types/IActivity";
 import {IWBS} from "../../../../types/IWBS";
 
 export const TreeTasks = () => {

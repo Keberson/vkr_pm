@@ -5,10 +5,11 @@ import {ProfileIcon} from "../../../assets/ProfileIcon";
 import {Panel} from "../Panel/Panel";
 
 interface DashboardHeaderProps {
+    searchVisible: boolean,
     children: ReactNode
 }
 
-export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ children }) => {
+export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ children, searchVisible }) => {
 
     return (
         <>
@@ -28,7 +29,9 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ children }) =>
                     </div>
                 </div>
             </header>
-            <Panel />
+            {
+                searchVisible && <Panel />
+            }
         </>
 
     );

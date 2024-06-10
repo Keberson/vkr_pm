@@ -23,14 +23,20 @@ module.exports = {
       'text-secondary': '#656682',
       'text-third': '#DDDDDD',
       'text-hover': '#C0C0C0',
+      'black': '#0F102C'
     },
     borderColor: {
       'gray': '#737488',
       'light': '#C0C0C0',
+      'red': '#FF6F78',
+      'blue': '#68BEF7',
+      'green': '#1BBF2C',
     },
     height: {
       'icon': '30px',
-      'full': '100%'
+      'full': '100%',
+      '10': '10px',
+      '5': '5px'
     },
     extend: {},
   },
