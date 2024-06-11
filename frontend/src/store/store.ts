@@ -1,13 +1,15 @@
 import {configureStore} from "@reduxjs/toolkit";
 import {setupListeners} from "@reduxjs/toolkit/query";
 
-import activityEditorSlice from "./slices/ActivityEditor"
-import wbsEditorSlice from "./slices/WBSEditor"
+import activityEditorSlice from "./slices/ActivityEditorSlice"
+import wbsEditorSlice from "./slices/WBSEditorSlice"
+import treeSlice from "./slices/TreeSlice"
 
 export const store = configureStore({
     reducer: {
         activityEditor: activityEditorSlice,
-        wbsEditor: wbsEditorSlice
+        wbsEditor: wbsEditorSlice,
+        tree: treeSlice
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()

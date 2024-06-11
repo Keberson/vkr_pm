@@ -3,7 +3,7 @@ import React from "react";
 import {useAppDispatch} from "../../../../hooks/useAppDispatch";
 import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {CrossIcon} from "../../../../assets/CrossIcon";
-import {toggleActivityEditor} from "../../../../store/slices/ActivityEditor";
+import {toggleActivityEditor} from "../../../../store/slices/ActivityEditorSlice";
 
 interface GantItemDescriptionProps {
     height: string
@@ -16,7 +16,7 @@ export const GantItemActivityDescription: React.FC<GantItemDescriptionProps> = (
     const onClose = () => dispatch(toggleActivityEditor());
 
     return (
-        <div className="w-full bg-background-secondary ps-5 pe-5 pt-2 pb-2 text-text gap-2 flex flex-col" style={{height: height}}>
+        <div className="w-full bg-background-secondary ps-5 pe-5 pt-2 pb-2 text-text gap-2 flex flex-col" >
             <div className="w-full flex flex-col gap-2">
                 <div className="inline-flex items-center w-full justify-between">
                     <h2 className="font-bold">Редактирование работы "{activity.name}"</h2>

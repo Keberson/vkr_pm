@@ -1,5 +1,10 @@
 import {IActivity} from "./IActivity";
 import {IWBS} from "./IWBS";
+import isInstanceOfIActivity from "../utils/isInstanceOfIActivity";
+import {nodeArrayFilter} from "../utils/nodeArrayFilter";
+import {Simulate} from "react-dom/test-utils";
+import copy = Simulate.copy;
+import {IFilterProject} from "./IFilterProject";
 
 type NodeT = IWBS | IActivity;
 
@@ -41,10 +46,14 @@ class TreeNode {
     removeChildren(index: number) {
         this.children.splice(index, 1);
     }
+
+    removeAllChildrens() {
+        this.children.slice();
+    }
 }
 
 class Tree {
-    private root: TreeNode;
+    private readonly root: TreeNode;
 
     constructor(data: NodeT) {
         this.root = new TreeNode(data);
@@ -54,17 +63,27 @@ class Tree {
         return this.root;
     }
 
-    setRoot(data: NodeT) {
+    setRootValue(data: NodeT) {
         this.root.setValue(data);
     }
 
-    static walkTree(nextNode: TreeNode, gap: number, callback: (node: TreeNode, gap: number, isEmpty: boolean) => JSX.Element) {
+    setRoot(data: NodeT) {
+        this.root.setValue(data);
+        this.root.removeAllChildrens();
+    }
+
+    static walkTree(nextNode: TreeNode, gap: number, callback: (node: TreeNode, gap: number, isEmpty: boolean) => JSX.Element, stopNodes: NodeT[], filters?: IFilterProject) {
+        // TODO: фильтрацию сделать
         const res: JSX.Element[] = [];
 
         res.push(callback(nextNode, gap, nextNode.getChildrens().length === 0));
 
+        if (nodeArrayFilter(stopNodes, nextNode.getValue(), false).length !== 0) {
+            return res;
+        }
+
         for (const children of nextNode.getChildrens()) {
-            res.push(...this.walkTree(children, gap + 1, callback));
+            res.push(...this.walkTree(children, gap + 1, callback, stopNodes, filters));
         }
 
         return res;
