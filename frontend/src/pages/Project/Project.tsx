@@ -3,7 +3,6 @@ import {useParams} from "react-router-dom";
 import {DashboardHeader} from "../../components/Dashboard/DashboardHeader/DashboardHeader";
 import {TableTasks} from "../../components/Dashboard/TasksTable/TableTasks/TableTasks";
 import {ProjectMenu} from "../../components/Dashboard/ProjectMenu/ProjectMenu";
-import {TreeTasks} from "../../components/Dashboard/TasksTree/TreeTasks/TreeTasks";
 
 export const Project = () => {
     const params = useParams();

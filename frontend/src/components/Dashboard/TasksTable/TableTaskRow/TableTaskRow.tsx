@@ -11,7 +11,7 @@ interface TableTaskRowProps {
 }
 
 export const TableTaskRow: React.FC<TableTaskRowProps> = ({ item, itemType }) => {
-    const statusColor = item.status === "Не начато" ? "bg-red" : item.status === "Выполняется" ? "bg-blue" : "bg-green";
+    const statusColor = item.status === "Не начата" ? "bg-red" : item.status === "Выполняется" ? "bg-blue" : "bg-green";
 
     return (
         <tr key={item.id}>

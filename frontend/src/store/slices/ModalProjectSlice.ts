@@ -2,24 +2,24 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 interface ModalProjectState {
-    show: "wbs" | "activity" | "none"
+    show: boolean;
 }
 
 const initialState: ModalProjectState = {
-    show: "none"
+    show: false
 };
 
 const ModalProjectSlice = createSlice({
     name: 'ModalProject',
     initialState,
     reducers: {
-        setShow(state, action: PayloadAction<"wbs" | "activity" | "none">) {
+        setModal(state, action: PayloadAction<boolean>) {
             state.show = action.payload;
         }
     },
 })
 
 export const {
-    setShow
+    setModal
 } = ModalProjectSlice.actions
 export default ModalProjectSlice.reducer

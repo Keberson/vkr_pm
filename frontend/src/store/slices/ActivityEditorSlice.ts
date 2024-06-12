@@ -17,8 +17,7 @@ const initialState: ActivityEditorState = {
         date_finish_plan: new Date(),
         date_start_actual: new Date(),
         date_finish_actual: new Date(),
-        others: JSON.parse('{}'),
-        status: "Не начато",
+        status: "Не начата",
         project_id: -1
     },
     isShow: false

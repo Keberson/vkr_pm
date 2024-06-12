@@ -1,8 +1,18 @@
 import React from "react";
-import {IProject} from "../../../../types/IProject";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {useAppDispatch} from "../../../../hooks/useAppDispatch";
+
 import {TStatus} from "../../../../types/TStatus";
+
+import {useAppDispatch} from "../../../../hooks/useAppDispatch";
+import {useCreateActivityMutation} from "../../../../services/ActivityService";
+import {setLoader} from "../../../../store/slices/LoaderSlice";
+import {setToast, setToastMessage} from "../../../../store/slices/ToastSlice";
+import {setModal} from "../../../../store/slices/ModalProjectSlice";
+import {useCreateWBSMutation} from "../../../../services/WBSService";
+
+interface ModalCreateProps {
+    projectID: number,
+}
 
 type Inputs = {
     type: "activity" | "wbs",
@@ -12,59 +22,68 @@ type Inputs = {
     date_start_actual: Date,
     date_finish_actual: Date,
     status: TStatus,
-    project_id: number,
-    description?: string
+    description: string
 }
 
-export const ModalCreate = () => {
-    const projects: IProject[] = [
-        {
-            id: 1,
-            name: 'Проект 1',
-            owner: 'Максим Кузов',
-            description: 'Тест №1',
-            date_start_plan: new Date(),
-            date_finish_plan: new Date(),
-            date_start_actual: new Date(),
-            date_finish_actual: new Date(),
-        },
-        {
-            id: 2,
-            name: 'Проект 2',
-            owner: 'Максим Кузов',
-            description: 'Тест №2',
-            date_start_plan: new Date(),
-            date_finish_plan: new Date(),
-            date_start_actual: new Date(),
-            date_finish_actual: new Date(),
-        },
-        {
-            id: 3,
-            name: 'Проект 3',
-            owner: 'Максим Кузов',
-            description: 'Тест №3',
-            date_start_plan: new Date(),
-            date_finish_plan: new Date(),
-            date_start_actual: new Date(),
-            date_finish_actual: new Date(),
-        },
-    ];
+export const ModalCreate: React.FC<ModalCreateProps> = ({ projectID }) => {
     const dispatch = useAppDispatch();
+    const [createActivity] = useCreateActivityMutation();
+    const [createWBS] = useCreateWBSMutation();
 
     const {
         register,
         handleSubmit,
-        watch,
-        formState: { errors },
-    } = useForm<Inputs>();
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
-        console.log(data);
-    };
+        watch
+    } = useForm<Inputs>({
+        defaultValues: {
+            type: "activity"
+        }
+    });
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        const {type, ...rawDataActivity} = data;
+        let message = "";
+        let isError: boolean = false;
+        let toastType: "correct" | "error" = "correct";
+        let res;
 
-    const watchType = watch("type");
+        dispatch(setLoader(true));
+
+
+        if (type === "activity") {
+            res = await createActivity({ ...rawDataActivity, project_id: projectID });
+
+            if ('error' in res) {
+                isError = true;
+                toastType = "error";
+                message = "Ошибка при создании работы";
+            } else {
+                message = "Работа успешно создана";
+            }
+        } else {
+            const {description, ...rawDataWBS } = rawDataActivity;
+            res = await createWBS({ ...rawDataWBS, project_id: projectID });
+
+            if ('error' in res) {
+                isError = true;
+                toastType = "error";
+                message = "Ошибка при создании WBS";
+            } else {
+                message = "WBS успешно создана";
+            }
+        }
+
+        dispatch(setToastMessage(message));
+        dispatch(setToast(toastType));
+        dispatch(setLoader(false));
+
+        if (!isError) {
+            dispatch(setModal(false));
+        }
+    };
+    const onClose = () => dispatch(setModal(false));
 
     return (
-        <div className="relative transform overflow-hidden rounded-lg bg-background-secondary text-left shadow-xl transition-all w-full max-w-7xl h-screen flex flex-col justify-between">
+        <div className="relative transform overflow-hidden rounded-lg bg-background-secondary text-left shadow-xl transition-all w-full max-w-7xl h-screen flex flex-col justify-between pointer-events-auto">
             <div className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full max-w-5xl flex flex-col">
@@ -84,7 +103,7 @@ export const ModalCreate = () => {
                                 </div>
 
                                 <div className="flex flex-col w-full">
-                                    <label htmlFor="name" className="text-sm text-text-third">Имя { watchType === "activity" ? "работы" : "WBS" }</label>
+                                    <label htmlFor="name" className="text-sm text-text-third">Имя { watch("type") === "activity" ? "работы" : "WBS" }</label>
                                     <input
                                         type="text"
                                         {...register("name")}
@@ -92,7 +111,7 @@ export const ModalCreate = () => {
                                     />
                                 </div>
 
-                                { watchType !== "wbs" &&
+                                { watch("type") !== "wbs" &&
                                     <div className="flex flex-col w-full">
                                         <label htmlFor="description" className="text-sm text-text-third flex flex-col w-full">Описание работы</label>
                                         <textarea
@@ -131,7 +150,7 @@ export const ModalCreate = () => {
                                         />
                                     </div>
                                     <div className="flex flex-col max-w-sm w-full">
-                                        <label htmlFor="date_finish_actual" className="text-text-third">Дата финиша (план)</label>
+                                        <label htmlFor="date_finish_actual" className="text-text-third">Дата финиша (факт)</label>
                                         <input type="date"
                                                {...register("date_finish_actual")}
                                                className="w-full max-w-xl ps-2 pe-2 bg-block-background-secondary text-text rounded-lg border-text-muted border outline-none"
@@ -140,28 +159,14 @@ export const ModalCreate = () => {
                                 </div>
 
                                 <div className="flex flex-col w-full">
-                                    <label htmlFor="status" className="text-sm text-text-third">Статус {watchType === "activity" ? "работы" : "WBS"}</label>
+                                    <label htmlFor="status" className="text-sm text-text-third">Статус {watch("type") === "activity" ? "работы" : "WBS"}</label>
                                     <select
                                         {...register("status")}
                                         className="w-full max-w-2xl ps-2 pe-2 pt-1 pb-1 bg-block-background-secondary text-text rounded-lg border-text-muted border outline-none"
                                     >
-                                        <option value="Не начато">Не начато</option>
+                                        <option value="Не начата">Не начата</option>
                                         <option value="Выполняется">Выполняется</option>
-                                        <option value="Завершено">Завершено</option>
-                                    </select>
-                                </div>
-
-                                <div className="flex flex-col w-full">
-                                    <label htmlFor="project_id" className="text-sm text-text-third">Статус {watchType === "activity" ? "работы" : "WBS"}</label>
-                                    <select
-                                        {...register("project_id")}
-                                        className="w-full max-w-2xl ps-2 pe-2 pt-1 pb-1 bg-block-background-secondary text-text rounded-lg border-text-muted border outline-none"
-                                    >
-                                        {
-                                            projects.map(project => (
-                                                <option value={project.id}>{project.name}</option>
-                                            ))
-                                        }
+                                        <option value="Завершена">Завершена</option>
                                     </select>
                                 </div>
                             </form>
@@ -176,7 +181,10 @@ export const ModalCreate = () => {
                 >
                     Создать
                 </button>
-                <button className="mt-3 inline-flex w-full justify-center rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                <button
+                    className="mt-3 inline-flex w-full justify-center rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                    onClick={onClose}
+                >
                     Закрыть
                 </button>
             </div>

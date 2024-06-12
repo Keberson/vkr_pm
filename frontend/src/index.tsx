@@ -5,12 +5,15 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 import './scss/index.scss';
 import './scss/scroll.scss';
+
 import {store} from './store/store'
+
 import {Dashboard} from "./pages/Dashboard/Dashboard";
 import {Login} from "./pages/Login/Login";
 import {PageNotFound} from "./pages/PageNotFound/PageNotFound";
 import {Project} from "./pages/Project/Project";
 import {GantFull} from "./components/Dashboard/Gant/GantFull/GantFull";
+import {Wrappers} from "./components/Wrappers/Wrappers";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -21,13 +24,15 @@ root.render(
         <Provider store={store}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/dashboard" >
-                        <Route index element={<Dashboard />} />
-                        <Route path="gant/:id" element={<GantFull />} />
-                        <Route path=":id" element={<Project />} />
+                    <Route element={<Wrappers />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/dashboard" >
+                            <Route index element={<Dashboard />} />
+                            <Route path="gant/:id" element={<GantFull />} />
+                            <Route path=":id" element={<Project />} />
+                        </Route>
+                        <Route path="*" element={<PageNotFound />} />
                     </Route>
-                    <Route path="*" element={<PageNotFound />} />
                 </Routes>
             </BrowserRouter>
         </Provider>

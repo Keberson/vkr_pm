@@ -16,7 +16,7 @@ const initialState: WBSEditorState = {
         date_finish_plan: new Date(),
         date_start_actual: new Date(),
         date_finish_actual: new Date(),
-        status: "Не начато",
+        status: "Не начата",
         project_id: -1
     },
     isShow: false

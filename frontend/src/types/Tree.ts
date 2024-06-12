@@ -72,8 +72,7 @@ class Tree {
         this.root.removeAllChildrens();
     }
 
-    static walkTree(nextNode: TreeNode, gap: number, callback: (node: TreeNode, gap: number, isEmpty: boolean) => JSX.Element, stopNodes: NodeT[], filters?: IFilterProject) {
-        // TODO: фильтрацию сделать
+    static walkTree(nextNode: TreeNode, gap: number, callback: (node: TreeNode, gap: number, isEmpty: boolean) => JSX.Element, stopNodes: NodeT[]) {
         const res: JSX.Element[] = [];
 
         res.push(callback(nextNode, gap, nextNode.getChildrens().length === 0));
@@ -83,7 +82,7 @@ class Tree {
         }
 
         for (const children of nextNode.getChildrens()) {
-            res.push(...this.walkTree(children, gap + 1, callback, stopNodes, filters));
+            res.push(...this.walkTree(children, gap + 1, callback, stopNodes));
         }
 
         return res;

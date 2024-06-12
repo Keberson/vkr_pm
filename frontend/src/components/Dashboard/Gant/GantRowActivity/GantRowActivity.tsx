@@ -23,7 +23,7 @@ export const GantRowActivity: React.FC<GantRowActivityProps> = ({ nodeData, isEm
     const isShowed = useAppSelector(state => state.activityEditor.isShow);
     const stopNodes = useAppSelector(state => state.tree.stopNode);
     const isHidedList = nodeArrayFilter(stopNodes, nodeData, false).length !== 0;
-    const statusColor = nodeData.status === "Не начато" ? "bg-red" : nodeData.status === "Выполняется" ? "bg-blue" : "bg-green";
+    const statusColor = nodeData.status === "Не начата" ? "bg-red" : nodeData.status === "Выполняется" ? "bg-blue" : "bg-green";
 
     const onClickRow = () =>  {
         if (isInstanceOfIActivity(nodeData)) {

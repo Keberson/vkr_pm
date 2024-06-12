@@ -13,7 +13,7 @@ export const GantTable = () => {
         date_finish_plan: new Date(2024, 10, 20),
         date_start_actual: new Date(2024, 10, 20),
         date_finish_actual: new Date(2024, 10, 20),
-        status: 'Завершено',
+        status: 'Завершена',
         project_id: 1,
     });
 
@@ -26,8 +26,7 @@ export const GantTable = () => {
             date_finish_plan: new Date(2024, 10, 21),
             date_start_actual: new Date(2024, 10, 20),
             date_finish_actual: new Date(2024, 10, 21),
-            others: JSON.parse('{}'),
-            status: "Завершено",
+            status: "Завершена",
             project_id: 1
         }));
     }
@@ -40,8 +39,7 @@ export const GantTable = () => {
         date_finish_plan: new Date(2024, 10, 21),
         date_start_actual: new Date(2024, 10, 20),
         date_finish_actual: new Date(2024, 10, 21),
-        others: JSON.parse('{}'),
-        status: "Не начато",
+        status: "Не начата",
         project_id: 1
     });
 
