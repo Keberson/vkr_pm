@@ -25,14 +25,14 @@ export const GantWBSTableHead = () => {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm<Input>()
+    } = useForm<Input>();
     const onSubmit: SubmitHandler<Input> = (data) => {
         if (data.filter !== '') {
             dispatch(setFilterName(data.filter));
         } else {
             dispatch(clearFilterName());
         }
-    }
+    };
 
     return (
         <tr className="text-sm">

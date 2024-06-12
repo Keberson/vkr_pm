@@ -5,11 +5,7 @@ import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {CrossIcon} from "../../../../assets/CrossIcon";
 import {toggleActivityEditor} from "../../../../store/slices/ActivityEditorSlice";
 
-interface GantItemDescriptionProps {
-    height: string
-}
-
-export const GantItemActivityDescription: React.FC<GantItemDescriptionProps> = ({ height }) => {
+export const GantItemActivityDescription: React.FC = () => {
     const dispatch = useAppDispatch();
     const activity = useAppSelector(state => state.activityEditor.activity);
 
