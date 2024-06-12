@@ -1,14 +1,18 @@
-interface IActivity {
+interface IActivity extends ICreateActivity {
     id: number,
+}
+
+interface ICreateActivity {
     name: string,
+    description: string,
     date_start_plan: Date,
     date_finish_plan: Date,
     date_start_actual: Date,
     date_finish_actual: Date,
     status: 'Не начата' | 'Выполняется' | 'Завершена',
-    others: JSON
+    project_id: number
 }
 
 export {
-    IActivity
+    IActivity, ICreateActivity
 };
