@@ -40,14 +40,21 @@ export const GantFull = () => {
                             Добавить
                         </button>
                         <button className={`p-1 text-sm rounded-lg border-2 ${syncStyle}`} onClick={() => {}}>
-                            Синхронизировать
+                            Сгруппировать
                         </button>
+                        <select className="p-1 text-sm text-text rounded-lg border-text-secondary border-2 bg-block-background-secondary outline-none ">
+                            <option value="1">Вид "Основной"</option>
+                            <option value="2">Вид "Вспомогательный"</option>
+                        </select>
                     </div>
                     <div className={`grid grid-cols-2`}>
                         <ScrollSyncPane>
                             <>
                                 <div className="overflow-auto border-r-2 border-r-gray">
                                     <GantTable />
+                                </div>
+                                <div>
+
                                 </div>
                             </>
                         </ScrollSyncPane>

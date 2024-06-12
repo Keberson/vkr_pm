@@ -12,6 +12,7 @@ interface ToastWrapperProps {
 
 export const Toast: React.FC<ToastWrapperProps> = ({ icon, message }) => {
     const dispatch = useAppDispatch();
+    const styles = icon === "correct" ? "text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-200" : "text-red-500 bg-red-100 dark:bg-red-800 dark:text-red-200";
 
     const onClose = () => dispatch(setToast("none"));
 
@@ -24,7 +25,7 @@ export const Toast: React.FC<ToastWrapperProps> = ({ icon, message }) => {
     return (
         <>
             <div id="toast-success" className="flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 pointer-events-auto" role="alert">
-                <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+                <div className={`inline-flex items-center justify-center flex-shrink-0 w-8 h-8 ${styles} rounded-lg `}>
                     {icon === "error" && <ErrorIcon />}
                     {icon === "correct" && <CorrectIcon />}
                 </div>

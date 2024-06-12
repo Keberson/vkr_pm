@@ -11,6 +11,8 @@ import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {addStopNode, deleteStopNode} from "../../../../store/slices/TreeSlice";
 import {nodeArrayFilter} from "../../../../utils/nodeArrayFilter";
 import {ExpandIcon} from "../../../../assets/ExpandIcon";
+import {EditIcon} from "../../../../assets/EditIcon";
+import {DeleteIcon} from "../../../../assets/DeleteIcon";
 
 interface GantRowActivityProps {
     nodeData: NodeT,
@@ -44,7 +46,12 @@ export const GantRowActivity: React.FC<GantRowActivityProps> = ({ nodeData, isEm
     }
 
     return (
-        <tr key={`${nodeData.name} ${nodeData.id}`} className="hover:bg-block-background-secondary" onClick={onClickRow}>
+        <tr key={`${nodeData.name} ${nodeData.id}`} className="hover:bg-block-background-secondary">
+            <td className="sticky left-0 bg-background">
+                <div className="flex justify-center items-center">
+                    <input type="checkbox" />
+                </div>
+            </td>
             <td className="whitespace-nowrap overflow-hidden overflow-ellipsis">
                 <button
                     className={`inline-flex items-center justify-start gap-x-[10px] px-3 py-2 outline-none`}
@@ -70,6 +77,20 @@ export const GantRowActivity: React.FC<GantRowActivityProps> = ({ nodeData, isEm
             <td className="text-center">{getFormatDate(nodeData.date_finish_plan)}</td>
             <td className="text-center">{getFormatDate(nodeData.date_start_actual)}</td>
             <td className="text-center">{getFormatDate(nodeData.date_finish_actual)}</td>
+            <td className="sticky right-0 bg-background">
+                <div className="flex justify-center items-center gap-3">
+                    {isInstanceOfIActivity(nodeData) ?
+                        <button onClick={onClickRow}>
+                            <EditIcon />
+                        </button>
+                        :
+                        <div className="w-[20px] h-[20px]"></div>
+                    }
+                    <button>
+                        <DeleteIcon />
+                    </button>
+                </div>
+            </td>
         </tr>
     )
 };

@@ -48,21 +48,23 @@ export const GantTable = () => {
     const stopNodes = useAppSelector(state => state.tree.stopNode);
 
     return (
-        <table className="w-[1000px] table-fixed">
-            <thead className="sticky top-0 text-text bg-background-secondary">
-            <GantWBSTableHead />
-            </thead>
-            <tbody className="text-text text-sm">
-            {
-                Tree.walkTree(tree.getRoot(), 0, (node: TreeNode, gap: number, isEmpty: boolean) => {
-                    if (node.getValue().id !== -1) {
-                        return <GantRowActivity nodeData={node.getValue()} gap={gap} isEmpty={isEmpty}/>
-                    } else {
-                        return <></>
-                    }
-                }, stopNodes)
-            }
-            </tbody>
-        </table>
+        <div className="flex">
+            <table className="w-[1000px] table-fixed">
+                <thead className="sticky top-0 text-text bg-background-secondary">
+                    <GantWBSTableHead />
+                </thead>
+                <tbody className="text-text text-sm">
+                {
+                    Tree.walkTree(tree.getRoot(), 0, (node: TreeNode, gap: number, isEmpty: boolean) => {
+                        if (node.getValue().id !== -1) {
+                            return <GantRowActivity nodeData={node.getValue()} gap={gap} isEmpty={isEmpty}/>
+                        } else {
+                            return <></>
+                        }
+                    }, stopNodes)
+                }
+                </tbody>
+            </table>
+        </div>
     )
 };
