@@ -3,11 +3,16 @@ import {sql} from "../utils/sql.util";
 import {dbService} from "./db.service";
 
 const activity = {
+    getByID: sql('../sql/activity/getByID.sql'),
     getByProject: sql('../sql/activity/getByProject.sql'),
     createActivity: sql('../sql/activity/create.sql'),
 };
 
-const getActivities = async (projectID: number) => {
+const getActivityByID = async (activityID: number): Promise<IActivity> => {
+    return await dbService.oneOrNone(activity.getByID, [activityID]);
+}
+
+const getActivities = async (projectID: number): Promise<IActivity[]> => {
     return await dbService.manyOrNone(activity.getByProject, [projectID]);
 }
 
@@ -23,6 +28,7 @@ const createActivity = async (data: ICreateActivity) => {
 };
 
 export {
+    getActivityByID,
     getActivities,
     createActivity
 };

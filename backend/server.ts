@@ -4,6 +4,7 @@ import express from 'express';
 
 import activityRoute from "./src/routes/activity.route";
 import wbsRoute from "./src/routes/wbs.route";
+import treeRoute from "./src/routes/tree.route";
 
 config();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(`${baseUrl}/activity`, activityRoute);
 app.use(`${baseUrl}/wbs`, wbsRoute);
+app.use(`${baseUrl}/tree`, treeRoute);
 
 app.listen(PORT, async () => {
     // await create_storage();

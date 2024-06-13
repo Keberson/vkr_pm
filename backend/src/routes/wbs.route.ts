@@ -5,4 +5,5 @@ const router = Router();
 
 router.get('/:id', get);
 router.post('/', create);
+
 export default router;
