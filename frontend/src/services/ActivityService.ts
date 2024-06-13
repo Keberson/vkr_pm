@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 import {ICreateActivity} from "../types/IActivity";
+import {IGetActivitiesRes} from "../types/Responses";
 
 export const activityApi = createApi({
     reducerPath: 'activityApi',
@@ -9,6 +10,12 @@ export const activityApi = createApi({
     }),
     tagTypes: ["POST"],
     endpoints: (build) => ({
+        getActivities: build.query<IGetActivitiesRes, number>({
+            query: (projectID) => ({
+                url: `/${projectID}`,
+            }),
+            providesTags: ["POST"]
+        }),
         createActivity: build.mutation<void, ICreateActivity>({
             query: (body) => ({
                 url: "/",
@@ -21,5 +28,6 @@ export const activityApi = createApi({
 });
 
 export const {
+    useGetActivitiesQuery,
     useCreateActivityMutation
 } = activityApi;

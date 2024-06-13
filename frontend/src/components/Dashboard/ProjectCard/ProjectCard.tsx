@@ -14,7 +14,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         <Link to={`${project.id}`}>
             <div
                 className="
-                    h-full
+                    h-[250px]
                     rounded-lg cursor-pointer
                     ps-5 pe-5 pt-3 pb-3
                     grid grid-rows-5 gap-3

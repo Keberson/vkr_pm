@@ -12,10 +12,10 @@ const initialState: WBSEditorState = {
     wbs: {
         id: -1,
         name: ``,
-        date_start_plan: new Date(),
-        date_finish_plan: new Date(),
-        date_start_actual: new Date(),
-        date_finish_actual: new Date(),
+        date_start_plan: '',
+        date_finish_plan: '',
+        date_start_actual: '',
+        date_finish_actual: '',
         status: "Не начата",
         project_id: -1
     },

@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 import {ICreateWBS} from "../types/IWBS";
+import {IGetWBSRes} from "../types/Responses";
 
 export const wbsApi = createApi({
     reducerPath: 'wbsApi',
@@ -9,6 +10,12 @@ export const wbsApi = createApi({
     }),
     tagTypes: ["POST"],
     endpoints: (build) => ({
+        getWBS: build.query<IGetWBSRes, number>({
+            query: (projectID) => ({
+                url: `/${projectID}`
+            }),
+            providesTags: ["POST"]
+        }),
         createWBS: build.mutation<void, ICreateWBS>({
             query: (body) => ({
                 url: "/",
@@ -21,5 +28,6 @@ export const wbsApi = createApi({
 });
 
 export const {
+    useGetWBSQuery,
     useCreateWBSMutation
 } = wbsApi;

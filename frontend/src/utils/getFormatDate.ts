@@ -1,5 +1,7 @@
-const getFormatDate = (date: Date): string => {
-    return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+const getFormatDate = (date: string): string => {
+    const [year, month, day] = date.split('T')[0].split('-');
+
+    return `${day}.${month}.${year}`;
 };
 
 export default getFormatDate;

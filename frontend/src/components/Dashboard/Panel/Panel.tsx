@@ -19,7 +19,7 @@ export const Panel = () => {
             </div>
             <div className="flex gap-5">
                 <div className="bg-block-background-secondary w-fit h-icon flex items-center justify-center rounded ps-1 pe-1 cursor-pointer">
-                    <PlusIcon size={20} color="text-hover" />
+                    <PlusIcon size={20} color="" />
                 </div>
                 <div className="bg-block-background-secondary w-fit h-icon flex items-center justify-center rounded ps-1 pe-1 cursor-pointer">
                     {

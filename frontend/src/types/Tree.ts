@@ -89,5 +89,10 @@ class Tree {
     }
 }
 
+interface ITree {
+    value: NodeT
+    childs: ITree[]
+}
+
 export {TreeNode, Tree};
-export type { NodeT };
+export type { NodeT, ITree };

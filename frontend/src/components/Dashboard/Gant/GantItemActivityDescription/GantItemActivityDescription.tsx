@@ -4,12 +4,14 @@ import {useAppDispatch} from "../../../../hooks/useAppDispatch";
 import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {CrossIcon} from "../../../../assets/CrossIcon";
 import {toggleActivityEditor} from "../../../../store/slices/ActivityEditorSlice";
+import diffDate from "../../../../utils/diffDate";
 
 export const GantItemActivityDescription: React.FC = () => {
     const dispatch = useAppDispatch();
     const activity = useAppSelector(state => state.activityEditor.activity);
 
     const onClose = () => dispatch(toggleActivityEditor());
+
 
     return (
         <div className="w-full bg-background-secondary ps-5 pe-5 pt-2 pb-2 text-text gap-2 flex flex-col" >
@@ -35,9 +37,9 @@ export const GantItemActivityDescription: React.FC = () => {
                 <div className="flex flex-col">
                     <label className="text-text">Статус</label>
                     <select value={activity.status} className="ps-2 pe-2 pt-1 pb-1 w-full h-full">
-                        <option value="Не начато">Не начато</option>
+                        <option value="Не начата">Не начата</option>
                         <option value="Выполняется">Выполняется</option>
-                        <option value="Завершено">Завершено</option>
+                        <option value="Завершена">Завершена</option>
                     </select>
                 </div>
                 <div />
@@ -47,27 +49,27 @@ export const GantItemActivityDescription: React.FC = () => {
                 </div>
                 <div className="flex flex-col">
                     <label className="text-text">Дата старта (план)</label>
-                    <input type="date" value={activity.date_start_plan.toISOString().split('T')[0]} />
+                    <input type="date" value={activity.date_start_plan.split('T')[0]} />
                 </div>
                 <div className="flex flex-col">
                     <label className="text-text">Дата финиша (план)</label>
-                    <input type="date" value={activity.date_finish_plan.toISOString().split('T')[0]} />
+                    <input type="date" value={activity.date_finish_plan.split('T')[0]} />
                 </div>
                 <div className="flex flex-col">
                     <span className="text-text">Длительность (план), дней</span>
-                    <span className="text-text">{(activity.date_finish_plan.valueOf() - activity.date_start_plan.valueOf())/(1000 * 60 * 60 * 24)}</span>
+                    <span className="text-text">{diffDate(activity.date_finish_plan, activity.date_start_plan)}</span>
                 </div>
                 <div className="flex flex-col">
                     <label className="text-text">Дата старта (факт)</label>
-                    <input type="date" value={activity.date_start_actual.toISOString().split('T')[0]} />
+                    <input type="date" value={activity.date_start_actual.split('T')[0]} />
                 </div>
                 <div className="flex flex-col">
                     <label className="text-text">Дата финиша (факт)</label>
-                    <input type="date" value={activity.date_finish_actual.toISOString().split('T')[0]} />
+                    <input type="date" value={activity.date_finish_actual.split('T')[0]} />
                 </div>
                 <div className="flex flex-col">
                     <span className="text-text">Длительность (факт), дней</span>
-                    <span className="text-text">{(activity.date_finish_actual.valueOf() - activity.date_start_actual.valueOf())/(1000 * 60 * 60 * 24)}</span>
+                    <span className="text-text">{diffDate(activity.date_finish_actual, activity.date_start_actual)}</span>
                 </div>
             </div>
         </div>

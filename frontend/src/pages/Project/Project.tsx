@@ -19,7 +19,6 @@ export const Project = () => {
             </div>
             <div className="ps-10 pe-10 pt-2.5 pb-5 overflow-auto text-text">
                 <TableTasks />
-                {/*<TreeTasks />*/}
             </div>
         </>
     );

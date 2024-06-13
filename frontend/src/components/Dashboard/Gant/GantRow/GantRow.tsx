@@ -20,7 +20,7 @@ interface GantRowActivityProps {
     gap: number,
 }
 
-export const GantRowActivity: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap }) => {
+export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap }) => {
     const dispatch = useAppDispatch();
     const isShowed = useAppSelector(state => state.activityEditor.isShow);
     const stopNodes = useAppSelector(state => state.tree.stopNode);

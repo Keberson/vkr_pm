@@ -1,13 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-import {NodeT, Tree} from "../../types/Tree";
+import {ITree, NodeT, Tree, TreeNode} from "../../types/Tree";
 import {nodeArrayFilter} from "../../utils/nodeArrayFilter";
 import {TStatus} from "../../types/TStatus";
 import {IFilterProject} from "../../types/IFilterProject";
+import {activityApi} from "../../services/ActivityService";
+import {IActivity} from "../../types/IActivity";
+import {IWBS} from "../../types/IWBS";
+import {wbsApi} from "../../services/WBSService";
+import {treeApi} from "../../services/TreeService";
 
 interface treeState {
     tree: Tree,
+    activities: IActivity[],
+    wbs: IWBS[],
     stopNode: NodeT[],
     filters: IFilterProject
 }
@@ -15,14 +22,16 @@ interface treeState {
 const initialState: treeState = {
     tree: new Tree({
         id: -1,
-        name: ``,
-        date_start_plan: new Date(),
-        date_finish_plan: new Date(),
-        date_start_actual: new Date(),
-        date_finish_actual: new Date(),
+        name: '',
+        date_start_plan: '',
+        date_finish_plan: '',
+        date_start_actual: '',
+        date_finish_actual: '',
         status: "Не начата",
         project_id: -1
     }),
+    activities: [],
+    wbs: [],
     stopNode: [],
     filters: {}
 };
@@ -53,6 +62,30 @@ const treeSlice = createSlice({
             delete state.filters.status;
         }
     },
+    extraReducers: (builder) => {
+        builder
+            .addMatcher(activityApi.endpoints.getActivities.matchFulfilled, (state, action) => {
+                state.activities = action.payload.result;
+            })
+            .addMatcher(wbsApi.endpoints.getWBS.matchFulfilled, (state, action) => {
+                state.wbs = action.payload.result;
+            })
+            .addMatcher(treeApi.endpoints.getTree.matchFulfilled, (state, action) => {
+                const walk = (node: TreeNode, nodeGot: ITree) => {
+                    node.setValue(nodeGot.value);
+
+                    for (const child of nodeGot.childs) {
+                        const treeNode = new TreeNode(child.value, node);
+
+                        node.addChildren(treeNode);
+                        walk(treeNode, child);
+                    }
+                };
+
+                walk(state.tree.getRoot(), action.payload.result);
+                console.log(state.tree)
+            })
+    }
 })
 
 export const {

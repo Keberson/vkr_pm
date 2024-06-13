@@ -18,6 +18,7 @@ export const GantFull = () => {
 
     const isShowActivityEditor = useAppSelector(state => state.activityEditor.isShow);
     const gridStyle = isShowActivityEditor ? "grid-rows-[35px_1fr_200px]" : "grid-rows-[35px_1fr]";
+    const heightBlock = isShowActivityEditor ? "calc(100vh - 35px - 200px)" : "calc(100vh - 35px)";
 
     const isHaveSync = false;
     const syncStyle = isHaveSync ? "text-text border-text-secondary" : "text-text-muted border-gray cursor-default";
@@ -47,11 +48,11 @@ export const GantFull = () => {
                             <option value="2">Вид "Вспомогательный"</option>
                         </select>
                     </div>
-                    <div className={`grid grid-cols-2`}>
+                    <div className={`grid grid-cols-2`} style={{height: heightBlock}}>
                         <ScrollSyncPane>
                             <>
-                                <div className="overflow-auto border-r-2 border-r-gray">
-                                    <GantTable />
+                                <div className="overflow-auto border-r-2 border-r-gray h-full">
+                                    <GantTable projectID={projectID} />
                                 </div>
                                 <div>
 

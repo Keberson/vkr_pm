@@ -2,49 +2,23 @@ import React from "react";
 
 import {GantWBSTableHead} from "../GantWBSTableHead/GantWBSTableHead";
 import {Tree, TreeNode} from "../../../../types/Tree";
-import {GantRowActivity} from "../GantRowActivity/GantRowActivity";
+import {GantRow} from "../GantRow/GantRow";
 import {useAppSelector} from "../../../../hooks/useAppSelector";
+import {useAppDispatch} from "../../../../hooks/useAppDispatch";
+import {setLoader} from "../../../../store/slices/LoaderSlice";
+import {useGetTreeQuery} from "../../../../services/TreeService";
 
-export const GantTable = () => {
-    const tree: Tree = new Tree({
-        id: 1,
-        name: 'WBS #1',
-        date_start_plan: new Date(2024, 10, 20),
-        date_finish_plan: new Date(2024, 10, 20),
-        date_start_actual: new Date(2024, 10, 20),
-        date_finish_actual: new Date(2024, 10, 20),
-        status: 'Завершена',
-        project_id: 1,
-    });
+interface GantTableProps {
+    projectID: number
+}
 
-    for (let i = 0; i < 2; i++) {
-        tree.getRoot().addChildren(new TreeNode({
-            id: i + 2,
-            name: `Выполнение преддипломной ${i}`,
-            description: 'Написать НИРС',
-            date_start_plan: new Date(2024, 10, 20),
-            date_finish_plan: new Date(2024, 10, 21),
-            date_start_actual: new Date(2024, 10, 20),
-            date_finish_actual: new Date(2024, 10, 21),
-            status: "Завершена",
-            project_id: 1
-        }));
-    }
+export const GantTable: React.FC<GantTableProps> = ({ projectID }) => {
+    const dispatch = useAppDispatch();
+    const { isLoading: isLoadingTree, error: errorTree } = useGetTreeQuery(projectID);
 
-    const childNode = new TreeNode({
-        id: 7,
-        name: `Дочерний узелллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл`,
-        description: 'Написать НИРС',
-        date_start_plan: new Date(2024, 10, 20),
-        date_finish_plan: new Date(2024, 10, 21),
-        date_start_actual: new Date(2024, 10, 20),
-        date_finish_actual: new Date(2024, 10, 21),
-        status: "Не начата",
-        project_id: 1
-    });
+    dispatch(setLoader(isLoadingTree));
 
-    tree.getRoot().getChildrens()[0].addChildren(childNode);
-
+    const tree: Tree = useAppSelector(state => state.tree.tree);
     const stopNodes = useAppSelector(state => state.tree.stopNode);
 
     return (
@@ -57,7 +31,7 @@ export const GantTable = () => {
                 {
                     Tree.walkTree(tree.getRoot(), 0, (node: TreeNode, gap: number, isEmpty: boolean) => {
                         if (node.getValue().id !== -1) {
-                            return <GantRowActivity nodeData={node.getValue()} gap={gap} isEmpty={isEmpty}/>
+                            return <GantRow nodeData={node.getValue()} gap={gap} isEmpty={isEmpty}/>
                         } else {
                             return <></>
                         }
