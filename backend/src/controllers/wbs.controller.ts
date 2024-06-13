@@ -1,6 +1,17 @@
 import {Request, Response} from "express";
 
-import {createWBS} from "../services/wbs.service";
+import {createWBS, getWBS} from "../services/wbs.service";
+
+const get = async (req: Request, res: Response) => {
+    try {
+        const result = await getWBS(Number(req.params.id));
+
+        res.status(200).json({ result })
+    } catch (err) {
+        console.error("Ошибка при получении WBS: " + err.message);
+        res.status(400).json({message: err.message});
+    }
+}
 
 const create = async (req: Request, res: Response) => {
     try {
@@ -14,5 +25,6 @@ const create = async (req: Request, res: Response) => {
 }
 
 export {
+    get,
     create
 };

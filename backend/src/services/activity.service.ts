@@ -1,10 +1,15 @@
-import {ICreateActivity} from "../models/IActivity";
+import {IActivity, ICreateActivity} from "../models/IActivity";
 import {sql} from "../utils/sql.util";
 import {dbService} from "./db.service";
 
 const activity = {
+    getByProject: sql('../sql/activity/getByProject.sql'),
     createActivity: sql('../sql/activity/create.sql'),
 };
+
+const getActivities = async (projectID: number) => {
+    return await dbService.manyOrNone(activity.getByProject, [projectID]);
+}
 
 const createActivity = async (data: ICreateActivity) => {
     const dataList = [];
@@ -18,5 +23,6 @@ const createActivity = async (data: ICreateActivity) => {
 };
 
 export {
+    getActivities,
     createActivity
 };
