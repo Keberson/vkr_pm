@@ -2,6 +2,7 @@ import {sql} from "../utils/sql.util";
 import {dbService} from "./db.service";
 import {ICreateWBS, IWBS} from "../models/IWBS";
 import {IActivity} from "../models/IActivity";
+import {objectToDataList} from "../utils/objectToDataList.util";
 
 const PATH = "../sql/wbs"
 
@@ -20,14 +21,7 @@ const getWBS = async (projectID: number): Promise<IWBS[]> => {
 };
 
 const createWBS = async (data: ICreateWBS) => {
-    const dataList = [];
-    const dataJSON = JSON.parse(JSON.stringify(data));
-
-    for (const key in dataJSON) {
-        dataList.push(dataJSON[key]);
-    }
-
-    await dbService.none(wbs.createWBS, dataList);
+    await dbService.none(wbs.createWBS, objectToDataList(data));
 };
 
 export {
