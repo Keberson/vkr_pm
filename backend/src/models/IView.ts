@@ -1,6 +1,7 @@
 interface IView {
     id: number,
-    name: string
+    name: string,
+    project_id: number
 }
 
 export {

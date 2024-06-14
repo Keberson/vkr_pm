@@ -4,7 +4,7 @@ import {getTree} from "../services/tree.service";
 
 const get = async (req: Request, res: Response) => {
     try {
-        const result = await getTree(Number(req.params.id));
+        const result = await getTree(Number(req.params.id), Number(req.query.view));
 
         res.status(200).json({ result })
     } catch (err) {

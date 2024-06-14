@@ -1,7 +1,6 @@
 import {sql} from "../utils/sql.util";
 import {dbService} from "./db.service";
 import {IActivityDependency} from "../models/IActivityDependency";
-import {IActivity} from "../models/IActivity";
 
 const PATH = "../sql/activityDependency";
 
@@ -14,11 +13,6 @@ const getActivityDependencyByParentID = async (parentID: number): Promise<IActiv
     return await dbService.manyOrNone(activityDependency.getByParentID, [parentID]);
 }
 
-const getEmptyActivityByProjectDependency = async (parentID: number): Promise<IActivity[]> => {
-    return await dbService.manyOrNone(activityDependency.getEmptyActivityByProject, [parentID]);
-}
-
 export {
-    getActivityDependencyByParentID,
-    getEmptyActivityByProjectDependency
+    getActivityDependencyByParentID
 };

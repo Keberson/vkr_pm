@@ -1,19 +1,42 @@
 import {ITreeNode} from "../models/ITreeNode";
 import {IWBS} from "../models/IWBS";
 import {IActivity} from "../models/IActivity";
+
 import {getActivityIDByWBS, getEmptyActivityByProject} from "./link_activity_wbs.service";
 import {isInstanceOfIActivity} from "../utils/isInstanceOfIActivity.util";
 import {getActivityByID} from "./activity.service";
-import {getEmptyWBSByProject, getWBSDependencyByParentID} from "./wbs_dependency.service";
 import {getWBSByID} from "./wbs.service";
-import {getActivityDependencyByParentID, getEmptyActivityByProjectDependency} from "./activity_dependency.service";
-import {intersectionBy} from "lodash";
+import {getEmptyWBSByProject, getWBSChildsByParentID} from "./link_wbs.service";
 
-const getTree = async (projectID: number): Promise<ITreeNode> => {
-    const wbs: IWBS[] = await getEmptyWBSByProject(projectID);
-    const activitiesLink: IActivity[] = await getEmptyActivityByProject(projectID);
-    const activitiesDependency: IActivity[] = await getEmptyActivityByProjectDependency(projectID);
-    const activities = intersectionBy(activitiesLink, activitiesDependency, 'id');
+const _recursiveFillTree = async (node: ITreeNode) => {
+    for (const child of node.childs) {
+        if (!isInstanceOfIActivity(child.value)) {
+            const activitiesID = await getActivityIDByWBS(child.value.id);
+
+            for (const id of activitiesID) {
+                child.childs.push({
+                    value: await getActivityByID(id),
+                    childs: []
+                });
+            }
+
+            const wbs = await getWBSChildsByParentID(child.value.id);
+
+            for (const dependency of wbs) {
+                child.childs.push({
+                    value: await getWBSByID(dependency.id_child),
+                    childs: []
+                });
+            }
+        }
+
+        await _recursiveFillTree(child);
+    }
+};
+
+const getTree = async (projectID: number, view: number): Promise<ITreeNode> => {
+    let wbs: IWBS[] = [];
+    let activities: IActivity[] = [];
     const root: ITreeNode = {
         value: {
             id: -1,
@@ -28,6 +51,11 @@ const getTree = async (projectID: number): Promise<ITreeNode> => {
         childs: []
     };
 
+    if (view !== -1) {
+        wbs = await getEmptyWBSByProject(projectID);
+        activities = await getEmptyActivityByProject(projectID);
+    }
+
     for (const item of [...wbs, ...activities]) {
         root.childs.push({
             value: item,
@@ -35,42 +63,7 @@ const getTree = async (projectID: number): Promise<ITreeNode> => {
         });
     }
 
-    const recursiveFillTree = async (node: ITreeNode) => {
-        for (const child of node.childs) {
-            if (!isInstanceOfIActivity(child.value)) {
-                const activitiesID = await getActivityIDByWBS(child.value.id);
-
-                for (const id of activitiesID) {
-                    child.childs.push({
-                        value: await getActivityByID(id),
-                        childs: []
-                    });
-                }
-
-                const wbs = await getWBSDependencyByParentID(child.value.id);
-
-                for (const dependency of wbs) {
-                    child.childs.push({
-                        value: await getWBSByID(dependency.id_wbs_child),
-                        childs: []
-                    });
-                }
-            } else {
-                const activities = await getActivityDependencyByParentID(child.value.id);
-
-                for (const dependency of activities) {
-                    child.childs.push({
-                        value: await getActivityByID(dependency.id_successor),
-                        childs: []
-                    });
-                }
-            }
-
-            await recursiveFillTree(child);
-        }
-    };
-
-    await recursiveFillTree(root)
+    await _recursiveFillTree(root)
 
     return root;
 }
