@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 import {HideIcon} from "../../../../assets/HideIcon";
 import {ItemIcon} from "../../../../assets/ItemIcon";
@@ -21,11 +21,13 @@ interface GantRowActivityProps {
 }
 
 export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap }) => {
+    const [isHover, setIsHover] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const isShowed = useAppSelector(state => state.activityEditor.isShow);
     const stopNodes = useAppSelector(state => state.tree.stopNode);
     const isHidedList = nodeArrayFilter(stopNodes, nodeData, false).length !== 0;
     const statusColor = nodeData.status === "Не начата" ? "bg-red" : nodeData.status === "Выполняется" ? "bg-blue" : "bg-green";
+    const rowStyle = isHover ? "bg-block-background-secondary" : "bg-background";
 
     const onClickRow = () =>  {
         if (isInstanceOfIActivity(nodeData)) {
@@ -46,8 +48,11 @@ export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap
     }
 
     return (
-        <tr key={`${nodeData.name} ${nodeData.id}`} className="hover:bg-block-background-secondary">
-            <td className="sticky left-0 bg-background">
+        <tr key={`${nodeData.name} ${nodeData.id}`} className="hover:bg-block-background-secondary"
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+        >
+            <td className={`sticky left-0 ${rowStyle}`}>
                 <div className="flex justify-center items-center">
                     <input type="checkbox" />
                 </div>
@@ -77,7 +82,7 @@ export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap
             <td className="text-center">{getFormatDate(nodeData.date_finish_plan)}</td>
             <td className="text-center">{getFormatDate(nodeData.date_start_actual)}</td>
             <td className="text-center">{getFormatDate(nodeData.date_finish_actual)}</td>
-            <td className="sticky right-0 bg-background">
+            <td className={`sticky right-0 bg-background ${rowStyle}`}>
                 <div className="flex justify-center items-center gap-3">
                     {isInstanceOfIActivity(nodeData) ?
                         <button onClick={onClickRow}>

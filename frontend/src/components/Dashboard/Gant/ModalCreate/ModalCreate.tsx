@@ -12,6 +12,7 @@ import {useCreateWBSMutation} from "../../../../services/WBSService";
 
 interface ModalCreateProps {
     projectID: number,
+    view: number
 }
 
 type Inputs = {
@@ -25,7 +26,7 @@ type Inputs = {
     description: string
 }
 
-export const ModalCreate: React.FC<ModalCreateProps> = ({ projectID }) => {
+export const ModalCreate: React.FC<ModalCreateProps> = ({ projectID, view }) => {
     const dispatch = useAppDispatch();
     const [createActivity] = useCreateActivityMutation();
     const [createWBS] = useCreateWBSMutation();
@@ -46,7 +47,7 @@ export const ModalCreate: React.FC<ModalCreateProps> = ({ projectID }) => {
         let toastType: "correct" | "error" = "correct";
         let res;
 
-        dispatch(setLoader(true));
+        dispatch(setLoader({show: true, from: "ModalCreate"}));
 
 
         if (type === "activity") {
@@ -61,7 +62,7 @@ export const ModalCreate: React.FC<ModalCreateProps> = ({ projectID }) => {
             }
         } else {
             const {description, ...rawDataWBS } = rawDataActivity;
-            res = await createWBS({ ...rawDataWBS, project_id: projectID });
+            res = await createWBS({ ...rawDataWBS, project_id: projectID, id_view: view });
 
             if ('error' in res) {
                 isError = true;
@@ -74,7 +75,7 @@ export const ModalCreate: React.FC<ModalCreateProps> = ({ projectID }) => {
 
         dispatch(setToastMessage(message));
         dispatch(setToast(toastType));
-        dispatch(setLoader(false));
+        dispatch(setLoader({show: false, from: "ModalCreate"}));
 
         if (!isError) {
             dispatch(setModal(false));

@@ -28,7 +28,8 @@ const initialState: treeState = {
         date_start_actual: '',
         date_finish_actual: '',
         status: "Не начата",
-        project_id: -1
+        project_id: -1,
+        id_view: -1
     }),
     activities: [],
     wbs: [],
@@ -83,7 +84,6 @@ const treeSlice = createSlice({
                 };
 
                 walk(state.tree.getRoot(), action.payload.result);
-                console.log(state.tree)
             })
     }
 })

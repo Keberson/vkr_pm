@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
-import {IGetTreeRes, IGetWBSRes} from "../types/Responses";
+import {IGetTreeRes} from "../types/Responses";
+import {IGetTreeReq} from "../types/Requests";
 
 export const treeApi = createApi({
     reducerPath: 'treeApi',
@@ -9,9 +10,9 @@ export const treeApi = createApi({
     }),
     tagTypes: ["POST"],
     endpoints: (build) => ({
-        getTree: build.query<IGetTreeRes, number>({
-            query: (projectID) => ({
-                url: `/${projectID}`
+        getTree: build.query<IGetTreeRes, IGetTreeReq>({
+            query: ({project, view}) => ({
+                url: `/${project}?view=${view}`
             }),
             providesTags: ["POST"]
         })

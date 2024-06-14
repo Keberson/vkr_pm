@@ -9,14 +9,15 @@ import {setLoader} from "../../../../store/slices/LoaderSlice";
 import {useGetTreeQuery} from "../../../../services/TreeService";
 
 interface GantTableProps {
-    projectID: number
+    projectID: number,
+    view: number
 }
 
-export const GantTable: React.FC<GantTableProps> = ({ projectID }) => {
+export const GantTable: React.FC<GantTableProps> = ({ projectID, view }) => {
     const dispatch = useAppDispatch();
-    const { isLoading: isLoadingTree, error: errorTree } = useGetTreeQuery(projectID);
+    const { isLoading: isLoadingTree, error: errorTree } = useGetTreeQuery({project: projectID, view: view});
 
-    dispatch(setLoader(isLoadingTree));
+    dispatch(setLoader({show: isLoadingTree, from: "GantTable"}));
 
     const tree: Tree = useAppSelector(state => state.tree.tree);
     const stopNodes = useAppSelector(state => state.tree.stopNode);

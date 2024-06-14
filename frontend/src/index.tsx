@@ -11,7 +11,6 @@ import {store} from './store/store'
 import {Dashboard} from "./pages/Dashboard/Dashboard";
 import {Login} from "./pages/Login/Login";
 import {PageNotFound} from "./pages/PageNotFound/PageNotFound";
-import {Project} from "./pages/Project/Project";
 import {GantFull} from "./components/Dashboard/Gant/GantFull/GantFull";
 import {Wrappers} from "./components/Wrappers/Wrappers";
 
@@ -28,8 +27,7 @@ root.render(
                         <Route path="/login" element={<Login />} />
                         <Route path="/dashboard" >
                             <Route index element={<Dashboard />} />
-                            <Route path="gant/:id" element={<GantFull />} />
-                            <Route path=":id" element={<Project />} />
+                            <Route path=":id" element={<GantFull />} />
                         </Route>
                         <Route path="*" element={<PageNotFound />} />
                     </Route>

@@ -10,20 +10,41 @@ import {ModalWrapper} from "../../../ModalWrapper/ModalWrapper";
 import {GantTable} from "../GantTable/GantTable";
 import {ModalCreate} from "../ModalCreate/ModalCreate";
 import {setModal} from "../../../../store/slices/ModalProjectSlice";
+import {useGetViewQuery} from "../../../../services/ViewService";
+import {useForm} from "react-hook-form";
+import {setLoader} from "../../../../store/slices/LoaderSlice";
+
+type ViewSelect = {
+    view: number
+}
 
 export const GantFull = () => {
     const params = useParams();
     const projectID: number = Number(params.id);
+
     const dispatch = useAppDispatch();
+    const {register, watch} = useForm<ViewSelect>({
+        defaultValues: {
+            view: -1
+        }
+    });
 
     const isShowActivityEditor = useAppSelector(state => state.activityEditor.isShow);
+    const isShowModal = useAppSelector(state => state.modalProject.show);
+    const views = useAppSelector(state => state.view.views);
+    const isHaveSelected = false;
+
     const gridStyle = isShowActivityEditor ? "grid-rows-[35px_1fr_200px]" : "grid-rows-[35px_1fr]";
     const heightBlock = isShowActivityEditor ? "calc(100vh - 35px - 200px)" : "calc(100vh - 35px)";
+    const groupStyle = isHaveSelected ? "text-text border-text-secondary" : "text-text-muted border-gray cursor-default";
 
-    const isHaveSync = false;
-    const syncStyle = isHaveSync ? "text-text border-text-secondary" : "text-text-muted border-gray cursor-default";
+    const { isLoading, error } = useGetViewQuery(projectID);
 
-    const isShowModal = useAppSelector(state => state.modalProject.show);
+    dispatch(setLoader({show: isLoading, from: "GantFull"}));
+
+    const view: number = watch("view");
+
+    console.log(view);
 
     const onCreate = () => dispatch(setModal(true));
 
@@ -31,7 +52,7 @@ export const GantFull = () => {
         <>
             {isShowModal &&
                 <ModalWrapper>
-                    <ModalCreate projectID={projectID}/>
+                    <ModalCreate projectID={projectID} view={view} />
                 </ModalWrapper>
             }
             <ScrollSync>
@@ -40,19 +61,28 @@ export const GantFull = () => {
                         <button className="p-1 text-sm text-text rounded-lg border-text-secondary border-2" onClick={onCreate}>
                             Добавить
                         </button>
-                        <button className={`p-1 text-sm rounded-lg border-2 ${syncStyle}`} onClick={() => {}}>
+                        <button className={`p-1 text-sm rounded-lg border-2 ${groupStyle}`} onClick={() => {}}>
                             Сгруппировать
                         </button>
-                        <select className="p-1 text-sm text-text rounded-lg border-text-secondary border-2 bg-block-background-secondary outline-none ">
-                            <option value="1">Вид "Основной"</option>
-                            <option value="2">Вид "Вспомогательный"</option>
-                        </select>
+                        <form>
+                            <select
+                                className="p-1 text-sm text-text rounded-lg border-text-secondary border-2 bg-block-background-secondary outline-none"
+                                {...register("view")}
+                            >
+                                <option value="-1">Вид "Все работы"</option>
+                                {
+                                    views.map((view) => (
+                                        <option value={view.id}>Вид "{view.name}"</option>
+                                    ))
+                                }
+                            </select>
+                        </form>
                     </div>
                     <div className={`grid grid-cols-2`} style={{height: heightBlock}}>
                         <ScrollSyncPane>
                             <>
                                 <div className="overflow-auto border-r-2 border-r-gray h-full">
-                                    <GantTable projectID={projectID} />
+                                    <GantTable projectID={projectID} view={view} />
                                 </div>
                                 <div>
 
