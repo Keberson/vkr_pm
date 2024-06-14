@@ -9,7 +9,8 @@ interface ICreateWBS {
     date_start_actual: Date,
     date_finish_actual: Date,
     status: 'Не начата' | 'Выполняется' | 'Завершено',
-    project_id: number
+    project_id: number,
+    id_view: number
 }
 
 export {

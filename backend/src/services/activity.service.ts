@@ -12,7 +12,7 @@ const getActivityByID = async (activityID: number): Promise<IActivity> => {
     return await dbService.oneOrNone(activity.getByID, [activityID]);
 }
 
-const getActivities = async (projectID: number): Promise<IActivity[]> => {
+const getActivitiesByProject = async (projectID: number): Promise<IActivity[]> => {
     return await dbService.manyOrNone(activity.getByProject, [projectID]);
 }
 
@@ -29,6 +29,6 @@ const createActivity = async (data: ICreateActivity) => {
 
 export {
     getActivityByID,
-    getActivities,
+    getActivitiesByProject,
     createActivity
 };

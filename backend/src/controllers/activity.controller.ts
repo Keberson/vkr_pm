@@ -1,10 +1,10 @@
 import {Request, Response} from "express";
 
-import {createActivity, getActivities} from "../services/activity.service";
+import {createActivity, getActivitiesByProject} from "../services/activity.service";
 
 const get = async (req: Request, res: Response) => {
     try {
-        const result = await getActivities(Number(req.params.id));
+        const result = await getActivitiesByProject(Number(req.params.id));
 
         res.status(200).json({ result })
     } catch (err) {

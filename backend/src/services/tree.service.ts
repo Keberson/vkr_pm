@@ -4,7 +4,7 @@ import {IActivity} from "../models/IActivity";
 
 import {getActivityIDByWBS, getEmptyActivityByProject} from "./link_activity_wbs.service";
 import {isInstanceOfIActivity} from "../utils/isInstanceOfIActivity.util";
-import {getActivityByID} from "./activity.service";
+import {getActivitiesByProject, getActivityByID} from "./activity.service";
 import {getWBSByID} from "./wbs.service";
 import {getEmptyWBSByProject, getWBSChildsByParentID} from "./link_wbs.service";
 
@@ -46,14 +46,17 @@ const getTree = async (projectID: number, view: number): Promise<ITreeNode> => {
             date_start_actual: new Date(),
             date_finish_actual: new Date(),
             status: 'Не начата',
-            project_id: projectID
+            project_id: projectID,
+            id_view: -1
         },
         childs: []
     };
 
     if (view !== -1) {
-        wbs = await getEmptyWBSByProject(projectID);
+        wbs = await getEmptyWBSByProject(projectID, view);
         activities = await getEmptyActivityByProject(projectID);
+    } else {
+        activities = await getActivitiesByProject(projectID);
     }
 
     for (const item of [...wbs, ...activities]) {
@@ -63,7 +66,7 @@ const getTree = async (projectID: number, view: number): Promise<ITreeNode> => {
         });
     }
 
-    await _recursiveFillTree(root)
+    await _recursiveFillTree(root);
 
     return root;
 }
