@@ -44,14 +44,12 @@ export const GantFull = () => {
 
     const view: number = watch("view");
 
-    console.log(view);
-
     const onCreate = () => dispatch(setModal(true));
 
     return (
         <>
             {isShowModal &&
-                <ModalWrapper>
+                <ModalWrapper z={20}>
                     <ModalCreate projectID={projectID} view={view} />
                 </ModalWrapper>
             }

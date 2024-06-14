@@ -1,6 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 
 import {IGetViewRes} from "../types/Responses";
+import {ICreateView} from "../types/IView";
 
 export const viewApi = createApi({
     reducerPath: 'viewApi',
@@ -15,10 +16,19 @@ export const viewApi = createApi({
                 url: `/${projectID}`
             }),
             providesTags: ["POST"]
+        }),
+        createView: build.mutation<void, ICreateView>({
+            query: (body) => ({
+                url: '/',
+                method: "POST",
+                body: body
+            }),
+            invalidatesTags: ["POST"]
         })
     })
 });
 
 export const {
-    useGetViewQuery
+    useGetViewQuery,
+    useCreateViewMutation
 } = viewApi;

@@ -13,6 +13,7 @@ import {wbsApi} from "../services/WBSService";
 import {treeApi} from "../services/TreeService";
 import viewSlice from "./slices/ViewSlice";
 import {viewApi} from "../services/ViewService";
+import createSlice from "./slices/CreateSlice";
 
 export const store = configureStore({
     reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
         loader: loaderSlice,
         toast: toastSlice,
         view: viewSlice,
+        create: createSlice,
         [activityApi.reducerPath]: activityApi.reducer,
         [wbsApi.reducerPath]: wbsApi.reducer,
         [treeApi.reducerPath]: treeApi.reducer,
