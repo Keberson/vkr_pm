@@ -24,7 +24,7 @@ export const GantTable: React.FC<GantTableProps> = ({ projectID }) => {
     return (
         <div className="flex">
             <table className="w-[1000px] table-fixed">
-                <thead className="sticky top-0 text-text bg-background-secondary">
+                <thead className="sticky top-0 text-text bg-background-secondary z-10">
                     <GantWBSTableHead />
                 </thead>
                 <tbody className="text-text text-sm">
