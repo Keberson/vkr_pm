@@ -1,6 +1,7 @@
 import {IActivity, ICreateActivity} from "../models/IActivity";
 import {sql} from "../utils/sql.util";
 import {dbService} from "./db.service";
+import {objectToDataList} from "../utils/objectToDataList.util";
 
 const activity = {
     getByID: sql('../sql/activity/getByID.sql'),
@@ -17,14 +18,7 @@ const getActivitiesByProject = async (projectID: number): Promise<IActivity[]> =
 }
 
 const createActivity = async (data: ICreateActivity) => {
-    const dataList = [];
-    const dataJSON = JSON.parse(JSON.stringify(data));
-
-    for (const key in dataJSON) {
-        dataList.push(dataJSON[key]);
-    }
-
-    await dbService.none(activity.createActivity, dataList);
+    await dbService.none(activity.createActivity, objectToDataList(data));
 };
 
 export {
