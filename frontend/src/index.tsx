@@ -13,6 +13,7 @@ import {Login} from "./pages/Login/Login";
 import {PageNotFound} from "./pages/PageNotFound/PageNotFound";
 import {GantFull} from "./components/Dashboard/Gant/GantFull/GantFull";
 import {Wrappers} from "./components/Wrappers/Wrappers";
+import {MainPage} from "./pages/MainPage/MainPage";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -24,6 +25,7 @@ root.render(
             <BrowserRouter>
                 <Routes>
                     <Route element={<Wrappers />}>
+                        <Route path="/" element={<MainPage />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/dashboard" >
                             <Route index element={<Dashboard />} />
