@@ -15,6 +15,7 @@ const wbs = {
     getByID: sql(`${PATH}/getByID.sql`),
     getByProject: sql(`${PATH}/getByProject.sql`),
     createWBS: sql(`${PATH}/create.sql`),
+    deleteWBS: sql(`${PATH}/deleteWBS.sql`)
 };
 
 const getWBSByID = async (id: number): Promise<IWBS> => {
@@ -36,9 +37,14 @@ const createWBS = async (data: ICreateWBSReq) => {
     await dbService.none(wbs.createWBS, objectToDataList(data.wbs));
 };
 
+const deleteWBS = async (id: number) => {
+    await dbService.none(wbs.deleteWBS, [id]);
+};
+
 export {
     getWBSByID,
     getWBS,
     getWBSChilds,
-    createWBS
+    createWBS,
+    deleteWBS
 };

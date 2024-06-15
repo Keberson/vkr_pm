@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 
-import {createWBS, getWBS, getWBSChilds} from "../services/wbs.service";
+import {createWBS, getWBS, getWBSChilds, deleteWBS} from "../services/wbs.service";
 
 const get = async (req: Request, res: Response) => {
     try {
@@ -31,7 +31,19 @@ const create = async (req: Request, res: Response) => {
     }
 }
 
+const delete_ = async (req: Request, res: Response) => {
+    try {
+        await deleteWBS(Number(req.params.id));
+
+        res.status(200).json({});
+    } catch (err) {
+        console.error("Ошибка при удалении WBS: " + err.message);
+        res.status(400).json({message: err.message});
+    }
+}
+
 export {
     get,
-    create
+    create,
+    delete_
 };

@@ -1,8 +1,10 @@
 import {Router} from "express";
-import {create, get} from "../controllers/activity.controller";
+import {create, delete_, get} from "../controllers/activity.controller";
 
 const router = Router();
 
 router.get('/:id', get);
-router.post('/', create);
+router.post('', create);
+router.delete('/:id', delete_);
+
 export default router;
