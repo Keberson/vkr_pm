@@ -2,17 +2,20 @@ import React from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 
 import {TStatus} from "../../../../types/TStatus";
+
+import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {useAppDispatch} from "../../../../hooks/useAppDispatch";
-import {useCreateWBSMutation} from "../../../../services/WBSService";
+import {useCreateWBSMutation} from "../../../../services/APIService";
+
 import {setLoader} from "../../../../store/slices/LoaderSlice";
 import {setToast, setToastMessage} from "../../../../store/slices/ToastSlice";
 import {setModal} from "../../../../store/slices/ModalProjectSlice";
-import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {setIsSubmit} from "../../../../store/slices/CreateSlice";
 
 interface CreateWBSProps {
     project: number,
-    view: number
+    view: number,
+    childs?: string[]
 }
 
 type Inputs = {
@@ -24,12 +27,11 @@ type Inputs = {
     status: TStatus,
 }
 
-export const CreateWBS: React.FC<CreateWBSProps> = ({ project, view }) => {
+export const CreateWBS: React.FC<CreateWBSProps> = ({ project, view, childs = [] }) => {
     const dispatch = useAppDispatch();
     const [createWBS] = useCreateWBSMutation();
     const isSubmit = useAppSelector(state => state.create.isSubmit);
     const type = useAppSelector(state => state.create.type);
-
     const {
         register,
         handleSubmit
@@ -43,7 +45,14 @@ export const CreateWBS: React.FC<CreateWBSProps> = ({ project, view }) => {
 
         dispatch(setLoader({show: true, from: "ModalCreate"}));
 
-        res = await createWBS({ ...data, project_id: project, id_view: view });
+        res = await createWBS({
+            wbs: {
+                ...data,
+                project_id: project,
+                id_view: view
+            },
+            childs: childs
+        });
 
         if ('error' in res) {
             isError = true;

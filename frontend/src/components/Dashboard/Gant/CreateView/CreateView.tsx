@@ -7,7 +7,7 @@ import {setModal} from "../../../../store/slices/ModalProjectSlice";
 import {setIsSubmit} from "../../../../store/slices/CreateSlice";
 import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {useAppDispatch} from "../../../../hooks/useAppDispatch";
-import {useCreateViewMutation} from "../../../../services/ViewService";
+import {useCreateViewMutation} from "../../../../services/APIService";
 
 interface CreateViewProps {
     project: number

@@ -19,9 +19,14 @@ interface IGetViewRes {
     result: IView[]
 }
 
+interface IGetWBSChildsRes {
+    result: string[]
+}
+
 export type {
     IGetActivitiesRes,
     IGetWBSRes,
     IGetTreeRes,
-    IGetViewRes
+    IGetViewRes,
+    IGetWBSChildsRes
 };

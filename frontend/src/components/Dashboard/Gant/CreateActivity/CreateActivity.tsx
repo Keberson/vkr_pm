@@ -6,7 +6,7 @@ import {setLoader} from "../../../../store/slices/LoaderSlice";
 import {setToast, setToastMessage} from "../../../../store/slices/ToastSlice";
 import {setModal} from "../../../../store/slices/ModalProjectSlice";
 import {useAppDispatch} from "../../../../hooks/useAppDispatch";
-import {useCreateActivityMutation} from "../../../../services/ActivityService";
+import {useCreateActivityMutation} from "../../../../services/APIService";
 import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {setIsSubmit} from "../../../../store/slices/CreateSlice";
 

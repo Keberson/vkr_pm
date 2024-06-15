@@ -1,12 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 
-import {GantWBSTableHead} from "../GantWBSTableHead/GantWBSTableHead";
 import {Tree, TreeNode} from "../../../../types/Tree";
-import {GantRow} from "../GantRow/GantRow";
+
 import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {useAppDispatch} from "../../../../hooks/useAppDispatch";
+import {useGetTreeQuery} from "../../../../services/APIService";
+
 import {setLoader} from "../../../../store/slices/LoaderSlice";
-import {useGetTreeQuery} from "../../../../services/TreeService";
+
+import {GantWBSTableHead} from "../GantWBSTableHead/GantWBSTableHead";
+import {GantRow} from "../GantRow/GantRow";
+
 
 interface GantTableProps {
     projectID: number,
@@ -15,9 +19,11 @@ interface GantTableProps {
 
 export const GantTable: React.FC<GantTableProps> = ({ projectID, view }) => {
     const dispatch = useAppDispatch();
-    const { isLoading: isLoadingTree, error: errorTree } = useGetTreeQuery({project: projectID, view: view});
+    const { isLoading: isLoadingTree } = useGetTreeQuery({project: projectID, view: view});
 
-    dispatch(setLoader({show: isLoadingTree, from: "GantTable"}));
+    useEffect(() => {
+        dispatch(setLoader({show: isLoadingTree, from: "GantTable"}));
+    }, [dispatch, isLoadingTree, view]);
 
     const tree: Tree = useAppSelector(state => state.tree.tree);
     const stopNodes = useAppSelector(state => state.tree.stopNode);
@@ -32,7 +38,7 @@ export const GantTable: React.FC<GantTableProps> = ({ projectID, view }) => {
                 {
                     Tree.walkTree(tree.getRoot(), 0, (node: TreeNode, gap: number, isEmpty: boolean) => {
                         if (node.getValue().id !== -1) {
-                            return <GantRow nodeData={node.getValue()} gap={gap} isEmpty={isEmpty}/>
+                            return <GantRow nodeData={node.getValue()} gap={gap - 1} isEmpty={isEmpty} view={view}/>
                         } else {
                             return <></>
                         }

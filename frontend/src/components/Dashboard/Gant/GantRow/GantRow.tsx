@@ -2,25 +2,30 @@ import React, {useState} from "react";
 
 import {HideIcon} from "../../../../assets/HideIcon";
 import {ItemIcon} from "../../../../assets/ItemIcon";
+import {WBSIcon} from "../../../../assets/WBSIcon";
+import {ActivityIcon} from "../../../../assets/ActivityIcon";
+import {ExpandIcon} from "../../../../assets/ExpandIcon";
+import {EditIcon} from "../../../../assets/EditIcon";
+import {DeleteIcon} from "../../../../assets/DeleteIcon";
+
 import getFormatDate from "../../../../utils/getFormatDate";
-import {NodeT} from "../../../../types/Tree";
+import {NodeT, Tree} from "../../../../types/Tree";
 import {setActivity, toggleActivityEditor} from "../../../../store/slices/ActivityEditorSlice";
 import {useAppDispatch} from "../../../../hooks/useAppDispatch";
 import isInstanceOfIActivity from "../../../../utils/isInstanceOfIActivity";
 import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {addStopNode, deleteStopNode} from "../../../../store/slices/TreeSlice";
 import {nodeArrayFilter} from "../../../../utils/nodeArrayFilter";
-import {ExpandIcon} from "../../../../assets/ExpandIcon";
-import {EditIcon} from "../../../../assets/EditIcon";
-import {DeleteIcon} from "../../../../assets/DeleteIcon";
+import {addToGroup, removeFromGroup} from "../../../../store/slices/GroupSlice";
 
 interface GantRowActivityProps {
     nodeData: NodeT,
     isEmpty: boolean,
     gap: number,
+    view: number
 }
 
-export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap }) => {
+export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap, view }) => {
     const [isHover, setIsHover] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const isShowed = useAppSelector(state => state.activityEditor.isShow);
@@ -28,6 +33,11 @@ export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap
     const isHidedList = nodeArrayFilter(stopNodes, nodeData, false).length !== 0;
     const statusColor = nodeData.status === "Не начата" ? "bg-red" : nodeData.status === "Выполняется" ? "bg-blue" : "bg-green";
     const rowStyle = isHover ? "bg-block-background-secondary" : "bg-background";
+    const type: "activity" | "wbs" = isInstanceOfIActivity(nodeData) ? "activity" : "wbs";
+    const checkboxID = `${type}-${nodeData.id}`;
+    const tree = useAppSelector(state => state.tree.tree);
+    const childCheckbox: string[] = type === "wbs" ? Tree.walkTreeGetChilds(tree.getRoot(), nodeData.id, false) : [];
+    const isChecked = useAppSelector(state => state.group.toGroup).includes(checkboxID);
 
     const onClickRow = () =>  {
         if (isInstanceOfIActivity(nodeData)) {
@@ -47,6 +57,24 @@ export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap
         }
     }
 
+    const onChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const checkboxes = [...childCheckbox, checkboxID];
+        let callback;
+
+        if (type === "wbs") {
+        }
+
+        if (e.target.checked) {
+            callback = addToGroup;
+        } else {
+            callback = removeFromGroup;
+        }
+
+        for (const checkbox of checkboxes) {
+            dispatch(callback(checkbox));
+        }
+    }
+
     return (
         <tr key={`${nodeData.name} ${nodeData.id}`} className="hover:bg-block-background-secondary"
             onMouseEnter={() => setIsHover(true)}
@@ -54,13 +82,17 @@ export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap
         >
             <td className={`sticky left-0 ${rowStyle}`}>
                 <div className="flex justify-center items-center">
-                    <input type="checkbox" />
+                    <input type="checkbox" key={checkboxID} onChange={onChangeCheckbox} checked={isChecked} />
                 </div>
+            </td>
+            <td>
+                {type === "wbs" && <WBSIcon size={20} />}
+                {type === "activity" && <ActivityIcon size={20} />}
             </td>
             <td className="whitespace-nowrap overflow-hidden overflow-ellipsis">
                 <button
-                    className={`inline-flex items-center justify-start gap-x-[10px] px-3 py-2 outline-none`}
-                    style={{marginLeft: `${gap * 8}px`}}
+                    className={`inline-flex items-center justify-start gap-x-[10px] pe-3 py-2 outline-none`}
+                    style={{marginLeft: `${gap * 10}px`}}
                     onClick={onClickHideIcon}
                 >
                     {
@@ -91,9 +123,6 @@ export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap
                         :
                         <div className="w-[20px] h-[20px]"></div>
                     }
-                    <button>
-                        <DeleteIcon />
-                    </button>
                 </div>
             </td>
         </tr>

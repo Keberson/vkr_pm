@@ -6,14 +6,12 @@ import wbsEditorSlice from "./slices/WBSEditorSlice"
 import treeSlice from "./slices/TreeSlice"
 import modalProjectSlice from "./slices/ModalProjectSlice";
 import loaderSlice from "./slices/LoaderSlice";
-
-import {activityApi} from "../services/ActivityService";
 import toastSlice from "./slices/ToastSlice";
-import {wbsApi} from "../services/WBSService";
-import {treeApi} from "../services/TreeService";
 import viewSlice from "./slices/ViewSlice";
-import {viewApi} from "../services/ViewService";
 import createSlice from "./slices/CreateSlice";
+import groupSlice from "./slices/GroupSlice";
+
+import {api} from "../services/APIService";
 
 export const store = configureStore({
     reducer: {
@@ -25,17 +23,12 @@ export const store = configureStore({
         toast: toastSlice,
         view: viewSlice,
         create: createSlice,
-        [activityApi.reducerPath]: activityApi.reducer,
-        [wbsApi.reducerPath]: wbsApi.reducer,
-        [treeApi.reducerPath]: treeApi.reducer,
-        [viewApi.reducerPath]: viewApi.reducer
+        group: groupSlice,
+        [api.reducerPath]: api.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
-            .concat(activityApi.middleware)
-            .concat(wbsApi.middleware)
-            .concat(treeApi.middleware)
-            .concat(viewApi.middleware)
+            .concat(api.middleware)
 });
 
 setupListeners(store.dispatch);

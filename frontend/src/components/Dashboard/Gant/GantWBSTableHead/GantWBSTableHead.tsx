@@ -36,6 +36,7 @@ export const GantWBSTableHead = () => {
     return (
         <tr className="text-sm">
             <th scope="col" className="w-[30px] sticky left-0 bg-background-light z-10"></th>
+            <th scope="col" className="w-[30px]"></th>
             <th scope="col" className="w-[500px]">
                 <div className="flex gap-5 w-full items-center justify-center relative">
                     <span>Заголовок</span>
@@ -100,7 +101,7 @@ export const GantWBSTableHead = () => {
                     <span>(факт)</span>
                 </div>
             </th>
-            <th scope="col" className="w-[80px] sticky right-0 bg-background-light z-10"></th>
+            <th scope="col" className="w-[45px] sticky right-0 bg-background-light z-10"></th>
         </tr>
     )
 };

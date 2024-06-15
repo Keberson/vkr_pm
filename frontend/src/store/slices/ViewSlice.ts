@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 
 import {IView} from "../../types/IView";
-import {viewApi} from "../../services/ViewService";
+
+import {api} from "../../services/APIService";
 
 interface ViewState {
     views: IView[]
@@ -20,7 +20,7 @@ const ViewSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addMatcher(viewApi.endpoints.getView.matchFulfilled, (state, action) => {
+            .addMatcher(api.endpoints.getView.matchFulfilled, (state, action) => {
                 state.views = action.payload.result;
             })
     }

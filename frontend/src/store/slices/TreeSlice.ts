@@ -2,14 +2,14 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 import {ITree, NodeT, Tree, TreeNode} from "../../types/Tree";
-import {nodeArrayFilter} from "../../utils/nodeArrayFilter";
 import {TStatus} from "../../types/TStatus";
 import {IFilterProject} from "../../types/IFilterProject";
-import {activityApi} from "../../services/ActivityService";
 import {IActivity} from "../../types/IActivity";
 import {IWBS} from "../../types/IWBS";
-import {wbsApi} from "../../services/WBSService";
-import {treeApi} from "../../services/TreeService";
+
+import {nodeArrayFilter} from "../../utils/nodeArrayFilter";
+
+import {api} from "../../services/APIService";
 
 interface treeState {
     tree: Tree,
@@ -65,13 +65,15 @@ const treeSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addMatcher(activityApi.endpoints.getActivities.matchFulfilled, (state, action) => {
+            .addMatcher(api.endpoints.getActivities.matchFulfilled, (state, action) => {
                 state.activities = action.payload.result;
             })
-            .addMatcher(wbsApi.endpoints.getWBS.matchFulfilled, (state, action) => {
+            .addMatcher(api.endpoints.getWBS.matchFulfilled, (state, action) => {
                 state.wbs = action.payload.result;
             })
-            .addMatcher(treeApi.endpoints.getTree.matchFulfilled, (state, action) => {
+            .addMatcher(api.endpoints.getTree.matchFulfilled, (state, action) => {
+                state.tree.getRoot().removeAllChildrens();
+
                 const walk = (node: TreeNode, nodeGot: ITree) => {
                     node.setValue(nodeGot.value);
 
