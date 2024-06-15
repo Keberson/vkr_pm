@@ -1,14 +1,21 @@
 import {Request, Response} from "express";
 
-import {createWBS, getWBS} from "../services/wbs.service";
+import {createWBS, getWBS, getWBSChilds} from "../services/wbs.service";
 
 const get = async (req: Request, res: Response) => {
     try {
-        const result = await getWBS(Number(req.params.id));
+        let result = [];
+
+        if (req.query.project) {
+            result = await getWBS(Number(req.query.project));
+        } else if (req.query.wbs) {
+            result = await getWBSChilds(Number(req.query.wbs));
+        }
 
         res.status(200).json({ result })
     } catch (err) {
         console.error("Ошибка при получении WBS: " + err.message);
+        console.error(err);
         res.status(400).json({message: err.message});
     }
 }

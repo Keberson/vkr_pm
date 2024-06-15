@@ -3,6 +3,11 @@ import {dbService} from "./db.service";
 import {ICreateWBS, IWBS} from "../models/IWBS";
 import {IActivity} from "../models/IActivity";
 import {objectToDataList} from "../utils/objectToDataList.util";
+import {ICreateWBSReq} from "../models/Requests";
+import {isInstanceOfIActivity} from "../utils/isInstanceOfIActivity.util";
+import {createLinkActivityWBS, getActivityIDByWBS, getCountWBSLinks, getWBSbyActivity} from "./link_activity_wbs.service";
+import {createLinkWBS, getWBSChildsByParentID} from "./link_wbs.service";
+import db from "../configs/db.config";
 
 const PATH = "../sql/wbs"
 
@@ -20,12 +25,20 @@ const getWBS = async (projectID: number): Promise<IWBS[]> => {
     return await dbService.manyOrNone(wbs.getByProject, [projectID]);
 };
 
-const createWBS = async (data: ICreateWBS) => {
-    await dbService.none(wbs.createWBS, objectToDataList(data));
+const getWBSChilds = async (wbs: number): Promise<string[]> => {
+    const resLinksActivity = await getActivityIDByWBS(wbs);
+    const resLinksWBS = await getWBSChildsByParentID(wbs);
+
+    return [...(resLinksWBS.map(value => `wbs-${value.id_child}`)), ...(resLinksActivity.map(value => `activity-${value}`))];
+}
+
+const createWBS = async (data: ICreateWBSReq) => {
+    await dbService.none(wbs.createWBS, objectToDataList(data.wbs));
 };
 
 export {
     getWBSByID,
     getWBS,
+    getWBSChilds,
     createWBS
 };

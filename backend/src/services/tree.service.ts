@@ -54,7 +54,7 @@ const getTree = async (projectID: number, view: number): Promise<ITreeNode> => {
 
     if (view !== -1) {
         wbs = await getEmptyWBSByProject(projectID, view);
-        activities = await getEmptyActivityByProject(projectID);
+        activities = await getEmptyActivityByProject(projectID, view);
     } else {
         activities = await getActivitiesByProject(projectID);
     }
