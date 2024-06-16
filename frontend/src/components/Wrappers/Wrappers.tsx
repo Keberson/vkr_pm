@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet, useLocation, useNavigate} from "react-router-dom";
 
 import {ModalWrapper} from "../ModalWrapper/ModalWrapper";
 import {Loader} from "../Loader/Loader";
@@ -13,18 +13,19 @@ export const Wrappers = () => {
 
     const isAuth = useAppSelector(state => state.auth.isAuth);
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         if (isAuth) {
-            navigate("/dashboard");
+            navigate(location.pathname);
         } else {
             navigate("/login");
         }
-    }, [isAuth, navigate]);
+    }, [isAuth]);
 
     return (
         <>
-            {modalShow &&
+            { modalShow &&
                 <ModalWrapper z={30}>
                     <div className="z-30 text-center absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
                         <Loader />

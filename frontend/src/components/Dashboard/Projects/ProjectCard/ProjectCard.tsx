@@ -1,8 +1,8 @@
 import React from "react";
 
-import getFormatDate from "../../../utils/getFormatDate";
-import {ProjectIcon} from "../../../assets/ProjectIcon";
-import {IProject} from "../../../types/IProject";
+import getFormatDate from "../../../../utils/getFormatDate";
+import {ProjectIcon} from "../../../../assets/ProjectIcon";
+import {IProject} from "../../../../types/IProject";
 import {Link} from "react-router-dom";
 
 interface ProjectCardProps {
@@ -32,11 +32,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 </span>
                 <div className="flex flex-col text-inherit text-sm">
                     <span>План:</span>
-                    <span>{getFormatDate(project.date_start_plan)} - {getFormatDate(project.date_finish_plan)}</span>
+                    {project.date_start_plan && project.date_finish_plan && <span>{getFormatDate(project.date_start_plan)} - {getFormatDate(project.date_finish_plan)}</span>}
                 </div>
                 <div className="flex flex-col text-inherit text-sm">
                     <span>Факт:</span>
-                    <span>{getFormatDate(project.date_start_actual)} - {getFormatDate(project.date_finish_actual)}</span>
+                    {project.date_start_actual && project.date_finish_actual && <span>{getFormatDate(project.date_start_actual)} - {getFormatDate(project.date_finish_actual)}</span>}
                 </div>
             </div>
         </Link>

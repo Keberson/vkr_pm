@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 
 import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {useAppDispatch} from "../../../../hooks/useAppDispatch";
-import {api, useGetWBSQuery} from "../../../../services/APIService";
+import {api, useGetTreeQuery, useGetWBSQuery} from "../../../../services/APIService";
 import {useGetViewQuery} from "../../../../services/APIService";
 
 import {GantItemActivityDescription} from "../GantItemActivityDescription/GantItemActivityDescription";
@@ -38,6 +38,7 @@ export const GantFull = () => {
     const views = useAppSelector(state => state.view.views);
     const isHaveSelected = useAppSelector(state => state.group.toGroup).length !== 0;
     const modalType = useAppSelector(state => state.modalProject.type);
+
     const { isLoading: isLoadingViews } = useGetViewQuery(projectID);
     const { isLoading: isLoadingWBS } = useGetWBSQuery(view);
 
@@ -63,7 +64,7 @@ export const GantFull = () => {
     return (
         <>
             {isShowModal &&
-                <ModalWrapper z={20}>
+                <ModalWrapper z={30}>
                     {modalType === "create" && <ModalCreate projectID={projectID} view={view} />}
                     {modalType === "group" && <ModalGroup projectID={projectID} view={view} />}
                 </ModalWrapper>

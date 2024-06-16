@@ -4,6 +4,7 @@ import {IGetActivitiesRes, IGetProjectsRes, IGetTreeRes, IGetViewRes, IGetWBSChi
 import {ICreateWBSReq, IGetTreeReq} from "../types/Requests";
 import {ICreateView} from "../types/IView";
 import {ICreateActivity} from "../types/IActivity";
+import {ICreateProject} from "../types/IProject";
 
 export const api = createApi({
     reducerPath: 'wbsApi',
@@ -94,7 +95,15 @@ export const api = createApi({
                 url: `project/`
             }),
             providesTags: ["Project"]
-        })
+        }),
+        createProject: build.mutation<void, ICreateProject>({
+            query: (body) => ({
+                url: "project/",
+                method: "POST",
+                body: body
+            }),
+            invalidatesTags: () => ["Project"]
+        }),
     })
 });
 
@@ -103,5 +112,5 @@ export const {
     useCreateViewMutation, useGetViewQuery,
     useCreateActivityMutation, useGetActivitiesQuery, useDeleteActivityMutation,
     useGetTreeQuery,
-    useGetProjectsQuery
+    useGetProjectsQuery, useCreateProjectMutation
 } = api;

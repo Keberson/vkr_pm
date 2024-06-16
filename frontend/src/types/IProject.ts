@@ -1,7 +1,10 @@
-interface IProject {
+interface IProject extends ICreateProject {
     id: number,
+    owner: string
+}
+
+interface ICreateProject {
     name: string,
-    owner: number,
     description: string,
     date_start_plan: string,
     date_finish_plan: string,
@@ -10,5 +13,6 @@ interface IProject {
 }
 
 export type {
-    IProject
+    IProject,
+    ICreateProject
 };

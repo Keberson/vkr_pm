@@ -1,15 +1,14 @@
 import React, {useEffect} from "react";
 
-import {Tree, TreeNode} from "../../../../types/Tree";
+import {ITree, Tree, TreeNode} from "../../../../types/Tree";
 
-import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {useAppDispatch} from "../../../../hooks/useAppDispatch";
-import {useGetTreeQuery} from "../../../../services/APIService";
-
-import {setLoader} from "../../../../store/slices/LoaderSlice";
+import {useAppSelector} from "../../../../hooks/useAppSelector";
 
 import {GantWBSTableHead} from "../GantWBSTableHead/GantWBSTableHead";
 import {GantRow} from "../GantRow/GantRow";
+import {useGetTreeQuery} from "../../../../services/APIService";
+import {setLoader} from "../../../../store/slices/LoaderSlice";
 
 
 interface GantTableProps {
@@ -19,13 +18,38 @@ interface GantTableProps {
 
 export const GantTable: React.FC<GantTableProps> = ({ projectID, view }) => {
     const dispatch = useAppDispatch();
-    const { isLoading: isLoadingTree } = useGetTreeQuery({project: projectID, view: view});
+    const { isLoading: isLoadingTree, data } = useGetTreeQuery({project: projectID, view: view});
+    const tree = new Tree({
+        id: -1,
+        name: '',
+        date_start_plan: '',
+        date_finish_plan: '',
+        date_start_actual: '',
+        date_finish_actual: '',
+        status: "Не начата",
+        project_id: -1,
+        id_view: -1
+    });
 
     useEffect(() => {
         dispatch(setLoader({show: isLoadingTree, from: "GantTable"}));
-    }, [dispatch, isLoadingTree, view]);
+    }, [dispatch, isLoadingTree]);
 
-    const tree: Tree = useAppSelector(state => state.tree.tree);
+    const walk = (node: TreeNode, nodeGot: ITree) => {
+        node.setValue(nodeGot.value);
+
+        for (const child of nodeGot.childs) {
+            const treeNode = new TreeNode(child.value, node);
+
+            node.addChildren(treeNode);
+            walk(treeNode, child);
+        }
+    };
+
+    if (data) {
+        walk(tree.getRoot(), data.result);
+    }
+
     const stopNodes = useAppSelector(state => state.tree.stopNode);
 
     return (

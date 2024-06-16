@@ -1,7 +1,7 @@
 import React, {ReactNode} from "react";
 
-import {Logo} from "../../Logo/Logo";
-import {ProfileIcon} from "../../../assets/ProfileIcon";
+import {Logo} from "../../../Logo/Logo";
+import {ProfileIcon} from "../../../../assets/ProfileIcon";
 import {Panel} from "../Panel/Panel";
 
 interface DashboardHeaderProps {
@@ -9,7 +9,7 @@ interface DashboardHeaderProps {
     children: ReactNode
 }
 
-export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ children, searchVisible }) => {
+export const Header: React.FC<DashboardHeaderProps> = ({ children, searchVisible }) => {
 
     return (
         <>
@@ -25,7 +25,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ children, sear
                 </div>
                 <div className="flex flex-col items-end">
                     <div className="flex items-center cursor-pointer gap-5">
-                        <ProfileIcon size={30} />
+                        <ProfileIcon size={40} />
                     </div>
                 </div>
             </header>
