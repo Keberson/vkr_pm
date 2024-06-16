@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 
-import {createWBS, getWBS, getWBSChilds, deleteWBS} from "../services/wbs.service";
+import {createWBS, getWBS, getWBSChilds, deleteWBS, editWBSName} from "../services/wbs.service";
 
 const get = async (req: Request, res: Response) => {
     try {
@@ -42,8 +42,20 @@ const delete_ = async (req: Request, res: Response) => {
     }
 }
 
+const edit = async (req: Request, res: Response) => {
+    try {
+        await editWBSName(req.body);
+
+        res.status(200).json({});
+    } catch (err) {
+        console.error("Ошибка при изменении WBS: " + err.message);
+        res.status(400).json({message: err.message});
+    }
+}
+
 export {
     get,
     create,
-    delete_
+    delete_,
+    edit
 };

@@ -24,8 +24,15 @@ interface IEditActivityReq {
     }
 }
 
+interface IEditWBSReq {
+    id: number,
+    name: string
+}
+
 export {
     ILoginReq,
     ICreateWBSReq,
-    IEditActivityReq
+    IEditActivityReq,
+    IEditWBSReq
+
 }

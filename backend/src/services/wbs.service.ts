@@ -1,13 +1,10 @@
 import {sql} from "../utils/sql.util";
 import {dbService} from "./db.service";
-import {ICreateWBS, IWBS} from "../models/IWBS";
-import {IActivity} from "../models/IActivity";
+import {IWBS} from "../models/IWBS";
 import {objectToDataList} from "../utils/objectToDataList.util";
-import {ICreateWBSReq} from "../models/Requests";
-import {isInstanceOfIActivity} from "../utils/isInstanceOfIActivity.util";
-import {createLinkActivityWBS, getActivityIDByWBS, getCountWBSLinks, getWBSbyActivity} from "./link_activity_wbs.service";
-import {createLinkWBS, getWBSChildsByParentID} from "./link_wbs.service";
-import db from "../configs/db.config";
+import {ICreateWBSReq, IEditWBSReq} from "../models/Requests";
+import {getActivityIDByWBS} from "./link_activity_wbs.service";
+import {getWBSChildsByParentID} from "./link_wbs.service";
 
 const PATH = "../sql/wbs"
 
@@ -15,7 +12,8 @@ const wbs = {
     getByID: sql(`${PATH}/getByID.sql`),
     getByProject: sql(`${PATH}/getByProject.sql`),
     createWBS: sql(`${PATH}/create.sql`),
-    deleteWBS: sql(`${PATH}/deleteWBS.sql`)
+    deleteWBS: sql(`${PATH}/deleteWBS.sql`),
+    editWBSName: sql(`${PATH}/editWBSName.sql`),
 };
 
 const getWBSByID = async (id: number): Promise<IWBS> => {
@@ -41,10 +39,16 @@ const deleteWBS = async (id: number) => {
     await dbService.none(wbs.deleteWBS, [id]);
 };
 
+const editWBSName = async (data: IEditWBSReq) => {
+    await dbService.none(wbs.editWBSName, [data.id, data.name])
+};
+
+
 export {
     getWBSByID,
     getWBS,
     getWBSChilds,
     createWBS,
-    deleteWBS
+    deleteWBS,
+    editWBSName
 };
