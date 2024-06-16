@@ -20,7 +20,6 @@ type Inputs = {
     date_finish_plan: string,
     date_start_actual: string,
     date_finish_actual: string,
-    status: TStatus,
     description: string
 }
 
@@ -117,17 +116,6 @@ export const CreateActivity: React.FC<CreateActivityProps> = ({ project }) => {
                            className="w-full max-w-xl ps-2 pe-2 bg-block-background-secondary text-text rounded-lg border-text-muted border outline-none"
                     />
                 </div>
-            </div>
-            <div className="flex flex-col w-full">
-                <label htmlFor="status" className="text-sm text-text-third">Статус работы</label>
-                <select
-                    {...register("status")}
-                    className="w-full max-w-2xl ps-2 pe-2 pt-1 pb-1 bg-block-background-secondary text-text rounded-lg border-text-muted border outline-none"
-                >
-                    <option value="Не начата">Не начата</option>
-                    <option value="Выполняется">Выполняется</option>
-                    <option value="Завершена">Завершена</option>
-                </select>
             </div>
         </>
     )

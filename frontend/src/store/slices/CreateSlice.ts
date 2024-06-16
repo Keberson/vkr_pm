@@ -23,16 +23,10 @@ const initialState: CreateState = {
         date_finish_plan: '',
         date_start_actual: '',
         date_finish_actual: '',
-        status: 'Не начата',
         project_id: -1
     },
     wbs: {
         name: '',
-        date_start_plan: '',
-        date_finish_plan: '',
-        date_start_actual: '',
-        date_finish_actual: '',
-        status: 'Не начата',
         project_id: -1,
         id_view: -1
     },

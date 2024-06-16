@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 
 import {IGetActivitiesRes, IGetProjectsRes, IGetTreeRes, IGetViewRes, IGetWBSChildsRes, IGetWBSRes} from "../types/Responses";
-import {ICreateWBSReq, IGetTreeReq} from "../types/Requests";
+import {ICreateWBSReq, IEditActivityReq, IGetTreeReq} from "../types/Requests";
 import {ICreateView} from "../types/IView";
 import {ICreateActivity} from "../types/IActivity";
 import {ICreateProject} from "../types/IProject";
@@ -82,6 +82,14 @@ export const api = createApi({
             }),
             invalidatesTags: () => ["Activity", "Tree"]
         }),
+        editActivity: build.mutation<void, IEditActivityReq>({
+            query: (body) => ({
+                url: `activity/${body.activity.id}`,
+                method: "PUT",
+                body: body
+            }),
+            invalidatesTags: () => ["Activity", "Tree"]
+        }),
         // Tree
         getTree: build.query<IGetTreeRes, IGetTreeReq>({
             query: ({project, view}) => ({
@@ -110,7 +118,7 @@ export const api = createApi({
 export const {
     useGetWBSQuery, useGetWBSChildsQuery, useCreateWBSMutation, useDeleteWBSMutation,
     useCreateViewMutation, useGetViewQuery,
-    useCreateActivityMutation, useGetActivitiesQuery, useDeleteActivityMutation,
+    useCreateActivityMutation, useGetActivitiesQuery, useDeleteActivityMutation, useEditActivityMutation,
     useGetTreeQuery,
     useGetProjectsQuery, useCreateProjectMutation
 } = api;

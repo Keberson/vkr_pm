@@ -58,7 +58,7 @@ export const GantWBSTableHead = () => {
                     </div>
                 </div>
             </th>
-            <th scope="col" className="w-[125px]">
+            <th scope="col" className="w-[150px]">
                 <div className="flex gap-5 w-full items-center justify-center relative">
                     <span>Статус</span>
                     <button onClick={() => setStatusDropdownOpened(!statusDropdownOpened)} >
@@ -77,25 +77,25 @@ export const GantWBSTableHead = () => {
                     </div>
                 </div>
             </th>
-            <th scope="col" className="w-[125px]">
+            <th scope="col" className="w-[150px]">
                 <div className="flex flex-col">
                     <span>Старт</span>
                     <span>(план)</span>
                 </div>
             </th>
-            <th scope="col" className="w-[125px]">
+            <th scope="col" className="w-[150px]">
                 <div className="flex flex-col">
                     <span>Финиш</span>
                     <span>(план)</span>
                 </div>
             </th>
-            <th scope="col" className="w-[125px]">
+            <th scope="col" className="w-[150px]">
                 <div className="flex flex-col">
                     <span>Старт</span>
                     <span>(факт)</span>
                 </div>
             </th>
-            <th scope="col" className="w-[125px]">
+            <th scope="col" className="w-[150px]">
                 <div className="flex flex-col">
                     <span>Финиш</span>
                     <span>(факт)</span>

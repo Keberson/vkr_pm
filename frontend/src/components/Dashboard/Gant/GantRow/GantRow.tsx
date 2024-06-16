@@ -105,7 +105,7 @@ export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap
                 </button>
             </td>
             <td className="text-center">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-start gap-5">
                     <div className={`p-2 rounded-full ${statusColor}`}/>
                     <span>{nodeData.status}</span>
                 </div>

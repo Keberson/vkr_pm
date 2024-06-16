@@ -17,9 +17,8 @@ interface ICreateActivity {
     description: string,
     date_start_plan: string,
     date_finish_plan: string,
-    date_start_actual: string,
-    date_finish_actual: string,
-    status: TStatus,
+    date_start_actual: string | null,
+    date_finish_actual: string | null,
     project_id: number
 }
 

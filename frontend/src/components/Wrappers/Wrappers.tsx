@@ -26,14 +26,14 @@ export const Wrappers = () => {
     return (
         <>
             { modalShow &&
-                <ModalWrapper z={30}>
-                    <div className="z-30 text-center absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+                <ModalWrapper z={40}>
+                    <div className="z-40 text-center absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
                         <Loader />
                     </div>
                 </ModalWrapper>
             }
             { toastType !== "none" &&
-                <ModalWrapper z={30} position="top left" bgOpacity="none">
+                <ModalWrapper z={50} position="top left" bgOpacity="none">
                     <Toast icon={toastType} message={toastMessage} />
                 </ModalWrapper>
             }

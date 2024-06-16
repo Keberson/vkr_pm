@@ -1,8 +1,6 @@
 import React from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 
-import {TStatus} from "../../../../types/TStatus";
-
 import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {useAppDispatch} from "../../../../hooks/useAppDispatch";
 import {useCreateWBSMutation} from "../../../../services/APIService";
@@ -20,11 +18,6 @@ interface CreateWBSProps {
 
 type Inputs = {
     name: string,
-    date_start_plan: string,
-    date_finish_plan: string,
-    date_start_actual: string,
-    date_finish_actual: string,
-    status: TStatus,
 }
 
 export const CreateWBS: React.FC<CreateWBSProps> = ({ project, view, childs = [] }) => {
@@ -85,52 +78,6 @@ export const CreateWBS: React.FC<CreateWBSProps> = ({ project, view, childs = []
                     {...register("name")}
                     className="w-full max-w-2xl ps-2 pe-2 pt-1 pb-1 bg-block-background-secondary text-text rounded-lg border-text-muted border outline-none"
                 />
-            </div>
-            <div className="flex justify-between w-full">
-                <div className="flex flex-col max-w-sm w-full">
-                    <label htmlFor="date_start_plan" className="text-text-third">Дата старта (план)</label>
-                    <input
-                        type="date"
-                        {...register("date_start_plan")}
-                        className="w-full max-w-xl ps-2 pe-2 bg-block-background-secondary text-text rounded-lg border-text-muted border outline-none"
-                    />
-                </div>
-                <div className="flex flex-col max-w-sm w-full">
-                    <label htmlFor="date_finish_plan" className="text-text-third">Дата финиша (план)</label>
-                    <input
-                        type="date"
-                        {...register("date_finish_plan")}
-                        className="w-full max-w-xl ps-2 pe-2 bg-block-background-secondary text-text rounded-lg border-text-muted border outline-none"
-                    />
-                </div>
-            </div>
-            <div className="flex justify-between w-full">
-                <div className="flex flex-col max-w-sm w-full">
-                    <label htmlFor="date_start_actual" className="text-text-third">Дата старта (факт)</label>
-                    <input
-                        type="date"
-                        {...register("date_start_actual")}
-                        className="w-full max-w-xl ps-2 pe-2 bg-block-background-secondary text-text rounded-lg border-text-muted border outline-none "
-                    />
-                </div>
-                <div className="flex flex-col max-w-sm w-full">
-                    <label htmlFor="date_finish_actual" className="text-text-third">Дата финиша (факт)</label>
-                    <input type="date"
-                           {...register("date_finish_actual")}
-                           className="w-full max-w-xl ps-2 pe-2 bg-block-background-secondary text-text rounded-lg border-text-muted border outline-none"
-                    />
-                </div>
-            </div>
-            <div className="flex flex-col w-full">
-                <label htmlFor="status" className="text-sm text-text-third">Статус WBS</label>
-                <select
-                    {...register("status")}
-                    className="w-full max-w-2xl ps-2 pe-2 pt-1 pb-1 bg-block-background-secondary text-text rounded-lg border-text-muted border outline-none"
-                >
-                    <option value="Не начата">Не начата</option>
-                    <option value="Выполняется">Выполняется</option>
-                    <option value="Завершена">Завершена</option>
-                </select>
             </div>
         </>
     )
