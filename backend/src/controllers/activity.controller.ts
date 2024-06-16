@@ -30,7 +30,7 @@ const delete_ = async (req: Request, res: Response) => {
 
         res.status(200).json({});
     } catch (err) {
-        console.error("Ошибка при создании работы: " + err.message);
+        console.error("Ошибка при удалении работы: " + err.message);
         res.status(400).json({message: err.message});
     }
 }
