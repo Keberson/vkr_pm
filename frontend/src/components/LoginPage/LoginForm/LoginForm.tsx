@@ -1,13 +1,30 @@
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form"
+import {useForm, SubmitHandler} from "react-hook-form"
+
 import {ILogin} from "../../../types/ILogin";
+import {useLoginMutation} from "../../../services/LoginService";
+import {useAppDispatch} from "../../../hooks/useAppDispatch";
+import {setLoader} from "../../../store/slices/LoaderSlice";
+import {setToast, setToastMessage} from "../../../store/slices/ToastSlice";
 
 export const LoginForm = () => {
+    const dispatch = useAppDispatch();
+    const [login] = useLoginMutation();
     const {register, handleSubmit} = useForm<ILogin>();
 
-    const onSubmit: SubmitHandler<ILogin> = async (formData) => {
-        console.log('Авторизация');
-        // await login({login: formData["login"], password: formData["password"]});
+    const onSubmit: SubmitHandler<ILogin> = async (data) => {
+        dispatch(setLoader({show: true, from: "LoginForm"}));
+        const res = await login(data);
+
+        if ('error' in res) {
+            dispatch(setToastMessage("Ошибка авторизации"));
+            dispatch(setToast("error"));
+        } else {
+            dispatch(setToastMessage(`Добро пожаловать, ${res.data.name}`));
+            dispatch(setToast("correct"));
+        }
+
+        dispatch(setLoader({show: false, from: "LoginForm"}));
     };
 
     return (
@@ -16,12 +33,12 @@ export const LoginForm = () => {
                 <input type="text"
                        className="h-10 p-5 rounded-lg text-lg bg-block-background-secondary text-text placeholder-text-muted"
                        placeholder="Логин"
-                       {...register("login", {required: true, min: 5})}
+                       {...register("login")}
                 />
                 <input type="password"
                        className="h-10 p-5 rounded-lg text-lg bg-block-background-secondary text-text placeholder-text-muted"
                        placeholder="Пароль"
-                       {...register("password", {required: true, min: 6, max: 20})}
+                       {...register("password")}
                 />
                 <input type="submit"
                        value="Войти"

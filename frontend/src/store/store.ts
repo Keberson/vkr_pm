@@ -12,9 +12,12 @@ import createSlice from "./slices/CreateSlice";
 import groupSlice from "./slices/GroupSlice";
 
 import {api} from "../services/APIService";
+import {loginApi} from "../services/LoginService";
+import authSlice from "./slices/AuthSlice";
 
 export const store = configureStore({
     reducer: {
+        auth: authSlice,
         activityEditor: activityEditorSlice,
         wbsEditor: wbsEditorSlice,
         tree: treeSlice,
@@ -25,10 +28,12 @@ export const store = configureStore({
         create: createSlice,
         group: groupSlice,
         [api.reducerPath]: api.reducer,
+        [loginApi.reducerPath]: loginApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
             .concat(api.middleware)
+            .concat(loginApi.middleware)
 });
 
 setupListeners(store.dispatch);

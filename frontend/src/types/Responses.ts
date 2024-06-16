@@ -3,6 +3,12 @@ import {IWBS} from "./IWBS";
 import {ITree} from "./Tree";
 import {IView} from "./IView";
 
+interface ILoginRes {
+    jwt: string,
+    name: string,
+    role: string
+}
+
 interface IGetActivitiesRes {
     result: IActivity[]
 }
@@ -24,6 +30,7 @@ interface IGetWBSChildsRes {
 }
 
 export type {
+    ILoginRes,
     IGetActivitiesRes,
     IGetWBSRes,
     IGetTreeRes,
