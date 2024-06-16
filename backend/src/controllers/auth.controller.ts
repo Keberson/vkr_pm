@@ -1,19 +1,20 @@
 import {Request, Response} from "express";
 
 import {userLogin} from "../services/users.service";
+import {ILoginRes} from "../models/Responses";
 
 
 const login = async (req: Request, res: Response) => {
     try {
-        const result: string | undefined = await userLogin(req.body);
+        const result: ILoginRes | undefined = await userLogin(req.body);
 
         if (result) {
-            res.status(200).json({jwt: result});
+            res.status(200).json(result);
         } else {
             res.status(401).json({});
         }
     } catch (err) {
-        console.error("Ошибка при создании работы: " + err.message);
+        console.error("Ошибка при авторизации: " + err.message);
         res.status(400).json({message: err.message});
     }
 }

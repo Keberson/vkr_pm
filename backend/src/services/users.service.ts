@@ -22,11 +22,11 @@ const getAuthByLogin = async (login: string): Promise<IAuth | null> => {
 }
 
 const getUserData = async (id: number): Promise<IUserData> => {
-    return await dbService.one(users.getRoleName, [id]);
+    return await dbService.one(users.getUserData, [id]);
 }
 
 const getRoleName = async (id: number): Promise<string> => {
-    return await dbService.one(users.getUserData, [id]);
+    return await dbService.one(users.getRoleName, [id]);
 }
 
 const userLogin = async (data: ILoginReq): Promise<ILoginRes | undefined> => {
@@ -35,7 +35,11 @@ const userLogin = async (data: ILoginReq): Promise<ILoginRes | undefined> => {
 
     if (authData && compareSync(data.password, authData.password)) {
         const userData = await getUserData(authData.id_user);
+
+        console.log(userData);
+
         const roleName = await getRoleName(userData.id_role);
+
 
         res = {
             jwt: sign({'id': authData.id_user}, 'PRIVATE.KEY'),
