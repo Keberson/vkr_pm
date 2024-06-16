@@ -22,7 +22,7 @@ export const Dashboard = () => {
     return (
         <>
             <DashboardHeader searchVisible={true}>
-                <h2 className="text-text text-2xl comfortaa-700">Доступные проекты</h2>
+                <h2 className="text-text text-xl comfortaa-700">Доступные проекты</h2>
             </DashboardHeader>
             <div className="h-full grid lg:grid-cols-5 md:grid-cols-3 gap-10 ps-10 pe-10 pt-5 pb-5 overflow-auto">
                 {
