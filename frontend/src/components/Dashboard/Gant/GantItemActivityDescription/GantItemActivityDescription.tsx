@@ -8,12 +8,11 @@ import {useDeleteActivityMutation, useEditActivityMutation} from "../../../../se
 import {Tree} from "../../../../types/Tree";
 
 import diffDate from "../../../../utils/diffDate";
-import {clearActivity, toggleActivityEditor} from "../../../../store/slices/ActivityEditorSlice";
+import {clear, toggleEditor} from "../../../../store/slices/EditorSlice";
 import {setLoader} from "../../../../store/slices/LoaderSlice";
 import {setToast, setToastMessage} from "../../../../store/slices/ToastSlice";
 
 import {CrossIcon} from "../../../../assets/CrossIcon";
-import {TStatus} from "../../../../types/TStatus";
 
 interface Inputs {
     wbs: number,
@@ -27,10 +26,11 @@ interface Inputs {
 
 export const GantItemActivityDescription: React.FC = () => {
     const dispatch = useAppDispatch();
-    const activity = useAppSelector(state => state.activityEditor.activity);
+    const activity = useAppSelector(state => state.editor.activity);
     const tree = useAppSelector(state => state.tree.tree);
     const wbs = useAppSelector(state => state.tree.wbs);
     const [editActivity] = useEditActivityMutation();
+    const [deleteActivity] = useDeleteActivityMutation();
     const wbsIdRaw = Tree.findParent(tree.getRoot(), "0", `activity-${activity.id}`)?.split("wbs-")[1];
     const wbsId = wbsIdRaw ? Number(wbsIdRaw) : -1;
     const {
@@ -58,10 +58,6 @@ export const GantItemActivityDescription: React.FC = () => {
         date_finish_actual: watch("date_finish_actual"),
     }
 
-    const [deleteActivity] = useDeleteActivityMutation();
-
-    console.log(Number(activityChanges.wbs) !== wbsId, Number(activityChanges.wbs), wbsId)
-
     const isHaveChanges: boolean =
         Number(activityChanges.wbs) !== wbsId ||
         activityChanges.name !== activity.name ||
@@ -75,8 +71,8 @@ export const GantItemActivityDescription: React.FC = () => {
     const saveStyles = isHaveChanges ? "border-light text-text cursor-pointer" : "cursor-default border-text-secondary text-text-muted";
 
     const onClose = () => {
-        dispatch(clearActivity());
-        dispatch(toggleActivityEditor());
+        dispatch(clear());
+        dispatch(toggleEditor());
     }
     const onDelete = async () => {
         dispatch(setLoader({show: true, from: "GantItemActivityDescription"}));
@@ -97,8 +93,8 @@ export const GantItemActivityDescription: React.FC = () => {
         dispatch(setLoader({show: false, from: "GantItemActivityDescription"}));
 
         if (!isError) {
-            dispatch(toggleActivityEditor());
-            dispatch(clearActivity());
+            dispatch(toggleEditor());
+            dispatch(clear());
         }
     }
     const onSave = async (data: Inputs) => {
@@ -134,8 +130,8 @@ export const GantItemActivityDescription: React.FC = () => {
             dispatch(setLoader({show: false, from: "GantItemActivityDescription"}));
 
             if (!isError) {
-                dispatch(toggleActivityEditor());
-                dispatch(clearActivity());
+                dispatch(toggleEditor());
+                dispatch(clear());
             }
         }
     };

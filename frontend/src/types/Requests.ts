@@ -24,6 +24,11 @@ interface IEditActivityReq {
     }
 }
 
+interface IEditWBSReq {
+    id: number,
+    name: string,
+}
+
 export type {
-    IGetTreeReq, ICreateWBSReq, IEditActivityReq
+    IGetTreeReq, ICreateWBSReq, IEditActivityReq, IEditWBSReq
 };

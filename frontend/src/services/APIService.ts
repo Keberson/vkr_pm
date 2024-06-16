@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 
 import {IGetActivitiesRes, IGetProjectsRes, IGetTreeRes, IGetViewRes, IGetWBSChildsRes, IGetWBSRes} from "../types/Responses";
-import {ICreateWBSReq, IEditActivityReq, IGetTreeReq} from "../types/Requests";
+import {ICreateWBSReq, IEditActivityReq, IEditWBSReq, IGetTreeReq} from "../types/Requests";
 import {ICreateView} from "../types/IView";
 import {ICreateActivity} from "../types/IActivity";
 import {ICreateProject} from "../types/IProject";
@@ -45,6 +45,15 @@ export const api = createApi({
             }),
             invalidatesTags: () => ["WBS", "Tree"]
         }),
+        editWBS: build.mutation<void, IEditWBSReq>({
+            query: (body) => ({
+                url: `wbs/${body.id}`,
+                method: "PUT",
+                body: body
+            }),
+            invalidatesTags: () => ["WBS", "Tree"]
+        }),
+
         // View
         getView: build.query<IGetViewRes, number>({
             query: (projectID) => ({
@@ -60,6 +69,7 @@ export const api = createApi({
             }),
             invalidatesTags: ["View"]
         }),
+
         // Activity
         getActivities: build.query<IGetActivitiesRes, number>({
             query: (projectID) => ({
@@ -90,6 +100,7 @@ export const api = createApi({
             }),
             invalidatesTags: () => ["Activity", "Tree"]
         }),
+
         // Tree
         getTree: build.query<IGetTreeRes, IGetTreeReq>({
             query: ({project, view}) => ({
@@ -97,6 +108,7 @@ export const api = createApi({
             }),
             providesTags: ["Tree"]
         }),
+
         // Project
         getProjects: build.query<IGetProjectsRes, void>({
             query: () => ({
@@ -116,7 +128,7 @@ export const api = createApi({
 });
 
 export const {
-    useGetWBSQuery, useGetWBSChildsQuery, useCreateWBSMutation, useDeleteWBSMutation,
+    useGetWBSQuery, useGetWBSChildsQuery, useCreateWBSMutation, useDeleteWBSMutation, useEditWBSMutation,
     useCreateViewMutation, useGetViewQuery,
     useCreateActivityMutation, useGetActivitiesQuery, useDeleteActivityMutation, useEditActivityMutation,
     useGetTreeQuery,

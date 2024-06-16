@@ -6,11 +6,10 @@ import {WBSIcon} from "../../../../assets/WBSIcon";
 import {ActivityIcon} from "../../../../assets/ActivityIcon";
 import {ExpandIcon} from "../../../../assets/ExpandIcon";
 import {EditIcon} from "../../../../assets/EditIcon";
-import {DeleteIcon} from "../../../../assets/DeleteIcon";
 
 import getFormatDate from "../../../../utils/getFormatDate";
 import {NodeT, Tree} from "../../../../types/Tree";
-import {setActivity, toggleActivityEditor} from "../../../../store/slices/ActivityEditorSlice";
+import {setActivity, setEditorType, setWBS, toggleEditor} from "../../../../store/slices/EditorSlice";
 import {useAppDispatch} from "../../../../hooks/useAppDispatch";
 import isInstanceOfIActivity from "../../../../utils/isInstanceOfIActivity";
 import {useAppSelector} from "../../../../hooks/useAppSelector";
@@ -22,13 +21,12 @@ interface GantRowActivityProps {
     nodeData: NodeT,
     isEmpty: boolean,
     gap: number,
-    view: number
 }
 
-export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap, view }) => {
+export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap }) => {
     const [isHover, setIsHover] = useState<boolean>(false);
     const dispatch = useAppDispatch();
-    const isShowed = useAppSelector(state => state.activityEditor.isShow);
+    const isShowed = useAppSelector(state => state.editor.isShow);
     const stopNodes = useAppSelector(state => state.tree.stopNode);
     const isHidedList = nodeArrayFilter(stopNodes, nodeData, false).length !== 0;
     const statusColor = nodeData.status === "Не начата" ? "bg-red" : nodeData.status === "Выполняется" ? "bg-blue" : "bg-green";
@@ -41,11 +39,15 @@ export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap
 
     const onClickRow = () =>  {
         if (isInstanceOfIActivity(nodeData)) {
-            if (!isShowed) {
-                dispatch(toggleActivityEditor());
-            }
-
             dispatch(setActivity(nodeData));
+            dispatch(setEditorType("activity"));
+        } else {
+            dispatch(setEditorType("wbs"));
+            dispatch(setWBS(nodeData));
+        }
+
+        if (!isShowed) {
+            dispatch(toggleEditor());
         }
     };
 
@@ -116,13 +118,9 @@ export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap
             <td className="text-center">{getFormatDate(nodeData.date_finish_actual)}</td>
             <td className={`sticky right-0 bg-background ${rowStyle}`}>
                 <div className="flex justify-center items-center gap-3">
-                    {isInstanceOfIActivity(nodeData) ?
-                        <button onClick={onClickRow}>
-                            <EditIcon />
-                        </button>
-                        :
-                        <div className="w-[20px] h-[20px]"></div>
-                    }
+                    <button onClick={onClickRow}>
+                        <EditIcon />
+                    </button>
                 </div>
             </td>
         </tr>

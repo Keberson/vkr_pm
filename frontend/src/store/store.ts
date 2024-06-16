@@ -1,8 +1,6 @@
 import {configureStore} from "@reduxjs/toolkit";
 import {setupListeners} from "@reduxjs/toolkit/query";
 
-import activityEditorSlice from "./slices/ActivityEditorSlice"
-import wbsEditorSlice from "./slices/WBSEditorSlice"
 import treeSlice from "./slices/TreeSlice"
 import modalProjectSlice from "./slices/ModalProjectSlice";
 import loaderSlice from "./slices/LoaderSlice";
@@ -15,12 +13,12 @@ import {api} from "../services/APIService";
 import {loginApi} from "../services/LoginService";
 import authSlice from "./slices/AuthSlice";
 import projectSlice from "./slices/ProjectSlice";
+import editorSlice from "./slices/EditorSlice";
 
 export const store = configureStore({
     reducer: {
         auth: authSlice,
-        activityEditor: activityEditorSlice,
-        wbsEditor: wbsEditorSlice,
+        editor: editorSlice,
         tree: treeSlice,
         modalProject: modalProjectSlice,
         loader: loaderSlice,

@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 
 import {useAppSelector} from "../../../../hooks/useAppSelector";
 import {useAppDispatch} from "../../../../hooks/useAppDispatch";
-import {api, useGetTreeQuery, useGetWBSQuery} from "../../../../services/APIService";
+import {useGetWBSQuery} from "../../../../services/APIService";
 import {useGetViewQuery} from "../../../../services/APIService";
 
 import {GantItemActivityDescription} from "../GantItemActivityDescription/GantItemActivityDescription";
@@ -16,6 +16,7 @@ import {ModalGroup} from "../ModalGroup/ModalGroup";
 
 import {setModal, setModalType} from "../../../../store/slices/ModalProjectSlice";
 import {setLoader} from "../../../../store/slices/LoaderSlice";
+import {GantItemWBSDescription} from "../GantItemWBSDescription/GantItemWBSDescription";
 
 type ViewSelect = {
     view: number
@@ -33,7 +34,8 @@ export const GantFull = () => {
     });
     const view: number = watch("view");
 
-    const isShowActivityEditor = useAppSelector(state => state.activityEditor.isShow);
+    const isShowEditor = useAppSelector(state => state.editor.isShow);
+    const showEditorType = useAppSelector(state => state.editor.showType);
     const isShowModal = useAppSelector(state => state.modalProject.show);
     const views = useAppSelector(state => state.view.views);
     const isHaveSelected = useAppSelector(state => state.group.toGroup).length !== 0;
@@ -42,8 +44,8 @@ export const GantFull = () => {
     const { isLoading: isLoadingViews } = useGetViewQuery(projectID);
     const { isLoading: isLoadingWBS } = useGetWBSQuery(view);
 
-    const gridStyle = isShowActivityEditor ? "grid-rows-[35px_1fr_300px]" : "grid-rows-[35px_1fr]";
-    const heightBlock = isShowActivityEditor ? "calc(100vh - 35px - 300px)" : "calc(100vh - 35px)";
+    const gridStyle = isShowEditor ? "grid-rows-[35px_1fr_300px]" : "grid-rows-[35px_1fr]";
+    const heightBlock = isShowEditor ? "calc(100vh - 35px - 300px)" : "calc(100vh - 35px)";
     const groupStyle = isHaveSelected ? "text-text border-text-secondary" : "text-text-muted border-gray cursor-default";
 
     useEffect(() => {
@@ -104,7 +106,8 @@ export const GantFull = () => {
                             </>
                         </ScrollSyncPane>
                     </div>
-                    {isShowActivityEditor && <GantItemActivityDescription />}
+                    {isShowEditor && showEditorType === "activity" && <GantItemActivityDescription />}
+                    {isShowEditor && showEditorType === "wbs" && <GantItemWBSDescription />}
                 </div>
             </ScrollSync>
         </>
