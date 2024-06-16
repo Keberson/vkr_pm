@@ -1,0 +1,5 @@
+{
+	"watch": ["server.ts", "src/", "src/database/", "src/routes"],
+	"ext": "ts,json",
+	"exec": "ts-node server.ts"
+}
