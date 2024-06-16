@@ -1,7 +1,6 @@
 import {sql} from "../utils/sql.util";
 import {dbService} from "./db.service";
 import {IActivity} from "../models/IActivity";
-import db from "../configs/db.config";
 
 const PATH = "../sql/linkActivityWbs"
 
@@ -11,6 +10,8 @@ const linkActivityWBS = {
     getWBSbyActivity: sql(`${PATH}/getWBSbyActivity.sql`),
     getCountWBSLinks: sql(`${PATH}/getCountWBSLinks.sql`),
     createLinkActivityWBS: sql(`${PATH}/createLinkActivityWBS.sql`),
+    editLinkActivityWBS: sql(`${PATH}/editLinkActivityWBS.sql`),
+    deleteLinkActivityWBS: sql(`${PATH}/deleteLinkActivityWBS.sql`),
 };
 
 const getEmptyActivityByProject = async (projectID: number, view: number): Promise<IActivity[]> => {
@@ -32,7 +33,15 @@ const getCountWBSLinks = async (wbs: number): Promise<number> => {
 }
 
 const createLinkActivityWBS = async (activity: number, wbs: number) => {
-    await dbService.none(linkActivityWBS.createLinkActivityWBS, [activity, wbs]);
+    return await dbService.none(linkActivityWBS.createLinkActivityWBS, [activity, wbs]);
+}
+
+const editLinkActivityWBS = async (activity: number, wbs: number, newWBS: number) => {
+    await dbService.none(linkActivityWBS.editLinkActivityWBS, [activity, wbs, newWBS]);
+}
+
+const deleteLinkActivityWBS = async (activity: number, wbs: number) => {
+    return await dbService.none(linkActivityWBS.deleteLinkActivityWBS, [activity, wbs])
 }
 
 export {
@@ -40,5 +49,7 @@ export {
     getActivityIDByWBS,
     getWBSbyActivity,
     getCountWBSLinks,
-    createLinkActivityWBS
+    createLinkActivityWBS,
+    editLinkActivityWBS,
+    deleteLinkActivityWBS
 };

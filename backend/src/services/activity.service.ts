@@ -2,6 +2,8 @@ import {IActivity, ICreateActivity} from "../models/IActivity";
 import {sql} from "../utils/sql.util";
 import {dbService} from "./db.service";
 import {objectToDataList} from "../utils/objectToDataList.util";
+import {IEditActivityReq} from "../models/Requests";
+import {createLinkActivityWBS, deleteLinkActivityWBS, editLinkActivityWBS} from "./link_activity_wbs.service";
 
 const PATH = '../sql/activity'
 
@@ -10,6 +12,7 @@ const activity = {
     getByProject: sql(`${PATH}/getByProject.sql`),
     createActivity: sql(`${PATH}/create.sql`),
     deleteActivity: sql(`${PATH}/deleteActivity.sql`),
+    editActivity: sql(`${PATH}/editActivity.sql`)
 };
 
 const getActivityByID = async (activityID: number): Promise<IActivity> => {
@@ -21,16 +24,41 @@ const getActivitiesByProject = async (projectID: number): Promise<IActivity[]> =
 }
 
 const createActivity = async (data: ICreateActivity) => {
-    await dbService.none(activity.createActivity, objectToDataList(data));
+    const status: 'Не начата' | 'Выполняется' | 'Завершена' = data.date_start_actual === '' ? 'Не начата' :  data.date_finish_actual === '' ? 'Выполняется' : 'Завершена';
+
+    data.date_start_actual = data.date_start_actual === '' ? "-infinity" : data.date_start_actual;
+    data.date_finish_actual = data.date_finish_actual === '' ? "+infinity" : data.date_finish_actual;
+
+    await dbService.none(activity.createActivity, [...objectToDataList(data), status]);
 };
 
 const deleteActivity = async (data: number) => {
     await dbService.none(activity.deleteActivity, [data]);
 };
 
+const editActivity = async (id: number, data: IEditActivityReq) => {
+    const activityData = data.activity;
+    const oldWBS = Number(activityData.wbs);
+    const newWBS = Number(data.wbs);
+    const startActual = activityData.date_start_actual === "" ? "-infinity" : activityData.date_start_actual;
+    const finishActual = activityData.date_finish_actual === "" ? "+infinity" : activityData.date_finish_actual;
+    const status = startActual === "-infinity" ? "Не начата" : finishActual !== "+infinity" ? "Выполняется" : "Завершена";
+
+    await dbService.none(activity.editActivity, [activityData.name, activityData.date_start_plan, activityData.date_finish_plan, startActual, finishActual, status, activityData.description, id]);
+
+    if (activityData.wbs === -1) {
+        await createLinkActivityWBS(id, newWBS);
+    } else if (Number(data.wbs) !== -1) {
+        await editLinkActivityWBS(id, oldWBS, newWBS);
+    } else {
+        await deleteLinkActivityWBS(id, oldWBS);
+    }
+}
+
 export {
     getActivityByID,
     getActivitiesByProject,
     createActivity,
-    deleteActivity
+    deleteActivity,
+    editActivity
 };

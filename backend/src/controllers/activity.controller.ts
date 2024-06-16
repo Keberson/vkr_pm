@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 
-import {createActivity, deleteActivity, getActivitiesByProject} from "../services/activity.service";
+import {createActivity, deleteActivity, editActivity, getActivitiesByProject} from "../services/activity.service";
 
 const get = async (req: Request, res: Response) => {
     try {
@@ -35,8 +35,20 @@ const delete_ = async (req: Request, res: Response) => {
     }
 }
 
+const edit = async (req: Request, res: Response) => {
+    try {
+        await editActivity(Number(req.params.id), req.body);
+
+        res.status(200).json({});
+    } catch (err) {
+        console.error("Ошибка при изменении работы: " + err.message);
+        res.status(400).json({message: err.message});
+    }
+}
+
 export {
     get,
     create,
-    delete_
+    delete_,
+    edit
 };
