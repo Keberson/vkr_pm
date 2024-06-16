@@ -7,7 +7,7 @@ import wbsRoute from "./src/routes/wbs.route";
 import treeRoute from "./src/routes/tree.route";
 import viewRoute from "./src/routes/view.route";
 import authRoute from "./src/routes/auth.route";
-import {hashSync} from "bcryptjs";
+import projectRoute from "./src/routes/project.route";
 
 config();
 
@@ -24,6 +24,7 @@ app.use(`${baseUrl}/activity`, activityRoute);
 app.use(`${baseUrl}/wbs`, wbsRoute);
 app.use(`${baseUrl}/tree`, treeRoute);
 app.use(`${baseUrl}/view`, viewRoute);
+app.use(`${baseUrl}/project`, projectRoute);
 
 app.listen(PORT, async () => {
     // await create_storage();
