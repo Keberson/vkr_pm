@@ -4,6 +4,13 @@ interface IGetActivitiesRes {
     result: IActivity[]
 }
 
+interface ILoginRes {
+    jwt: string,
+    name: string,
+    role: string
+}
+
 export {
-    IGetActivitiesRes
+    IGetActivitiesRes,
+    ILoginRes
 }

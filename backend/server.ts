@@ -6,6 +6,8 @@ import activityRoute from "./src/routes/activity.route";
 import wbsRoute from "./src/routes/wbs.route";
 import treeRoute from "./src/routes/tree.route";
 import viewRoute from "./src/routes/view.route";
+import authRoute from "./src/routes/auth.route";
+import {hashSync} from "bcryptjs";
 
 config();
 
@@ -17,6 +19,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(`${baseUrl}/auth`, authRoute);
 app.use(`${baseUrl}/activity`, activityRoute);
 app.use(`${baseUrl}/wbs`, wbsRoute);
 app.use(`${baseUrl}/tree`, treeRoute);
