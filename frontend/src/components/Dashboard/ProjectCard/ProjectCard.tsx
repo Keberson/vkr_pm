@@ -11,13 +11,14 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     return (
-        <Link to={`${project.id}`}>
+        <Link to={`${project.id}`} className="h-[300px]">
             <div
                 className="
-                    h-[250px]
+                    h-[300px]
                     rounded-lg cursor-pointer
                     ps-5 pe-5 pt-3 pb-3
-                    grid grid-rows-5 gap-3
+                    grid grid-rows-[30px_1fr_50px_50px]
+                    gap-2
                     bg-block-background-secondary hover:bg-block-background
                     text-text hover:text-text-hover"
                 key={project.id}
@@ -26,7 +27,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     <span className="text-inherit hover:text- text-sm">{project.name}</span>
                     <ProjectIcon size={20} />
                 </div>
-                <span className="text-inherit text-sm">{project.description}</span>
+                <span className="text-inherit text-xs overflow-auto h-full border rounded-lg ps-2 pe-2 pt-1 pb-1">
+                    {project.description}
+                </span>
                 <div className="flex flex-col text-inherit text-sm">
                     <span>План:</span>
                     <span>{getFormatDate(project.date_start_plan)} - {getFormatDate(project.date_finish_plan)}</span>
@@ -35,7 +38,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     <span>Факт:</span>
                     <span>{getFormatDate(project.date_start_actual)} - {getFormatDate(project.date_finish_actual)}</span>
                 </div>
-                <span className="text-inherit text-xs">Владелец: {project.owner}</span>
             </div>
         </Link>
 

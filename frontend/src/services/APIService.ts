@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 
-import {IGetActivitiesRes, IGetTreeRes, IGetViewRes, IGetWBSChildsRes, IGetWBSRes} from "../types/Responses";
+import {IGetActivitiesRes, IGetProjectsRes, IGetTreeRes, IGetViewRes, IGetWBSChildsRes, IGetWBSRes} from "../types/Responses";
 import {ICreateWBSReq, IGetTreeReq} from "../types/Requests";
 import {ICreateView} from "../types/IView";
 import {ICreateActivity} from "../types/IActivity";
@@ -9,9 +9,12 @@ export const api = createApi({
     reducerPath: 'wbsApi',
     baseQuery: fetchBaseQuery({
         baseUrl: "http://localhost:3001/api/",
-        credentials: "same-origin"
+        credentials: "same-origin",
+        prepareHeaders(headers) {
+            return headers.set("Authorization", `Bearer ${localStorage.getItem("jwt")}`)
+        }
     }),
-    tagTypes: ["WBS", "Tree", "Activity", "View"],
+    tagTypes: ["WBS", "Tree", "Activity", "View", "Project"],
     endpoints: (build) => ({
         // WBS
         getWBS: build.query<IGetWBSRes, number>({
@@ -85,6 +88,13 @@ export const api = createApi({
             }),
             providesTags: ["Tree"]
         }),
+        // Project
+        getProjects: build.query<IGetProjectsRes, void>({
+            query: () => ({
+                url: `project/`
+            }),
+            providesTags: ["Project"]
+        })
     })
 });
 
@@ -92,5 +102,6 @@ export const {
     useGetWBSQuery, useGetWBSChildsQuery, useCreateWBSMutation, useDeleteWBSMutation,
     useCreateViewMutation, useGetViewQuery,
     useCreateActivityMutation, useGetActivitiesQuery, useDeleteActivityMutation,
-    useGetTreeQuery
+    useGetTreeQuery,
+    useGetProjectsQuery
 } = api;

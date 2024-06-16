@@ -14,6 +14,7 @@ import groupSlice from "./slices/GroupSlice";
 import {api} from "../services/APIService";
 import {loginApi} from "../services/LoginService";
 import authSlice from "./slices/AuthSlice";
+import projectSlice from "./slices/ProjectSlice";
 
 export const store = configureStore({
     reducer: {
@@ -27,6 +28,7 @@ export const store = configureStore({
         view: viewSlice,
         create: createSlice,
         group: groupSlice,
+        project: projectSlice,
         [api.reducerPath]: api.reducer,
         [loginApi.reducerPath]: loginApi.reducer,
     },

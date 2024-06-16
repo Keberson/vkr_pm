@@ -1,42 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 
-import {IProject} from "../../types/IProject";
+import {useAppDispatch} from "../../hooks/useAppDispatch";
+import {useGetProjectsQuery} from "../../services/APIService";
+
+import {setLoader} from "../../store/slices/LoaderSlice";
+
 import {ProjectCard} from "../../components/Dashboard/ProjectCard/ProjectCard";
 import {DashboardHeader} from "../../components/Dashboard/DashboardHeader/DashboardHeader";
+import {useAppSelector} from "../../hooks/useAppSelector";
+
 
 export const Dashboard = () => {
-    const projects: IProject[] = [
-        {
-            id: 1,
-            name: 'Проект №1',
-            owner: 'Кузов Максим Юрьевич',
-            description: 'Тестовый проект для ВКР',
-            date_start_plan: "2024-10-20",
-            date_finish_plan: "2024-10-20",
-            date_start_actual: "2024-10-20",
-            date_finish_actual: "2024-10-20",
-        },
-        {
-            id: 2,
-            name: 'Проект №2',
-            owner: 'Кузов Максим Юрьевич',
-            description: 'Тестовый проект для ВКР №2',
-            date_start_plan: "2024-10-20",
-            date_finish_plan: "2024-10-20",
-            date_start_actual: "2024-10-20",
-            date_finish_actual: "2024-10-20",
-        },
-        {
-            id: 3,
-            name: 'Проект №3',
-            owner: 'Кузов Максим Юрьевич',
-            description: 'Тестовый проект для ВКР №3',
-            date_start_plan: "2024-10-20",
-            date_finish_plan: "2024-10-20",
-            date_start_actual: "2024-10-20",
-            date_finish_actual: "2024-10-20",
-        },
-    ];
+    const dispatch = useAppDispatch();
+    const {isLoading} = useGetProjectsQuery();
+    const projects = useAppSelector(state => state.project.projects);
+
+    useEffect(() => {
+        dispatch(setLoader({show: isLoading, from: "Dashboard"}));
+    }, [dispatch, isLoading]);
 
     return (
         <>

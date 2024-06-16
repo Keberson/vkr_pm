@@ -1,5 +1,5 @@
-import React from "react";
-import {Outlet} from "react-router-dom";
+import React, {useEffect} from "react";
+import {Outlet, useNavigate} from "react-router-dom";
 
 import {ModalWrapper} from "../ModalWrapper/ModalWrapper";
 import {Loader} from "../Loader/Loader";
@@ -10,6 +10,17 @@ export const Wrappers = () => {
     const modalShow = useAppSelector(state => state.loader.show);
     const toastType = useAppSelector(state => state.toast.show);
     const toastMessage = useAppSelector(state => state.toast.message);
+
+    const isAuth = useAppSelector(state => state.auth.isAuth);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isAuth) {
+            navigate("/dashboard");
+        } else {
+            navigate("/login");
+        }
+    }, [isAuth, navigate]);
 
     return (
         <>

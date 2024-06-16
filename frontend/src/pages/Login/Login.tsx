@@ -1,21 +1,9 @@
-import React, {useEffect} from "react";
-import {useNavigate} from "react-router-dom";
-
-import {useAppSelector} from "../../hooks/useAppSelector";
+import React from "react";
 
 import {LoginForm} from "../../components/LoginPage/LoginForm/LoginForm";
 import {Logo} from "../../components/Logo/Logo";
 
 export const Login = () => {
-    const isAuth = useAppSelector(state => state.auth.isAuth);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (isAuth) {
-            navigate("/dashboard");
-        }
-    }, [isAuth, navigate]);
-
     return (
         <div className="flex h-full">
             <div className="container mx-auto mt-20 flex flex-col gap-10">
