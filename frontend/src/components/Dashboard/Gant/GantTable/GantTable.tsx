@@ -62,7 +62,7 @@ export const GantTable: React.FC<GantTableProps> = ({ projectID, view }) => {
                 {
                     Tree.walkTree(tree.getRoot(), 0, (node: TreeNode, gap: number, isEmpty: boolean) => {
                         if (node.getValue().id !== -1) {
-                            return <GantRow nodeData={node.getValue()} gap={gap - 1} isEmpty={isEmpty} view={view}/>
+                            return <GantRow nodeData={node.getValue()} gap={gap - 1} isEmpty={isEmpty} />
                         } else {
                             return <></>
                         }
