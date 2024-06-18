@@ -4,7 +4,7 @@ import {IWBS} from "../models/IWBS";
 import {objectToDataList} from "../utils/objectToDataList.util";
 import {ICreateWBSReq, IEditWBSReq} from "../models/Requests";
 import {getActivityIDByWBS} from "./link_activity_wbs.service";
-import {getWBSChildsByParentID} from "./link_wbs.service";
+import {createLinkWBS, editLinkWBS, getWBSChildsByParentID, getWBSParentsByChildID} from "./link_wbs.service";
 
 const PATH = "../sql/wbs"
 
@@ -39,9 +39,22 @@ const deleteWBS = async (id: number) => {
     await dbService.none(wbs.deleteWBS, [id]);
 };
 
-const editWBSName = async (data: IEditWBSReq) => {
-    await dbService.none(wbs.editWBSName, [data.id, data.name])
+const editWBS = async (data: IEditWBSReq) => {
+    await dbService.none(wbs.editWBSName, [data.id, data.name]);
+
+    try {
+        await editLinkWBS(data.oldParent, data.id, data.parent);
+    } catch (e) {
+        await createLinkWBS(data.parent, data.id);
+    }
 };
+
+const reDateWBS = async (wbs: number) => {
+    const linksActivity = await getActivityIDByWBS(wbs);
+    const linksWBS = await getWBSParentsByChildID(wbs);
+
+
+}
 
 
 export {
@@ -50,5 +63,5 @@ export {
     getWBSChilds,
     createWBS,
     deleteWBS,
-    editWBSName
+    editWBS
 };

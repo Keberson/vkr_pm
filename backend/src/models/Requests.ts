@@ -26,7 +26,9 @@ interface IEditActivityReq {
 
 interface IEditWBSReq {
     id: number,
-    name: string
+    name: string,
+    parent: number,
+    oldParent: number
 }
 
 export {

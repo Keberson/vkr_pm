@@ -8,7 +8,9 @@ const PATH = "../sql/linkWBS";
 const linkWBS = {
     getEmptyWBSByProject: sql(`${PATH}/getEmptyWBSByProject.sql`),
     getByParentID: sql(`${PATH}/getByParentID.sql`),
+    getByChildID: sql(`${PATH}/getByChildID.sql`),
     createLinkWBS: sql(`${PATH}/createLinkWBS.sql`),
+    editLinkWBS: sql(`${PATH}/editLinkWBS.sql`)
 };
 
 const getEmptyWBSByProject = async (projectID: number, view: number): Promise<IWBS[]> => {
@@ -18,12 +20,22 @@ const getWBSChildsByParentID = async (parentID: number): Promise<ILinkWBS[]> => 
     return await dbService.manyOrNone(linkWBS.getByParentID, [parentID]);
 }
 
+const getWBSParentsByChildID = async (childID: number): Promise<ILinkWBS[]> => {
+    return await dbService.manyOrNone(linkWBS.getByChildID, [childID]);
+}
+
 const createLinkWBS = async (parent: number, child: number) => {
     await dbService.none(linkWBS.createLinkWBS, [parent, child])
+}
+
+const editLinkWBS = async (oldParent: number, child: number, newParent: number) => {
+    await dbService.none(linkWBS.editLinkWBS, [oldParent, child, newParent]);
 }
 
 export {
     getEmptyWBSByProject,
     getWBSChildsByParentID,
-    createLinkWBS
+    getWBSParentsByChildID,
+    createLinkWBS,
+    editLinkWBS
 };
