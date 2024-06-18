@@ -166,36 +166,24 @@ export const GantItemWBSDescription: React.FC = () => {
                 </div>
                 <div />
                 <div className="flex flex-col">
-                    <label className="text-text">Дата старта (план)</label>
-                    <input
-                        type="date"
-                        value={wbs.date_start_plan ? wbs.date_start_plan.split('T')[0] : ''}
-                    />
+                    <span className="text-text">Дата старта (план)</span>
+                    <span className="ps-2 pe-2 pt-1 pb-1 w-fill h-full text-text border border-text rounded">{wbs.date_start_plan ? wbs.date_start_plan.split('T')[0] : 'Не определено'}</span>
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-text">Дата финиша (план)</label>
-                    <input
-                        type="date"
-                        value={wbs.date_finish_plan ? wbs.date_finish_plan.split('T')[0] : ''}
-                    />
+                    <span className="text-text">Дата финиша (план)</span>
+                    <span className="ps-2 pe-2 pt-1 pb-1 w-fill h-full text-text border border-text rounded">{wbs.date_finish_plan ? wbs.date_finish_plan.split('T')[0] : 'Не определено'}</span>
                 </div>
                 <div className="flex flex-col">
                     <span className="text-text">Длительность (план), дней</span>
                     <span className="ps-2 pe-2 pt-1 pb-1 w-fill h-full text-text border border-text rounded">{diffDate(wbs.date_finish_plan, wbs.date_start_plan)}</span>
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-text">Дата старта (факт)</label>
-                    <input
-                        type="date"
-                        value={wbs.date_start_actual ? wbs.date_start_actual.split('T')[0] : ''}
-                    />
+                    <span className="text-text">Дата старта (факт)</span>
+                    <span className="ps-2 pe-2 pt-1 pb-1 w-fill h-full text-text border border-text rounded">{wbs.date_start_actual ? wbs.date_start_actual.split('T')[0] : 'Не определено'}</span>
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-text">Дата финиша (факт)</label>
-                    <input
-                        type="date"
-                        value={wbs.date_finish_actual ? wbs.date_finish_actual.split('T')[0] : ''}
-                    />
+                    <span className="text-text">Дата финиша (факт)</span>
+                    <span className="ps-2 pe-2 pt-1 pb-1 w-fill h-full text-text border border-text rounded">{wbs.date_finish_actual ? wbs.date_finish_actual.split('T')[0] : 'Не определено'}</span>
                 </div>
                 <div className="flex flex-col">
                     <span className="text-text">Длительность (факт), дней</span>
