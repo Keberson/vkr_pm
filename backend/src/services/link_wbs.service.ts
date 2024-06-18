@@ -10,7 +10,8 @@ const linkWBS = {
     getByParentID: sql(`${PATH}/getByParentID.sql`),
     getByChildID: sql(`${PATH}/getByChildID.sql`),
     createLinkWBS: sql(`${PATH}/createLinkWBS.sql`),
-    editLinkWBS: sql(`${PATH}/editLinkWBS.sql`)
+    editLinkWBS: sql(`${PATH}/editLinkWBS.sql`),
+    deleteLinkWBS: sql(`${PATH}/deleteLinkWBS.sql`),
 };
 
 const getEmptyWBSByProject = async (projectID: number, view: number): Promise<IWBS[]> => {
@@ -32,10 +33,15 @@ const editLinkWBS = async (oldParent: number, child: number, newParent: number) 
     await dbService.none(linkWBS.editLinkWBS, [oldParent, child, newParent]);
 }
 
+const deleteLinkWBS = async (oldParent: number, child: number) => {
+    await dbService.none(linkWBS.deleteLinkWBS, [oldParent, child]);
+}
+
 export {
     getEmptyWBSByProject,
     getWBSChildsByParentID,
     getWBSParentsByChildID,
     createLinkWBS,
-    editLinkWBS
+    editLinkWBS,
+    deleteLinkWBS
 };

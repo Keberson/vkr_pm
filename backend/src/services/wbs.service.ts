@@ -4,7 +4,7 @@ import {IWBS} from "../models/IWBS";
 import {objectToDataList} from "../utils/objectToDataList.util";
 import {ICreateWBSReq, IEditWBSReq} from "../models/Requests";
 import {getActivityIDByWBS} from "./link_activity_wbs.service";
-import {createLinkWBS, editLinkWBS, getWBSChildsByParentID, getWBSParentsByChildID} from "./link_wbs.service";
+import {createLinkWBS, deleteLinkWBS, editLinkWBS, getWBSChildsByParentID, getWBSParentsByChildID} from "./link_wbs.service";
 
 const PATH = "../sql/wbs"
 
@@ -42,10 +42,14 @@ const deleteWBS = async (id: number) => {
 const editWBS = async (data: IEditWBSReq) => {
     await dbService.none(wbs.editWBSName, [data.id, data.name]);
 
-    try {
-        await editLinkWBS(data.oldParent, data.id, data.parent);
-    } catch (e) {
-        await createLinkWBS(data.parent, data.id);
+    if (data.oldParent !== Number(data.parent)) {
+        if (data.oldParent === -1) {
+            await createLinkWBS(data.parent, data.id);
+        } else if (Number(data.parent) !== -1) {
+            await editLinkWBS(data.oldParent, data.id, data.parent);
+        } else {
+            await deleteLinkWBS(data.oldParent, data.id);
+        }
     }
 };
 
