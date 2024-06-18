@@ -58,7 +58,7 @@ export const GantTable: React.FC<GantTableProps> = ({ projectID, view }) => {
                 <thead className="sticky top-0 text-text bg-background-secondary z-10">
                     <GantWBSTableHead />
                 </thead>
-                <tbody className="text-text text-sm">
+                <tbody className="text-text text-sm z-0">
                 {
                     Tree.walkTree(tree.getRoot(), 0, (node: TreeNode, gap: number, isEmpty: boolean) => {
                         if (node.getValue().id !== -1) {

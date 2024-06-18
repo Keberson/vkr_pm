@@ -11,9 +11,11 @@ import {setLoader} from "../../../../store/slices/LoaderSlice";
 import {setToast, setToastMessage} from "../../../../store/slices/ToastSlice";
 
 import {CrossIcon} from "../../../../assets/CrossIcon";
+import {Tree} from "../../../../types/Tree";
 
 interface Inputs {
     name: string,
+    wbs: number
 }
 
 export const GantItemWBSDescription: React.FC = () => {
@@ -21,6 +23,10 @@ export const GantItemWBSDescription: React.FC = () => {
     const [deleteWBS] = useDeleteWBSMutation();
     const [editWBS] = useEditWBSMutation();
     const wbs = useAppSelector(state => state.editor.wbs);
+    const tree = useAppSelector(state => state.tree.tree);
+    const wbses = useAppSelector(state => state.tree.wbs);
+    const parentIdRaw = Tree.findParent(tree.getRoot(), "0", `wbs-${wbs.id}`)?.split("wbs-")[1];
+    const parentId = parentIdRaw ? Number(parentIdRaw) : -1;
     const {
         register,
         watch,
@@ -28,13 +34,15 @@ export const GantItemWBSDescription: React.FC = () => {
     } = useForm<Inputs>({
         defaultValues: {
             name: wbs.name,
+            wbs: parentId
         }
     });
     const wbsChanges = {
         name: watch("name"),
+        wbs: watch("wbs")
     }
 
-    const isHaveChanges: boolean = wbsChanges.name !== wbs.name;
+    const isHaveChanges: boolean = wbsChanges.name !== wbs.name || wbsChanges.wbs !== parentId;
 
     const saveStyles = isHaveChanges ? "border-light text-text cursor-pointer" : "cursor-default border-text-secondary text-text-muted";
 
@@ -72,6 +80,8 @@ export const GantItemWBSDescription: React.FC = () => {
             const res = await editWBS({
                 id: wbs.id,
                 name: data.name,
+                parent: data.wbs,
+                oldParent: parentId
             });
 
             let isError = false;
@@ -104,6 +114,21 @@ export const GantItemWBSDescription: React.FC = () => {
                 <div className="inline-flex items-center w-full justify-between">
                     <div className="flex gap-5">
                         <h2 className="font-bold">Редактирование WBS "{wbs.name}"</h2>
+                        <select className="text-black" {...register("wbs")}>
+                            {parentId === -1 ?
+                                <option value={-1}>Корневая WBS</option>
+                                :
+                                <>
+                                    <option value={parentId}>{wbses.find(element => element.id === parentId)!.name}</option>
+                                    <option value={-1}>Корневая WBS</option>
+                                </>
+                            }
+                            {
+                                wbses.filter(element => element.id !== parentId && element.id !== wbs.id).map(element => (
+                                    <option value={element.id}>{element.name}</option>
+                                ))
+                            }
+                        </select>
                     </div>
                     <div className="flex gap-5">
                         <button

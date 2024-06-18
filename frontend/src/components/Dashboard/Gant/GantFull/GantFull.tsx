@@ -66,7 +66,7 @@ export const GantFull = () => {
     return (
         <>
             {isShowModal &&
-                <ModalWrapper z={30}>
+                <ModalWrapper z={40}>
                     {modalType === "create" && <ModalCreate projectID={projectID} view={view} />}
                     {modalType === "group" && <ModalGroup projectID={projectID} view={view} />}
                 </ModalWrapper>

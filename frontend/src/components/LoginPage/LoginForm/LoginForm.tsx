@@ -6,11 +6,13 @@ import {useLoginMutation} from "../../../services/LoginService";
 import {useAppDispatch} from "../../../hooks/useAppDispatch";
 import {setLoader} from "../../../store/slices/LoaderSlice";
 import {setToast, setToastMessage} from "../../../store/slices/ToastSlice";
+import {useNavigate} from "react-router-dom";
 
 export const LoginForm = () => {
     const dispatch = useAppDispatch();
     const [login] = useLoginMutation();
     const {register, handleSubmit} = useForm<ILogin>();
+    const navigate = useNavigate();
 
     const onSubmit: SubmitHandler<ILogin> = async (data) => {
         dispatch(setLoader({show: true, from: "LoginForm"}));
@@ -25,6 +27,7 @@ export const LoginForm = () => {
         }
 
         dispatch(setLoader({show: false, from: "LoginForm"}));
+        navigate("/dashboard");
     };
 
     return (

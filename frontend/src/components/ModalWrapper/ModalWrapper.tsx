@@ -14,7 +14,7 @@ export const ModalWrapper: React.FC<ModalWrapperProps> = ({ children, z = 10, po
     return (
         <div className={`relative z-${z}`} aria-labelledby="modal-title" role="dialog" aria-modal="true">
             {bgOpacity === "blur" && <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>}
-            <div className={`fixed ${opacityStyles} z-10 w-screen overflow-y-auto pointer-events-none`}>
+            <div className={`fixed ${opacityStyles} z-${z} w-screen overflow-y-auto pointer-events-none`}>
                 <div className={`flex h-full ${alignStyles} p-4 text-center`}>
                     {children}
                 </div>
