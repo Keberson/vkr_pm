@@ -42,11 +42,12 @@ const editActivity = async (id: number, data: IEditActivityReq) => {
     const newWBS = Number(data.wbs);
     const startActual = activityData.date_start_actual === "" ? "-infinity" : activityData.date_start_actual;
     const finishActual = activityData.date_finish_actual === "" ? "+infinity" : activityData.date_finish_actual;
-    const status = startActual === "-infinity" ? "Не начата" : finishActual !== "+infinity" ? "Выполняется" : "Завершена";
+    const status = startActual === "-infinity" ? "Не начата" : finishActual === "+infinity" ? "Выполняется" : "Завершена";
+    console.log(finishActual !== "+infinity", finishActual)
 
     await dbService.none(activity.editActivity, [activityData.name, activityData.date_start_plan, activityData.date_finish_plan, startActual, finishActual, status, activityData.description, id]);
 
-    if (activityData.wbs === -1) {
+    if (activityData.wbs === -1 && Number(data.wbs) !== -1) {
         await createLinkActivityWBS(id, newWBS);
     } else if (Number(data.wbs) !== -1) {
         await editLinkActivityWBS(id, oldWBS, newWBS);
