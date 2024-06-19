@@ -54,6 +54,8 @@ const editWBS = async (data: IEditWBSReq) => {
             await deleteLinkWBS(data.oldParent, data.id);
         }
     }
+
+    await reDateWBS(data.id);
 };
 
 const editWBSDates = async (wbsID: number, startPlanRaw: string, finishPlanRaw: string, startActualRaw: string, finishActualRaw: string) => {
@@ -112,10 +114,10 @@ const reDateWBS = async (wbsID: number) => {
     const minStartActualRaw = Math.min.apply(null, datesStartActual);
     const maxFinishActualRaw = Math.max.apply(null, datesFinishActual);
 
-    const minStartPlan = isNaN(minStartPlanRaw) ? "-infinity" : new Date(Math.min.apply(null, datesStartPlan)).toISOString();
-    const maxFinishPlan = isNaN(maxFinishPlanRaw) ? "+infinity" : new Date(Math.max.apply(null, datesFinishPlan)).toISOString();
-    const minStartActual = isNaN(minStartActualRaw) ? "-infinity" : new Date(Math.min.apply(null, datesStartActual)).toISOString();
-    const maxFinishActual = isNaN(maxFinishActualRaw) ? "+infinity" : new Date(Math.min.apply(null, datesFinishActual)).toISOString();
+    const minStartPlan = isNaN(minStartPlanRaw) ? "-infinity" : new Date(minStartPlanRaw).toISOString();
+    const maxFinishPlan = isNaN(maxFinishPlanRaw) ? "+infinity" : new Date(maxFinishPlanRaw).toISOString();
+    const minStartActual = isNaN(minStartActualRaw) ? "-infinity" : new Date(minStartActualRaw).toISOString();
+    const maxFinishActual = isNaN(maxFinishActualRaw) ? "+infinity" : new Date(maxFinishActualRaw).toISOString();
 
     await editWBSDates(wbsID, minStartPlan, maxFinishPlan, minStartActual, maxFinishActual);
     await editWBSStatus(wbsID, minStartActual === "-infinity" ? "Не начата" : maxFinishActual === "+infinity" ? "Выполняется" : "Завершена");
