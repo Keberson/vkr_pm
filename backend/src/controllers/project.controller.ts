@@ -18,6 +18,7 @@ const get = async (req: Request, res: Response) => {
         res.status(200).json({ result })
     } catch (err) {
         console.error("Ошибка при получении проектов: " + err.message);
+	    console.error(err);
         res.status(400).json({message: err.message});
     }
 }
@@ -43,6 +44,7 @@ const create = async (req: Request, res: Response) => {
         res.status(200).json({})
     } catch (err) {
         console.error("Ошибка при создании проекта: " + err.message);
+	    console.error(err);
         res.status(400).json({message: err.message});
     }
 }

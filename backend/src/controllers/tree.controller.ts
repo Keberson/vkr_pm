@@ -9,6 +9,7 @@ const get = async (req: Request, res: Response) => {
         res.status(200).json({ result })
     } catch (err) {
         console.error("Ошибка при получении дерева: " + err.message);
+	    console.error(err);
         console.error(err);
         res.status(400).json({message: err.message});
     }

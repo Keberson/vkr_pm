@@ -41,10 +41,10 @@ const getTree = async (projectID: number, view: number): Promise<ITreeNode> => {
         value: {
             id: -1,
             name: "Root",
-            date_start_plan: new Date(),
-            date_start_finish: new Date(),
-            date_start_actual: new Date(),
-            date_finish_actual: new Date(),
+            date_start_plan: "",
+            date_finish_plan: "",
+            date_start_actual: "",
+            date_finish_actual: "",
             status: 'Не начата',
             project_id: projectID,
             id_view: -1

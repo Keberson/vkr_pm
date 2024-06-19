@@ -4,6 +4,7 @@ import {dbService} from "./db.service";
 import {objectToDataList} from "../utils/objectToDataList.util";
 import {IEditActivityReq} from "../models/Requests";
 import {createLinkActivityWBS, deleteLinkActivityWBS, editLinkActivityWBS} from "./link_activity_wbs.service";
+import {reDateWBS} from "./wbs.service";
 
 const PATH = '../sql/activity'
 
@@ -55,6 +56,9 @@ const editActivity = async (id: number, data: IEditActivityReq) => {
             await deleteLinkActivityWBS(id, oldWBS);
         }
     }
+
+    await reDateWBS(activityData.wbs);
+    await reDateWBS(Number(data.wbs));
 }
 
 export {

@@ -1,9 +1,9 @@
 interface IWBS extends ICreateWBS{
     id: number,
-    date_start_plan: Date,
-    date_start_finish: Date,
-    date_start_actual: Date,
-    date_finish_actual: Date,
+    date_start_plan: string,
+    date_finish_plan: string,
+    date_start_actual: string,
+    date_finish_actual: string,
     status: 'Не начата' | 'Выполняется' | 'Завершено',
 }
 interface ICreateWBS {

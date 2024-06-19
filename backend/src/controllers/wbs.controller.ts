@@ -27,6 +27,7 @@ const create = async (req: Request, res: Response) => {
         res.status(200).json({});
     } catch (err) {
         console.error("Ошибка при создании WBS: " + err.message);
+	    console.error(err);
         res.status(400).json({message: err.message});
     }
 }
@@ -38,6 +39,7 @@ const delete_ = async (req: Request, res: Response) => {
         res.status(200).json({});
     } catch (err) {
         console.error("Ошибка при удалении WBS: " + err.message);
+	    console.error(err);
         res.status(400).json({message: err.message});
     }
 }
@@ -49,6 +51,7 @@ const edit = async (req: Request, res: Response) => {
         res.status(200).json({});
     } catch (err) {
         console.error("Ошибка при изменении WBS: " + err.message);
+	    console.error(err);
         res.status(400).json({message: err.message});
     }
 }
