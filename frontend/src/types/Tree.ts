@@ -95,7 +95,7 @@ class Tree {
         const res: string[] = [];
         const value = nextNode.getValue();
         const type: "wbs" | "activity" = isInstanceOfIActivity(value) ? "activity" : "wbs";
-        const isAlready: boolean = !isInstanceOfIActivity(value) && value.id === getFromWBS;
+        const isAlready: boolean = (!isInstanceOfIActivity(value) && value.id === getFromWBS) || already;
 
         if (already) {
             res.push(`${type}-${nextNode.getValue().id}`);

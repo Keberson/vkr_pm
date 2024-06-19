@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 
 import {HideIcon} from "../../../../assets/HideIcon";
-import {ItemIcon} from "../../../../assets/ItemIcon";
 import {WBSIcon} from "../../../../assets/WBSIcon";
 import {ActivityIcon} from "../../../../assets/ActivityIcon";
 import {ExpandIcon} from "../../../../assets/ExpandIcon";
@@ -100,7 +99,7 @@ export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap
                     {
                         !isEmpty ?
                             isHidedList ? <ExpandIcon size={5} /> : <HideIcon size={5} />
-                            : <ItemIcon size={5} />
+                            : <div className="h-[5px] w-[5px]"></div>
 
                     }
                     <span className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-[400px]">{nodeData.name}</span>
