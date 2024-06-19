@@ -14,6 +14,10 @@ import {setToast, setToastMessage} from "../../../../store/slices/ToastSlice";
 
 import {CrossIcon} from "../../../../assets/CrossIcon";
 
+interface GantItemActivityDescriptionProps {
+    projectID: number
+}
+
 interface Inputs {
     wbs: number,
     name: string,
@@ -24,7 +28,7 @@ interface Inputs {
     date_finish_actual: string,
 }
 
-export const GantItemActivityDescription: React.FC = () => {
+export const GantItemActivityDescription: React.FC<GantItemActivityDescriptionProps> = ({ projectID }) => {
     const dispatch = useAppDispatch();
     const activity = useAppSelector(state => state.editor.activity);
     const tree = useAppSelector(state => state.tree.tree);
@@ -111,7 +115,8 @@ export const GantItemActivityDescription: React.FC = () => {
                     date_finish_plan: data.date_finish_plan,
                     date_start_actual: data.date_start_actual,
                     date_finish_actual: data.date_finish_actual,
-                    wbs: wbsId
+                    wbs: wbsId,
+                    project_id: projectID
                 }
             });
 

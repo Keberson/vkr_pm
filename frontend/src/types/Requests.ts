@@ -20,7 +20,8 @@ interface IEditActivityReq {
         date_finish_plan: string,
         date_start_actual: string,
         date_finish_actual: string,
-        wbs: number
+        wbs: number,
+        project_id: number
     }
 }
 

@@ -106,7 +106,7 @@ export const GantFull = () => {
                             </>
                         </ScrollSyncPane>
                     </div>
-                    {isShowEditor && showEditorType === "activity" && <GantItemActivityDescription />}
+                    {isShowEditor && showEditorType === "activity" && <GantItemActivityDescription  projectID={projectID}/>}
                     {isShowEditor && showEditorType === "wbs" && <GantItemWBSDescription />}
                 </div>
             </ScrollSync>
