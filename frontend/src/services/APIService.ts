@@ -98,7 +98,7 @@ export const api = createApi({
                 method: "PUT",
                 body: body
             }),
-            invalidatesTags: () => ["Activity", "Tree", "WBS"]
+            invalidatesTags: () => ["Activity", "Tree", "WBS", "Project"]
         }),
 
         // Tree
