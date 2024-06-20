@@ -9,6 +9,7 @@ import {setLoader} from "../../../../store/slices/LoaderSlice";
 import {setToast, setToastMessage} from "../../../../store/slices/ToastSlice";
 import {setModal} from "../../../../store/slices/ModalProjectSlice";
 import {setIsSubmit} from "../../../../store/slices/CreateSlice";
+import {clear} from "../../../../store/slices/GroupSlice";
 
 interface CreateWBSProps {
     project: number,
@@ -31,7 +32,7 @@ export const CreateWBS: React.FC<CreateWBSProps> = ({ project, view, childs = []
     } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        let message = "";
+        let message: string;
         let isError: boolean = false;
         let toastType: "correct" | "error" = "correct";
         let res;
@@ -67,6 +68,7 @@ export const CreateWBS: React.FC<CreateWBSProps> = ({ project, view, childs = []
     if (type === "wbs" && isSubmit) {
         handleSubmit(onSubmit)();
         dispatch(setIsSubmit(false));
+        dispatch(clear());
     }
 
     return (

@@ -63,6 +63,7 @@ export const GantRow: React.FC<GantRowActivityProps> = ({ nodeData, isEmpty, gap
         let callback;
 
         if (type === "wbs") {
+
         }
 
         if (e.target.checked) {

@@ -30,7 +30,7 @@ export const ModalCreate: React.FC<ModalCreateProps> = ({ projectID, view }) => 
     });
     const type = watch("type");
 
-    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const onSubmit: SubmitHandler<Inputs> = async () => {
         dispatch(setIsSubmit(true));
     };
 
@@ -53,7 +53,9 @@ export const ModalCreate: React.FC<ModalCreateProps> = ({ projectID, view }) => 
                                         className="ps-2 pe-2 pt-1 pb-1 rounded-lg border-text-muted border outline-none bg-block-background-secondary text-text"
                                     >
                                         <option value="activity">Работа</option>
-                                        <option value="wbs">WBS</option>
+                                        {
+                                            view !== -1 && <option value="wbs">WBS</option>
+                                        }
                                         <option value="view">Вид</option>
                                     </select>
                                 </div>

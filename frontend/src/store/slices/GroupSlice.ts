@@ -14,16 +14,26 @@ const GroupSlice = createSlice({
     initialState,
     reducers: {
         addToGroup(state, action: PayloadAction<string>) {
-            state.toGroup = [...state.toGroup, action.payload];
+            const newToGroup = new Set<string>([...state.toGroup, action.payload]);
+
+            state.toGroup = Array.from(newToGroup);
         },
         removeFromGroup(state, action: PayloadAction<string>) {
-            state.toGroup = state.toGroup.filter(value => value !== action.payload);
+            const newToGroup = new Set<string>(state.toGroup);
+
+            newToGroup.delete(action.payload);
+
+            state.toGroup = Array.from(newToGroup);
+        },
+        clear(state) {
+            state.toGroup = [];
         }
     },
 })
 
 export const {
     addToGroup,
-    removeFromGroup
+    removeFromGroup,
+    clear
 } = GroupSlice.actions
 export default GroupSlice.reducer

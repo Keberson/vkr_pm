@@ -38,7 +38,7 @@ export const GantFull = () => {
     const showEditorType = useAppSelector(state => state.editor.showType);
     const isShowModal = useAppSelector(state => state.modalProject.show);
     const views = useAppSelector(state => state.view.views);
-    const isHaveSelected = useAppSelector(state => state.group.toGroup).length !== 0;
+    const isHaveSelected = useAppSelector(state => state.group.toGroup).length > 1;
     const modalType = useAppSelector(state => state.modalProject.type);
 
     const { isLoading: isLoadingViews } = useGetViewQuery(projectID);
@@ -46,7 +46,7 @@ export const GantFull = () => {
 
     const gridStyle = isShowEditor ? "grid-rows-[35px_1fr_300px]" : "grid-rows-[35px_1fr]";
     const heightBlock = isShowEditor ? "calc(100vh - 35px - 300px)" : "calc(100vh - 35px)";
-    const groupStyle = isHaveSelected ? "text-text border-text-secondary" : "text-text-muted border-gray cursor-default";
+    const groupStyle = view !== -1 && isHaveSelected ? "text-text border-text-secondary" : "text-text-muted border-gray cursor-default";
 
     useEffect(() => {
         dispatch(setLoader({show: isLoadingViews || isLoadingWBS, from: "GantFull"}));

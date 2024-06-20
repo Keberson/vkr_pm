@@ -69,6 +69,97 @@ class Tree {
         this.root.removeAllChildrens();
     }
 
+    findLCA(nodes: TreeNode[]): TreeNode | null {
+        const ancestors: Set<TreeNode>[] = [];
+
+        for (const node of nodes) {
+            let current = node;
+            const tmp = new Set<TreeNode>([node]);
+
+            while (current !== this.root && current !== null) {
+                tmp.add(current.getParent()!);
+                current = current.getParent()!;
+            }
+
+            ancestors.push(tmp);
+        }
+
+        let res: TreeNode | null = null;
+
+        if (ancestors.length !== 0) {
+            const mapNodes = new Map<TreeNode, number>();
+
+            for (const ancestor of ancestors) {
+                ancestor.forEach(item => {
+                    if (mapNodes.has(item)) {
+                        mapNodes.set(item, mapNodes.get(item)! + 1);
+                    } else {
+                        mapNodes.set(item, 1);
+                    }
+                });
+            }
+
+            const resArr: TreeNode[] = [];
+
+            mapNodes.forEach((value, key) => {
+                if (value === nodes.length) {
+                    resArr.push(key);
+                }
+            })
+
+            res = nodes.includes(resArr[0]) ? resArr[1] : resArr[0];
+        }
+
+        return res;
+    }
+
+    static hasChild(nexNode: TreeNode, toFind: string): boolean {
+        let res = false;
+        const [typeFind, idFind] = toFind.split('-');
+        const nodeValue = nexNode.getValue();
+        const nodeType = isInstanceOfIActivity(nodeValue) ? "activity" : "wbs";
+
+        console.log(nodeType, typeFind, nodeValue.id, Number(idFind), nodeType === typeFind && nodeValue.id === Number(idFind))
+        if (nodeType === typeFind && nodeValue.id === Number(idFind)) {
+            return true;
+        }
+
+        for (const child of nexNode.getChildrens()) {
+            const value = child.getValue();
+            const type = isInstanceOfIActivity(value) ? "activity" : "wbs";
+
+            if (type === typeFind && value.id === Number(idFind)) {
+                return true;
+            }
+
+            res = this.hasChild(child, toFind) || res;
+        }
+
+        return res;
+    }
+
+    static findNode(nexNode: TreeNode, toFind: string): TreeNode | undefined {
+        const [type, id] = toFind.split('-');
+        const value = nexNode.getValue();
+        const curType = isInstanceOfIActivity(value) ? "activity" : "wbs";
+
+        if (curType === type) {
+            if (Number(id) === value.id) {
+                return nexNode;
+            }
+        }
+
+        for (const child of nexNode.getChildrens()) {
+            const res = this.findNode(child, toFind);
+
+            if (res) {
+                return res
+            }
+        }
+
+        return undefined
+    }
+
     static findParent(nexNode: TreeNode, prev: string, toFind: string): string | undefined {
         const [type, id] = toFind.split('-');
         const value = nexNode.getValue();
