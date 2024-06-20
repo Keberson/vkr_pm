@@ -3,7 +3,7 @@ import {dbService} from "./db.service";
 import {IWBS} from "../models/IWBS";
 import {objectToDataList} from "../utils/objectToDataList.util";
 import {ICreateWBSReq, IEditWBSReq} from "../models/Requests";
-import {getActivityIDByWBS} from "./link_activity_wbs.service";
+import {createLinkActivityWBS, editLinkActivityWBS, getActivityIDByWBS, getWBSbyActivity} from "./link_activity_wbs.service";
 import {createLinkWBS, deleteLinkWBS, editLinkWBS, getWBSChildsByParentID, getWBSParentsByChildID} from "./link_wbs.service";
 import {getActivityByID} from "./activity.service";
 
@@ -35,7 +35,29 @@ const getWBSChilds = async (wbs: number): Promise<string[]> => {
 }
 
 const createWBS = async (data: ICreateWBSReq) => {
-    await dbService.none(wbs.createWBS, objectToDataList(data.wbs));
+    const wbsID: number = (await dbService.one(wbs.createWBS, objectToDataList(data.wbs))).id;
+
+    for (const child of data.childs) {
+        const [type, id] = child.split('-');
+
+        if (type === "activity") {
+            const existLink = (await getWBSbyActivity(Number(id), data.wbs.id_view)).id_wbs;
+
+            if (existLink !== null) {
+                await editLinkActivityWBS(Number(id), existLink, wbsID);
+            } else {
+                await createLinkActivityWBS(Number(id), wbsID);
+            }
+        } else {
+            const existLink = await getWBSParentsByChildID(Number(id));
+
+            if (existLink === null) {
+                await createLinkWBS(wbsID, Number(id));
+            } else {
+                await editLinkWBS(existLink.id_parent, existLink.id_child, wbsID);
+            }
+        }
+    }
 };
 
 const deleteWBS = async (id: number) => {
@@ -114,21 +136,20 @@ const reDateWBS = async (wbsID: number) => {
     const minStartActualRaw = Math.min.apply(null, datesStartActual);
     const maxFinishActualRaw = Math.max.apply(null, datesFinishActual);
 
-    const minStartPlan = isNaN(minStartPlanRaw) ? "-infinity" : new Date(minStartPlanRaw).toISOString();
-    const maxFinishPlan = isNaN(maxFinishPlanRaw) ? "+infinity" : new Date(maxFinishPlanRaw).toISOString();
-    const minStartActual = isNaN(minStartActualRaw) ? "-infinity" : new Date(minStartActualRaw).toISOString();
-    const maxFinishActual = isNaN(maxFinishActualRaw) ? "+infinity" : new Date(maxFinishActualRaw).toISOString();
+    const minStartPlan = datesStartPlan.length == 0 || isNaN(minStartPlanRaw) ? "-infinity" : new Date(minStartPlanRaw).toISOString();
+    const maxFinishPlan = datesFinishPlan.length == 0 || isNaN(maxFinishPlanRaw) ? "+infinity" : new Date(maxFinishPlanRaw).toISOString();
+    const minStartActual = datesStartActual.length == 0 || isNaN(minStartActualRaw) ? "-infinity" : new Date(minStartActualRaw).toISOString();
+    const maxFinishActual = datesFinishActual.length == 0 || isNaN(maxFinishActualRaw) ? "+infinity" : new Date(maxFinishActualRaw).toISOString();
 
     await editWBSDates(wbsID, minStartPlan, maxFinishPlan, minStartActual, maxFinishActual);
     await editWBSStatus(wbsID, minStartActual === "-infinity" ? "Не начата" : maxFinishActual === "+infinity" ? "Выполняется" : "Завершена");
 
-    const parentLinksWBS = await getWBSParentsByChildID(wbsID);
+    const nextParent = await getWBSParentsByChildID(wbsID);
 
-    for (const link of parentLinksWBS) {
-        await reDateWBS(link.id_parent);
+    if (nextParent !== null) {
+        await reDateWBS(nextParent.id_parent);
     }
 }
-
 
 export {
     getWBSByID,

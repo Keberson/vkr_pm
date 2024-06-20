@@ -7,6 +7,7 @@ const PATH = "../sql/linkActivityWbs"
 const linkActivityWBS = {
     getEmptyActivityByProject: sql(`${PATH}/getEmptyActivityByProject.sql`),
     getActivityIDByWBS: sql(`${PATH}/getActivityIDByWBS.sql`),
+    getWBSIDbyActivity: sql(`${PATH}/getWBSIDbyActivity.sql`),
     getWBSbyActivity: sql(`${PATH}/getWBSbyActivity.sql`),
     getCountWBSLinks: sql(`${PATH}/getCountWBSLinks.sql`),
     createLinkActivityWBS: sql(`${PATH}/createLinkActivityWBS.sql`),
@@ -24,8 +25,12 @@ const getActivityIDByWBS = async (wbsID: number): Promise<number[]> => {
     return response.map((value) => value.id_activity);
 }
 
-const getWBSbyActivity = async (activity: number): Promise<number | null> => {
-    return await dbService.oneOrNone(linkActivityWBS.getWBSbyActivity, [activity])
+const getWBSIDbyActivity = async (activity: number): Promise<number[]> => {
+    return await dbService.many(linkActivityWBS.getWBSIDbyActivity, [activity])
+}
+
+const getWBSbyActivity = async (activity: number, view: number): Promise<{ id_wbs: number } | null> => {
+    return await dbService.oneOrNone(linkActivityWBS.getWBSbyActivity, [activity, view])
 }
 
 const getCountWBSLinks = async (wbs: number): Promise<number> => {
@@ -48,6 +53,7 @@ export {
     getEmptyActivityByProject,
     getActivityIDByWBS,
     getWBSbyActivity,
+    getWBSIDbyActivity,
     getCountWBSLinks,
     createLinkActivityWBS,
     editLinkActivityWBS,

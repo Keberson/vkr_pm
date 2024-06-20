@@ -21,8 +21,8 @@ const getWBSChildsByParentID = async (parentID: number): Promise<ILinkWBS[]> => 
     return await dbService.manyOrNone(linkWBS.getByParentID, [parentID]);
 }
 
-const getWBSParentsByChildID = async (childID: number): Promise<ILinkWBS[]> => {
-    return await dbService.manyOrNone(linkWBS.getByChildID, [childID]);
+const getWBSParentsByChildID = async (childID: number): Promise<ILinkWBS | null> => {
+    return await dbService.oneOrNone(linkWBS.getByChildID, [childID]);
 }
 
 const createLinkWBS = async (parent: number, child: number) => {

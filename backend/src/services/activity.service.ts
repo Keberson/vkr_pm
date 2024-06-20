@@ -3,7 +3,7 @@ import {sql} from "../utils/sql.util";
 import {dbService} from "./db.service";
 import {objectToDataList} from "../utils/objectToDataList.util";
 import {IEditActivityReq} from "../models/Requests";
-import {createLinkActivityWBS, deleteLinkActivityWBS, editLinkActivityWBS, getWBSbyActivity} from "./link_activity_wbs.service";
+import {createLinkActivityWBS, deleteLinkActivityWBS, editLinkActivityWBS, getWBSIDbyActivity} from "./link_activity_wbs.service";
 import {reDateWBS} from "./wbs.service";
 import {reDateProject} from "./project.service";
 
@@ -36,13 +36,15 @@ const createActivity = async (data: ICreateActivity) => {
 };
 
 const deleteActivity = async (data: number) => {
-    const wbs = await getWBSbyActivity(data);
+    const wbs = await getWBSIDbyActivity(data);
     const activityData = await getActivityByID(data);
 
     await dbService.none(activity.deleteActivity, [data]);
 
-    if (wbs !== null) {
-        await reDateWBS(wbs);
+    if (wbs.length !== 0) {
+        for (const item of wbs) {
+            await reDateWBS(item);
+        }
     }
 
     await reDateProject(activityData.project_id);
