@@ -7,7 +7,7 @@ import {useGetProjectsQuery} from "../../services/APIService";
 import {setLoader} from "../../store/slices/LoaderSlice";
 
 import {ProjectCard} from "../../components/Dashboard/Projects/ProjectCard/ProjectCard";
-import {Header} from "../../components/Dashboard/Projects/Header/Header";
+import {Header} from "../../components/Header/Header";
 import {ModalWrapper} from "../../components/ModalWrapper/ModalWrapper";
 import {CreateProject} from "../../components/Dashboard/Projects/CreateProject/CreateProject";
 

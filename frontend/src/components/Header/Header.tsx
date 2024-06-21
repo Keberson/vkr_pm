@@ -1,15 +1,17 @@
 import React, {ReactNode} from "react";
 
-import {Logo} from "../../../Logo/Logo";
-import {ProfileIcon} from "../../../../assets/ProfileIcon";
+import {Logo} from "../Logo/Logo";
+import {ProfileIcon} from "../../assets/ProfileIcon";
 import {Panel} from "../Panel/Panel";
+import {PanelSubmit} from "../PanelSubmit/PanelSubmit";
 
 interface DashboardHeaderProps {
-    searchVisible: boolean,
-    children: ReactNode
+    searchVisible?: boolean,
+    children: ReactNode,
+    visibleSubmit?: boolean
 }
 
-export const Header: React.FC<DashboardHeaderProps> = ({ children, searchVisible }) => {
+export const Header: React.FC<DashboardHeaderProps> = ({ children, searchVisible = false, visibleSubmit = false }) => {
 
     return (
         <>
@@ -31,6 +33,9 @@ export const Header: React.FC<DashboardHeaderProps> = ({ children, searchVisible
             </header>
             {
                 searchVisible && <Panel />
+            }
+            {
+                visibleSubmit && <PanelSubmit />
             }
         </>
 

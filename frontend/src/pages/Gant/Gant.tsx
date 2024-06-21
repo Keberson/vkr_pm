@@ -3,26 +3,26 @@ import {ScrollSync, ScrollSyncPane} from 'react-scroll-sync';
 import {useParams} from "react-router-dom";
 import {useForm} from "react-hook-form";
 
-import {useAppSelector} from "../../../../hooks/useAppSelector";
-import {useAppDispatch} from "../../../../hooks/useAppDispatch";
-import {useGetWBSQuery} from "../../../../services/APIService";
-import {useGetViewQuery} from "../../../../services/APIService";
+import {useAppSelector} from "../../hooks/useAppSelector";
+import {useAppDispatch} from "../../hooks/useAppDispatch";
+import {useGetWBSQuery} from "../../services/APIService";
+import {useGetViewQuery} from "../../services/APIService";
 
-import {GantItemActivityDescription} from "../GantItemActivityDescription/GantItemActivityDescription";
-import {ModalWrapper} from "../../../ModalWrapper/ModalWrapper";
-import {GantTable} from "../GantTable/GantTable";
-import {ModalCreate} from "../ModalCreate/ModalCreate";
-import {ModalGroup} from "../ModalGroup/ModalGroup";
+import {GantItemActivityDescription} from "../../components/Dashboard/Gant/GantItemActivityDescription/GantItemActivityDescription";
+import {ModalWrapper} from "../../components/ModalWrapper/ModalWrapper";
+import {GantTable} from "../../components/Dashboard/Gant/GantTable/GantTable";
+import {ModalCreate} from "../../components/Dashboard/Gant/ModalCreate/ModalCreate";
+import {ModalGroup} from "../../components/Dashboard/Gant/ModalGroup/ModalGroup";
 
-import {setModal, setModalType} from "../../../../store/slices/ModalProjectSlice";
-import {setLoader} from "../../../../store/slices/LoaderSlice";
-import {GantItemWBSDescription} from "../GantItemWBSDescription/GantItemWBSDescription";
+import {setModal, setModalType} from "../../store/slices/ModalProjectSlice";
+import {setLoader} from "../../store/slices/LoaderSlice";
+import {GantItemWBSDescription} from "../../components/Dashboard/Gant/GantItemWBSDescription/GantItemWBSDescription";
 
 type ViewSelect = {
     view: number
 }
 
-export const GantFull = () => {
+export const Gant = () => {
     const params = useParams();
     const projectID: number = Number(params.id);
 
@@ -49,7 +49,7 @@ export const GantFull = () => {
     const groupStyle = view !== -1 && isHaveSelected ? "text-text border-text-secondary" : "text-text-muted border-gray cursor-default";
 
     useEffect(() => {
-        dispatch(setLoader({show: isLoadingViews || isLoadingWBS, from: "GantFull"}));
+        dispatch(setLoader({show: isLoadingViews || isLoadingWBS, from: "Gant"}));
     }, [dispatch, isLoadingViews, isLoadingWBS]);
 
     const onCreate = () => {

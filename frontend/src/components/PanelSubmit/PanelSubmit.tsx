@@ -1,9 +1,9 @@
 import React from "react";
 
-import {useAppDispatch} from "../../../../hooks/useAppDispatch";
-import {setModal} from "../../../../store/slices/ModalProjectSlice";
+import {useAppDispatch} from "../../hooks/useAppDispatch";
+import {setModal} from "../../store/slices/ModalProjectSlice";
 
-export const Panel = () => {
+export const PanelSubmit = () => {
     const dispatch = useAppDispatch();
 
     const onClick = () => {
@@ -22,7 +22,7 @@ export const Panel = () => {
                         rounded cursor-pointer"
                     onClick={onClick}
                 >
-                    Добавить
+                    Сохранить
                 </button>
             </div>
         </div>

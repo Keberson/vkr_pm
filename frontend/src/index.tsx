@@ -5,15 +5,17 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 import './scss/index.scss';
 import './scss/scroll.scss';
+import 'react-tooltip/dist/react-tooltip.css'
 
 import {store} from './store/store'
 
 import {Dashboard} from "./pages/Dashboard/Dashboard";
 import {Login} from "./pages/Login/Login";
 import {PageNotFound} from "./pages/PageNotFound/PageNotFound";
-import {GantFull} from "./components/Dashboard/Gant/GantFull/GantFull";
+import {Gant} from "./pages/Gant/Gant";
 import {Wrappers} from "./components/Wrappers/Wrappers";
 import {MainPage} from "./pages/MainPage/MainPage";
+import {Worker} from "./pages/Worker/Worker";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -27,9 +29,10 @@ root.render(
                     <Route element={<Wrappers />}>
                         <Route path="/" element={<MainPage />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/worker/:id" element={<Worker />} />
                         <Route path="/dashboard" >
                             <Route index element={<Dashboard />} />
-                            <Route path=":id" element={<GantFull />} />
+                            <Route path=":id" element={<Gant />} />
                         </Route>
                         <Route path="*" element={<PageNotFound />} />
                     </Route>

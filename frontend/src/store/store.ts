@@ -8,12 +8,12 @@ import toastSlice from "./slices/ToastSlice";
 import viewSlice from "./slices/ViewSlice";
 import createSlice from "./slices/CreateSlice";
 import groupSlice from "./slices/GroupSlice";
-
 import {api} from "../services/APIService";
 import {loginApi} from "../services/LoginService";
 import authSlice from "./slices/AuthSlice";
 import projectSlice from "./slices/ProjectSlice";
 import editorSlice from "./slices/EditorSlice";
+import workerSlice from "./slices/WorkerSlice";
 
 export const store = configureStore({
     reducer: {
@@ -27,6 +27,7 @@ export const store = configureStore({
         create: createSlice,
         group: groupSlice,
         project: projectSlice,
+        worker: workerSlice,
         [api.reducerPath]: api.reducer,
         [loginApi.reducerPath]: loginApi.reducer,
     },
