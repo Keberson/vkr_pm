@@ -8,6 +8,7 @@ import treeRoute from "./src/routes/tree.route";
 import viewRoute from "./src/routes/view.route";
 import authRoute from "./src/routes/auth.route";
 import projectRoute from "./src/routes/project.route";
+import statusRoute from "./src/routes/status.route";
 
 config();
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(`${baseUrl}/auth`, authRoute);
 app.use(`${baseUrl}/activity`, activityRoute);
+app.use(`${baseUrl}/status`, statusRoute);
 app.use(`${baseUrl}/wbs`, wbsRoute);
 app.use(`${baseUrl}/tree`, treeRoute);
 app.use(`${baseUrl}/view`, viewRoute);
